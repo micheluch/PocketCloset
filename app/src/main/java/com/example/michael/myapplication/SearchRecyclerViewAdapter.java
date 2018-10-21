@@ -11,18 +11,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 import java.util.List;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
+public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecyclerViewAdapter.MyViewHolder> {
 
 
     private Context myContext;
     private List<Closet> myCloset;
 
-    public RecyclerViewAdapter(Context myContext, List<Closet> myCloset) {
+    public SearchRecyclerViewAdapter(Context myContext, List<Closet> myCloset) {
         this.myContext = myContext;
         this.myCloset = myCloset;
     }
