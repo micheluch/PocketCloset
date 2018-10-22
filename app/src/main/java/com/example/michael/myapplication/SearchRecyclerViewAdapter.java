@@ -35,15 +35,44 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
+    public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, final int i) {
         myViewHolder.tv_closet_name.setText(myCloset.get(i).getClosetName());
         myViewHolder.img_closet_thumbnail.setImageResource(myCloset.get(i).getThumbnail());
 
         myViewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(myContext,AddCloset.class);
-                //intent.putExtra("")
+
+                char type = myCloset.get(i).getType();
+                Intent intent;
+
+                switch(type)
+                {
+                    case 'W':
+                        intent = new Intent(myContext,ViewClothing.class);
+                        intent.putExtra("Name", myCloset.get(i).getClosetName());
+                        intent.putExtra("Description", myCloset.get(i).getDescription());
+                        intent.putExtra("Thumbnail", myCloset.get(i).getThumbnail());
+                        myContext.startActivity(intent);
+                        break;
+                    case 'C':
+                        intent = new Intent(myContext,ViewClothing.class);
+                        intent.putExtra("Name", myCloset.get(i).getClosetName());
+                        intent.putExtra("Description", myCloset.get(i).getDescription());
+                        intent.putExtra("Thumbnail", myCloset.get(i).getThumbnail());
+                        myContext.startActivity(intent);
+                        break;
+                    case 'O':
+                        intent = new Intent(myContext,AddOutfit.class);
+                        intent.putExtra("Name", myCloset.get(i).getClosetName());
+                        intent.putExtra("Description", myCloset.get(i).getDescription());
+                        intent.putExtra("Thumbnail", myCloset.get(i).getThumbnail());
+                        myContext.startActivity(intent);
+                        break;
+                        default:
+                            break;
+                }
+
             }
         });
     }

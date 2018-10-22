@@ -5,11 +5,13 @@ public class Closet {
     private String closetName;
     private String description;
     private int thumbnail;
+    private char type;
 
-    public Closet(String closetName, String description, int thumbnail) {
+    public Closet(String closetName, String description, int thumbnail, char type) {
         this.closetName = closetName;
         this.description = description;
         this.thumbnail = thumbnail;
+        this.type = type;
     }
 
     public String getClosetName() {
@@ -20,10 +22,11 @@ public class Closet {
         return description;
     }
 
-
     public int getThumbnail() {
         return thumbnail;
     }
+
+    public char getType() { return type; }
 
     public void setClosetName(String closetName) {
         this.closetName = closetName;
@@ -36,4 +39,9 @@ public class Closet {
     public void setThumbnail(int thumbnail) {
         this.thumbnail = thumbnail;
     }
+
+    public void setType(char type) {
+        this.type = type;
+    }
+
 }

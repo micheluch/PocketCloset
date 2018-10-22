@@ -38,19 +38,26 @@ public class Search extends AppCompatActivity{ //implements SearchView.OnQueryTe
 //                myAdapter = new SearchRecyclerViewAdapter(this,items);
 //        recyclerView.setAdapter(myAdapter);
 
+        String loremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do " +
+                "eiusmod tempor incididunt ut labore et dolore magna aliqua. Lut enim ad minim " +
+                "veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo " +
+                "consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum " +
+                "dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, " +
+                "sunt in culpa qui officiae deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lut enim ad minim ";
+
         items = new ArrayList<>();
-        items.add(new Closet("Home Closet", "", R.drawable.closet1));
-        items.add(new Closet("Casual Outfit", "", R.drawable.outfit2));
-        items.add(new Closet("Vacation Home Closet", "", R.drawable.closet2));
-        items.add(new Closet("Button Down Shirt", "", R.drawable.shirt1));
-        items.add(new Closet("Work Outfit", "", R.drawable.outfit1));
-        items.add(new Closet("Pants", "", R.drawable.pants));
-        items.add(new Closet("Home Closet", "", R.drawable.closet1));
-        items.add(new Closet("Casual Outfit", "", R.drawable.outfit2));
-        items.add(new Closet("Vacation Home Closet", "", R.drawable.closet2));
-        items.add(new Closet("Button Down Shirt", "", R.drawable.shirt1));
-        items.add(new Closet("Work Outfit", "", R.drawable.outfit1));
-        items.add(new Closet("Pants", "", R.drawable.pants));
+        items.add(new Closet("Home Closet", loremIpsum, R.drawable.closet1, 'W'));
+        items.add(new Closet("Casual Outfit", loremIpsum, R.drawable.outfit2, 'O'));
+        items.add(new Closet("Vacation Home Closet", loremIpsum, R.drawable.closet2, 'W'));
+        items.add(new Closet("Button Down Shirt", loremIpsum, R.drawable.shirt1, 'C'));
+        items.add(new Closet("Work Outfit", loremIpsum, R.drawable.outfit1, 'O'));
+        items.add(new Closet("Pants", loremIpsum, R.drawable.pants, 'C'));
+        items.add(new Closet("Home Closet", loremIpsum, R.drawable.closet1, 'W'));
+        items.add(new Closet("Casual Outfit", loremIpsum, R.drawable.outfit2, 'O'));
+        items.add(new Closet("Vacation Home Closet", loremIpsum, R.drawable.closet2, 'W'));
+        items.add(new Closet("Button Down Shirt", loremIpsum, R.drawable.shirt1, 'C'));
+        items.add(new Closet("Work Outfit", loremIpsum, R.drawable.outfit1, 'O'));
+        items.add(new Closet("Pants", loremIpsum, R.drawable.pants, 'C'));
 
         RecyclerView myrv = (RecyclerView) findViewById(R.id.search_recyclerview_id);
         myAdapter = new SearchRecyclerViewAdapter(this,items);
