@@ -1,6 +1,8 @@
 package com.example.michael.myapplication;
 
 import android.content.Intent;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -31,13 +33,13 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
         Intent i = new Intent(this,Search.class);
 
         switch(v.getId()){
-            case R.id.closet_card : i = new Intent(this,Search.class);
+            case R.id.closet_card : i = new Intent(this,OneClosetActivity.class);
                 startActivity(i);
                 break;
-            case R.id.clothes_card : new Intent(this,Search.class);
+            case R.id.clothes_card : new Intent(this,ClothingActivity.class);
                 startActivity(i);
                 break;
-            case R.id.outfit_card : new Intent(this,Search.class);
+            case R.id.outfit_card : new Intent(this,OutfitActivity.class);
                 startActivity(i);
                 break;
             case R.id.search_card : new Intent(this,Search.class);
@@ -46,6 +48,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
             default:
                 break;
         }
+
 
     }
 }

@@ -23,56 +23,61 @@
 
     </android.support.v7.widget.Toolbar>
 
-    <android.support.v4.widget.NestedScrollView
+    <android.support.v4.widget.DrawerLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
-        android:padding="10dp"
+        android:id="@+id/addOufitDrawerLayoutId"
         >
-
-        <LinearLayout
-            android:clipToPadding="false"
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
             >
-            <android.support.v7.widget.CardView
-                android:id="@+id/outfit_item_card"
-                android:clickable="true"
-                android:foreground="?android:attr/selectableItemBackground"
+
+            <LinearLayout
+                android:clipToPadding="false"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:cardCornerRadius="4dp">
-
-                <LinearLayout
-                    android:orientation="vertical"
+                android:gravity="center"
+                android:orientation="vertical"
+                >
+                <android.support.v7.widget.CardView
+                    android:id="@+id/outfit_item_card"
+                    android:clickable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="match_parent"
+                    app:cardCornerRadius="4dp">
 
-                    <ImageView
+                    <LinearLayout
+                        android:orientation="vertical"
                         android:layout_width="match_parent"
-                        android:layout_height="380dp"
-                        android:background="#2d2d2d"
-                        android:id="@+id/clothing_thumbnail"
-                        android:scaleType="centerCrop"/>
+                        android:layout_height="wrap_content">
 
-                    <TextView
-                        android:id="@+id/name_id"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:gravity="center"
-                        android:text="Item Name"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="380dp"
+                            android:background="#2d2d2d"
+                            android:id="@+id/clothing_thumbnail"
+                            android:scaleType="centerCrop"/>
 
-                </LinearLayout>
+                        <TextView
+                            android:id="@+id/name_id"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center"
+                            android:text="Item Name"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
 
 
-            </android.support.v7.widget.CardView>
+                </android.support.v7.widget.CardView>
 
-            <!--<TextView-->
+                <!--<TextView-->
                 <!--android:layout_width="wrap_content"-->
                 <!--android:layout_height="wrap_content"-->
                 <!--android:text="Description"-->
@@ -80,15 +85,34 @@
                 <!--android:padding="8dp"-->
                 <!--android:layout_marginTop="10dp"/>-->
 
-            <TextView
-                android:id="@+id/description_id"
-                android:textSize="18sp"
-                android:layout_marginTop="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Description"/>
+                <TextView
+                    android:id="@+id/description_id"
+                    android:textSize="18sp"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Description"/>
 
 
-        </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+
+        <android.support.design.widget.NavigationView
+            android:id="@+id/addOufitNavViewId"
+            app:headerLayout="@layout/header"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="#fff"
+            app:itemTextColor="@color/darkgray"
+            app:itemIconTint="@color/darkgray"
+            app:menu="@menu/add_outfit_drawer_menu"
+            android:layout_gravity ="start"
+            >
+
+
+        </android.support.design.widget.NavigationView>
+
+    </android.support.v4.widget.DrawerLayout>
+
+
 </LinearLayout>
