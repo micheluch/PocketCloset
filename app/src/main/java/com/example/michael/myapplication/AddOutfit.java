@@ -1,18 +1,28 @@
 package com.example.michael.myapplication;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class AddOutfit extends AppCompatActivity implements View.OnClickListener{
+public class AddOutfit extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
     private TextView tvName, tvDescription;
     private ImageView img;
     private CardView outfitCard;
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle toggle;
+    private NavigationView navigationView;
     String loremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do " +
             "eiusmod tempor incididunt ut labore et dolore magna aliqua. Lut enim ad minim " +
             "veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo " +
@@ -41,6 +51,21 @@ public class AddOutfit extends AppCompatActivity implements View.OnClickListener
         tvName.setText(name);
         tvDescription.setText(description);
         img.setImageResource(image);
+
+        android.support.v7.widget.Toolbar toolbar = findViewById(R.id.toolbar_id);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(name);
+
+        drawerLayout = (DrawerLayout) findViewById(R.id.addOufitDrawerLayoutId);
+        toggle = new ActionBarDrawerToggle(this,drawerLayout, R.string.Open, R.string.Close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        navigationView = (NavigationView) findViewById(R.id.addOufitNavViewId);
+        navigationView.setNavigationItemSelectedListener(this);
+
+
     }
 
     @Override
@@ -52,4 +77,45 @@ public class AddOutfit extends AppCompatActivity implements View.OnClickListener
         startActivity(intent);
 
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(toggle.onOptionsItemSelected(item))
+        {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
+        int id = menuItem.getItemId();
+        Intent intent;
+        switch(id)
+        {
+            case R.id.home:
+                intent = new Intent(AddOutfit.this,HomePage.class);
+                startActivity(intent);
+                break;
+            case R.id.edit:
+                //intent = new Intent(AddOutfit.this,AddOutfit.class);
+                //startActivity(intent);
+                break;
+            case R.id.add:
+                intent = new Intent(AddOutfit.this,ClothingActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.delete:
+                intent = new Intent(AddOutfit.this,OutfitActivity.class);
+                startActivity(intent);
+                break;
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.addOufitDrawerLayoutId);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+
 }
