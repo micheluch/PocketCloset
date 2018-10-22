@@ -33,16 +33,16 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
         Intent i = new Intent(this,Search.class);
 
         switch(v.getId()){
-            case R.id.closet_card : i = new Intent(this,OneClosetActivity.class);
+            case R.id.closet_card : i = new Intent(this,AllClosetsActivity.class);
                 startActivity(i);
                 break;
-            case R.id.clothes_card : new Intent(this,ClothingActivity.class);
+            case R.id.clothes_card :i = new Intent(this,ClothingActivity.class);
                 startActivity(i);
                 break;
-            case R.id.outfit_card : new Intent(this,OutfitActivity.class);
+            case R.id.outfit_card : i = new Intent(this,OutfitActivity.class);
                 startActivity(i);
                 break;
-            case R.id.search_card : new Intent(this,Search.class);
+            case R.id.search_card : i = new Intent(this,Search.class);
                 startActivity(i);
                 break;
             default:
