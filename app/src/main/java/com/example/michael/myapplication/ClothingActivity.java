@@ -26,13 +26,23 @@ public class ClothingActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.outfit_recyclerview);
+        setContentView(R.layout.clothing_recyclerview);
 
         clothingList = new ArrayList<>();
         clothingList.add(new Clothing("Grandma's Clubbing Pants",
-                R.drawable.ic_launcher_background));
+                R.drawable.pants));
+        clothingList.add(new Clothing("Grandma's Clubbing Top",
+                R.drawable.shirt1));
+        clothingList.add(new Clothing("Grandma's Clubbing Shoes",
+                R.drawable.pc_icon));
+        clothingList.add(new Clothing("Grandma's Clubbing Bracelet",
+                R.drawable.outfit1));
+        clothingList.add(new Clothing("Grandma's Clubbing Socks",
+                R.drawable.outfit2));
+        clothingList.add(new Clothing("Grandma's Clubbing Choker",
+                R.drawable.shirt1));
 
-        RecyclerView my_recycler_view = (RecyclerView) findViewById(R.id.outfit_recyclerview_id);
+        RecyclerView my_recycler_view = (RecyclerView) findViewById(R.id.clothing_recyclerview_id);
         ClothingRecyclerViewAdapter myAdapter = new ClothingRecyclerViewAdapter(this,clothingList);
         my_recycler_view.setLayoutManager(new GridLayoutManager(this,ROWS_WIDE));
         my_recycler_view.setAdapter(myAdapter);

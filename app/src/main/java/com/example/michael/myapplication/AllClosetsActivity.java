@@ -31,11 +31,21 @@ public class AllClosetsActivity extends AppCompatActivity{
         closetList = new ArrayList<>();
         closetList.add(new Closet("Grandma's Closet","The closet at Grandma's House",
                 R.drawable.ic_launcher_background, 'W'));
+        closetList.add(new Closet("Jessica's Closet","Jessica's Home",
+                R.drawable.ic_launcher_background, 'W'));
+        closetList.add(new Closet("Samier's Closet","Samier's beach house",
+                R.drawable.ic_launcher_background, 'W'));
+        closetList.add(new Closet("J's Closet","J's Mansion",
+                R.drawable.ic_launcher_background, 'W'));
+        closetList.add(new Closet("Michael's Closet","Michael's ski resort",
+                R.drawable.ic_launcher_background, 'W'));
+        closetList.add(new Closet("Grandma's Downstairs","The guest bedroom closet at Grandma's House",
+                R.drawable.ic_launcher_background, 'W'));
 
         RecyclerView my_recycler_view = (RecyclerView) findViewById(R.id.closet_recyclerview_id);
         AllClosetsRecyclerViewAdapter myAdapter = new AllClosetsRecyclerViewAdapter(this,closetList);
         my_recycler_view.setLayoutManager(new GridLayoutManager(this,ROWS_WIDE));
         my_recycler_view.setAdapter(myAdapter);
-
     }
+
 }
