@@ -30,19 +30,23 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        Intent i = new Intent(this,Search.class);
+        Intent i;
 
         switch(v.getId()){
-            case R.id.closet_card : i = new Intent(this,AllClosetsActivity.class);
+            case R.id.closet_card :
+                i = new Intent(this,AllClosetsActivity.class);
                 startActivity(i);
                 break;
-            case R.id.clothes_card :i = new Intent(this,ClothingActivity.class);
+            case R.id.clothes_card :
+                i = new Intent(this,ClothingActivity.class);
                 startActivity(i);
                 break;
-            case R.id.outfit_card : i = new Intent(this,OutfitActivity.class);
+            case R.id.outfit_card :
+                i = new Intent(this,OutfitActivity.class);
                 startActivity(i);
                 break;
-            case R.id.search_card : i = new Intent(this,Search.class);
+            case R.id.search_card :
+                i = new Intent(this,Search.class);
                 startActivity(i);
                 break;
             default:

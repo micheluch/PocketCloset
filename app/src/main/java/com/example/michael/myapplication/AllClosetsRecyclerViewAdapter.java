@@ -44,7 +44,7 @@ public class AllClosetsRecyclerViewAdapter extends RecyclerView.Adapter<AllClose
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
-                Intent i = new Intent(mContext, ClothingActivity.class);
+                Intent i = new Intent(mContext, OneClosetActivity.class);
                 //i.putExtra(v.findViewById(R.id.specific_closet_id,));
                 mContext.startActivity(i);
             }
