@@ -52,6 +52,26 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
                 R.drawable.grandmas_gold_earrings));
         clothingList.add(new Clothing("Grandma's Clubbing Socks",
                 R.drawable.taco_socks));
+        clothingList.add(new Clothing("Grandma's Clubbing Pants",
+                R.drawable.womens_black_jeans));
+        clothingList.add(new Clothing("Grandma's Clubbing Top",
+                R.drawable.gold_spaghetti_top));
+        clothingList.add(new Clothing("Grandma's Clubbing Shoes",
+                R.drawable.gold_high_heels));
+        clothingList.add(new Clothing("Grandma's Clubbing Earrings",
+                R.drawable.grandmas_gold_earrings));
+        clothingList.add(new Clothing("Grandma's Clubbing Socks",
+                R.drawable.taco_socks));
+        clothingList.add(new Clothing("Grandma's Clubbing Pants",
+                R.drawable.womens_black_jeans));
+        clothingList.add(new Clothing("Grandma's Clubbing Top",
+                R.drawable.gold_spaghetti_top));
+        clothingList.add(new Clothing("Grandma's Clubbing Shoes",
+                R.drawable.gold_high_heels));
+        clothingList.add(new Clothing("Grandma's Clubbing Earrings",
+                R.drawable.grandmas_gold_earrings));
+        clothingList.add(new Clothing("Grandma's Clubbing Socks",
+                R.drawable.taco_socks));
 
 
         RecyclerView my_recycler_view = (RecyclerView) findViewById(R.id.clothing_recyclerview_id);

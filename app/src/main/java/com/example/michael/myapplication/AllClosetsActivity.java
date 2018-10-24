@@ -56,6 +56,8 @@ public class AllClosetsActivity extends AppCompatActivity implements NavigationV
                 R.drawable.red_stainless_doors, 'W'));
         closetList.add(new Closet("Great Aunt Susie's Guest Bedroom","The guest bedroom closet at Grandma's House",
                 R.drawable.modern_bar_door, 'W'));
+        closetList.add(new Closet("Grandma's Dark Past","Grandma's Skeletons",
+                R.drawable.skeletons, 'J'));
 
         RecyclerView my_recycler_view = (RecyclerView) findViewById(R.id.closet_recyclerview_id);
         AllClosetsRecyclerViewAdapter myAdapter = new AllClosetsRecyclerViewAdapter(this,closetList);
