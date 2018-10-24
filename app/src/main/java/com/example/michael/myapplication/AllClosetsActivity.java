@@ -42,18 +42,20 @@ public class AllClosetsActivity extends AppCompatActivity implements NavigationV
         setContentView(R.layout.closet_recyclerview_layout);
 
         closetList = new ArrayList<>();
-        closetList.add(new Closet("Grandma's Closet","The closet at Grandma's House",
-                R.drawable.ic_launcher_background, 'W'));
-        closetList.add(new Closet("Jessica's Closet","Jessica's Home",
-                R.drawable.ic_launcher_background, 'W'));
-        closetList.add(new Closet("Samier's Closet","Samier's beach house",
-                R.drawable.ic_launcher_background, 'W'));
-        closetList.add(new Closet("J's Closet","J's Mansion",
-                R.drawable.ic_launcher_background, 'W'));
-        closetList.add(new Closet("Michael's Closet","Michael's ski resort",
-                R.drawable.ic_launcher_background, 'W'));
-        closetList.add(new Closet("Grandma's Downstairs","The guest bedroom closet at Grandma's House",
-                R.drawable.ic_launcher_background, 'W'));
+        closetList.add(new Closet("Grandma's Upstairs Closet","The closet at Grandma's House",
+                R.drawable.double_closet_doors, 'W'));
+        closetList.add(new Closet("Grandma's Ski Resort","Michael's ski resort",
+                R.drawable.wooden_closet_doors_1, 'W'));
+        closetList.add(new Closet("Grandma's Downstairs Closet","The guest bedroom closet at Grandma's House",
+                R.drawable.white_bypass_doors, 'W'));
+        closetList.add(new Closet("Grandpa's Forbidden Closet","The guest bedroom closet at Grandma's House",
+                R.drawable.dark_wood_doors, 'W'));
+        closetList.add(new Closet("Grandpa's Stylin' Closet ","The guest bedroom closet at Grandma's House",
+                R.drawable.mirrored_wooden_doors, 'W'));
+        closetList.add(new Closet("Toy Closet","The guest bedroom closet at Grandma's House",
+                R.drawable.red_stainless_doors, 'W'));
+        closetList.add(new Closet("Great Aunt Susie's Guest Bedroom","The guest bedroom closet at Grandma's House",
+                R.drawable.modern_bar_door, 'W'));
 
         RecyclerView my_recycler_view = (RecyclerView) findViewById(R.id.closet_recyclerview_id);
         AllClosetsRecyclerViewAdapter myAdapter = new AllClosetsRecyclerViewAdapter(this,closetList);

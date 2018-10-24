@@ -43,17 +43,16 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
 
         clothingList = new ArrayList<>();
         clothingList.add(new Clothing("Grandma's Clubbing Pants",
-                R.drawable.pants));
+                R.drawable.womens_black_jeans));
         clothingList.add(new Clothing("Grandma's Clubbing Top",
-                R.drawable.shirt1));
+                R.drawable.gold_spaghetti_top));
         clothingList.add(new Clothing("Grandma's Clubbing Shoes",
-                R.drawable.pc_icon));
-        clothingList.add(new Clothing("Grandma's Clubbing Bracelet",
-                R.drawable.outfit1));
+                R.drawable.gold_high_heels));
+        clothingList.add(new Clothing("Grandma's Clubbing Earrings",
+                R.drawable.grandmas_gold_earrings));
         clothingList.add(new Clothing("Grandma's Clubbing Socks",
-                R.drawable.outfit2));
-        clothingList.add(new Clothing("Grandma's Clubbing Choker",
-                R.drawable.shirt1));
+                R.drawable.taco_socks));
+
 
         RecyclerView my_recycler_view = (RecyclerView) findViewById(R.id.clothing_recyclerview_id);
         ClothingRecyclerViewAdapter myAdapter = new ClothingRecyclerViewAdapter(this,clothingList);
