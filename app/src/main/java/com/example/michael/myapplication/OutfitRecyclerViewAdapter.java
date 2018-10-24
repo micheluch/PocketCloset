@@ -1,6 +1,7 @@
 package com.example.michael.myapplication;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -40,7 +41,8 @@ public class OutfitRecyclerViewAdapter extends RecyclerView.Adapter<OutfitRecycl
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
-
+                Intent i = new Intent(mContext,ClothingActivity.class);
+                mContext.startActivity(i);
             }
         });
 

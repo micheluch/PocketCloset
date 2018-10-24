@@ -44,7 +44,8 @@ public class OneClosetRecyclerViewAdapter extends RecyclerView.Adapter<OneCloset
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
-
+                Intent i = new Intent(mContext, ClothingActivity.class);
+                mContext.startActivity(i);
             }
         });
 
