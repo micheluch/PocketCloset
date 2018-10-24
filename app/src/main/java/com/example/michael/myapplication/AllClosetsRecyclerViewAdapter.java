@@ -36,7 +36,7 @@ public class AllClosetsRecyclerViewAdapter extends RecyclerView.Adapter<AllClose
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final MyViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull final MyViewHolder viewHolder, final int i) {
 
         viewHolder.tv_closet_title.setText(mData.get(i).getClosetName());
         viewHolder.img_closet_thumbnail.setImageResource(mData.get(i).getThumbnail());
@@ -44,9 +44,11 @@ public class AllClosetsRecyclerViewAdapter extends RecyclerView.Adapter<AllClose
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
-                Intent i = new Intent(mContext, OneClosetActivity.class);
-                //i.putExtra(v.findViewById(R.id.specific_closet_id,));
-                mContext.startActivity(i);
+                Intent intent = new Intent(mContext, OneClosetActivity.class);
+                intent.putExtra("Name", mData.get(i).getClosetName());
+                intent.putExtra("J", mData.get(i).getType());
+
+                mContext.startActivity(intent);
             }
         });
     }
