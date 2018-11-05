@@ -11,31 +11,31 @@ public class DBManager extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "pocketcloset.db";
-    public static final String TABLE_OUTFIT = "outfits";
-    public static final String TABLE_CLOSET = "closets";
-    public static final String TABLE_CLOTHING = "clothing";
+    private static final String TABLE_OUTFIT = "outfits";
+    private static final String TABLE_CLOSET = "closets";
+    private static final String TABLE_CLOTHING = "clothing";
 
-    public static final String COLUMN_ID = "id";
+    private static final String COLUMN_ID = "id";
 
     //Clothing database information
-    public static final String COLUMN_CLOTHING_NAME = "clothing_name";
-    public static final String COLUMN_CLOTHING_CONDITION = "clothing_condition";
-    public static final String COLUMN_CLOTHING_PICTURE = "picture";
+    private static final String COLUMN_CLOTHING_NAME = "clothing_name";
+    private static final String COLUMN_CLOTHING_CONDITION = "clothing_condition";
+    private static final String COLUMN_CLOTHING_PICTURE = "picture";
 
     //Closet database information
-    public static final String COLUMN_CLOSET_NAME = "closet_name";
-    public static final String COLUMN_CLOSET_LOCATION = "closet_location";
-    public static final String COLUMN_CLOSET_ITEM_COUNT = "closet_size";
-    public static final String COLUMN_THUMBNAIL = "thumbnail";
+    private static final String COLUMN_CLOSET_NAME = "closet_name";
+    private static final String COLUMN_CLOSET_LOCATION = "closet_location";
+    private static final String COLUMN_CLOSET_ITEM_COUNT = "closet_size";
+    private static final String COLUMN_THUMBNAIL = "thumbnail";
 
     //Outfit database information
-    public static final String COLUMN_OUTFIT_NAME = "outfit_name";
-    public static final String COLUMN_OUTFIT_HEAD = "outfit_headwear";
-    public static final String COLUMN_OUTFIT_TOP = "outfit_top";
-    public static final String COLUMN_OUTFIT_BOTTOM = "outfit_bottom";
-    public static final String COLUMN_OUTFIT_SHOES = "outfit_shoes";
-    public static final String COLUMN_OUTFIT_ACCESSORIES= "outfit_accessories";
-    public static final String COLUMN_OUTFIT_OUTERWEAR = "outfit_outerwear";
+    private static final String COLUMN_OUTFIT_NAME = "outfit_name";
+    private static final String COLUMN_OUTFIT_HEAD = "outfit_headwear";
+    private static final String COLUMN_OUTFIT_TOP = "outfit_top";
+    private static final String COLUMN_OUTFIT_BOTTOM = "outfit_bottom";
+    private static final String COLUMN_OUTFIT_SHOES = "outfit_shoes";
+    private static final String COLUMN_OUTFIT_ACCESSORIES= "outfit_accessories";
+    private static final String COLUMN_OUTFIT_OUTERWEAR = "outfit_outerwear";
 
 
 
