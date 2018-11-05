@@ -14,6 +14,17 @@ public class Closet {
         this.type = type;
     }
 
+    public static Closet createFromString(String properties) {
+        /* The properties String will be ordered as follows, separated by commas:
+        *   Name
+        *   Description
+        *   Thumbnail
+        *   Type
+        */
+        String[] vals = properties.split(",");
+        return new Closet(vals[0], vals[1], Integer.parseInt(vals[2]), vals[3].charAt(0));
+    }
+
     public String getClosetName() {
         return closetName;
     }
