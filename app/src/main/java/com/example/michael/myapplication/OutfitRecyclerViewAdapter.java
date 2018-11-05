@@ -16,9 +16,9 @@ import java.util.List;
 public class OutfitRecyclerViewAdapter extends RecyclerView.Adapter<OutfitRecyclerViewAdapter.MyViewHolder> {
 
     private Context mContext;
-    private List<Outfit> mData;
+    private List<Entry> mData;
 
-    public OutfitRecyclerViewAdapter(Context mContext, List<Outfit> mData) {
+    public OutfitRecyclerViewAdapter(Context mContext, List<Entry> mData) {
         this.mContext = mContext;
         this.mData = mData;
     }
@@ -36,15 +36,15 @@ public class OutfitRecyclerViewAdapter extends RecyclerView.Adapter<OutfitRecycl
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder viewHolder, final int i) {
 
-        viewHolder.tv_outfit_title.setText(mData.get(i).getOutfitName());
+        viewHolder.tv_outfit_title.setText(mData.get(i).getEntryName());
         viewHolder.img_outfit_thumbnail.setImageResource(mData.get(i).getThumbnail());
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
                 Intent intent = new Intent(mContext,AddOutfit.class);
-                intent.putExtra("Name", mData.get(i).getOutfitName());
+                intent.putExtra("Name", mData.get(i).getEntryName());
                 intent.putExtra("Description", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do " +
-                "eiusmod tempor incididunt ut labore et dolore magna aliqua. Lut enim ad minim " +
+                        "eiusmod tempor incididunt ut labore et dolore magna aliqua. Lut enim ad minim " +
                         "veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo " +
                         "consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum " +
                         "dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, " +
