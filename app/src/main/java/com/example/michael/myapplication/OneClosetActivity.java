@@ -50,6 +50,7 @@ public class OneClosetActivity extends AppCompatActivity implements NavigationVi
 
 
         wearableList = new ArrayList<>();
+
         if(j == 'J')
         {
             wearableList.add(new Clothing("Grandma Clubbing", R.mipmap.image1));
@@ -60,6 +61,7 @@ public class OneClosetActivity extends AppCompatActivity implements NavigationVi
         }
         else
         {
+
             wearableList.add(new Clothing("Grandma's Clubbing Outfit", R.drawable.clubbing_outfit));
             wearableList.add(new Clothing("Grandma's Cookie Baking Outfit", R.drawable.grandmas_cooking_outfit));
             wearableList.add(new Clothing("Grandma's Breakdance Gear", R.drawable.grandmas_breakdance_gear));
