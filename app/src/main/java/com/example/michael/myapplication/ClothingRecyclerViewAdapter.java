@@ -16,9 +16,9 @@ import java.util.List;
 public class ClothingRecyclerViewAdapter extends RecyclerView.Adapter<ClothingRecyclerViewAdapter.MyViewHolder> {
 
     private Context mContext;
-    private List<Clothing> mData;
+    private List<Entry> mData;
 
-    public ClothingRecyclerViewAdapter(Context mContext, List<Clothing> mData) {
+    public ClothingRecyclerViewAdapter(Context mContext, List<Entry> mData) {
         this.mContext = mContext;
         this.mData = mData;
     }
@@ -36,14 +36,14 @@ public class ClothingRecyclerViewAdapter extends RecyclerView.Adapter<ClothingRe
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder viewHolder, final int i) {
 
-        viewHolder.tv_clothing_title.setText(mData.get(i).getClothingName());
+        viewHolder.tv_clothing_title.setText(mData.get(i).getEntryName());
         viewHolder.img_clothing_thumbnail.setImageResource(mData.get(i).getThumbnail());
 
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
                 Intent intent = new Intent(mContext, ViewClothing.class);
-                intent.putExtra("Name", mData.get(i).getClothingName());
+                intent.putExtra("Name", mData.get(i).getEntryName());
                 intent.putExtra("Description", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do " +
                         "eiusmod tempor incididunt ut labore et dolore magna aliqua. Lut enim ad minim " +
                         "veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo " +

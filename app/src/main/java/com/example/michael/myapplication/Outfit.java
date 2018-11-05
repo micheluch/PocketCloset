@@ -3,95 +3,89 @@ package com.example.michael.myapplication;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Outfit {
+public class Outfit extends Entry {
 
-    private int outfitId;
-    private String outfitName;
+    //Outfit-only data members
     private Clothing hat;
     private Clothing top; //shirt blouse etc
     private Clothing bottom;
     private Clothing shoes;
     private Clothing outerwear;
+    private AccessoryNode head;
 
-    public int getThumbnail() {
-        return thumbnail;
+    static class AccessoryNode
+    {
+        Clothing item;
+        AccessoryNode next;
+        AccessoryNode(Clothing newItem)  { item = newItem;  next = null; } // Constructor
     }
 
-    public void setThumbnail(int thumbnail) {
-        this.thumbnail = thumbnail;
-    }
+    //private List<Clothing> accessories;
 
-    private List<Clothing> accessories;
-    int thumbnail;
-
-    public Outfit(String outfitName, int thumbnail) {
-        this.outfitName = outfitName;
-        accessories = new ArrayList<>();
-        this.thumbnail = thumbnail;
-    }
-
+    //"Extended" methods from Entry
+    public Outfit(String outfitName, int thumbnail) { super(outfitName, thumbnail); }
     public int getOutfitId() {
-        return outfitId;
+        return getEntryId();
     }
-
     public void setOutfitId(int outfitId) {
-        this.outfitId = outfitId;
+        setEntryId(outfitId);
     }
-
     public String getOutfitName() {
-        return outfitName;
+        return getEntryName();
     }
-
     public void setOutfitName(String outfitName) {
-        this.outfitName = outfitName;
+        setEntryName(outfitName);
     }
 
+    //Outfit-only methods
     public Clothing getHat() {
         return hat;
     }
-
     public void setHat(Clothing hat) {
         this.hat = hat;
     }
-
     public Clothing getTop() {
         return top;
     }
-
     public void setTop(Clothing top) {
         this.top = top;
     }
-
     public Clothing getBottom() {
         return bottom;
     }
-
     public void setBottom(Clothing bottom) {
         this.bottom = bottom;
     }
-
     public Clothing getShoes() {
         return shoes;
     }
-
     public void setShoes(Clothing shoes) {
         this.shoes = shoes;
     }
-
     public Clothing getOuterwear() {
         return outerwear;
     }
-
     public void setOuterwear(Clothing outerwear) {
         this.outerwear = outerwear;
     }
+    public Clothing addAccessory(Clothing newAccessory)
+    {
+        AccessoryNode tail;
+        tail = head;
+        //If linked list is empty, add the very first node
+        if (tail == null) { tail = new AccessoryNode(newAccessory); return newAccessory; }
 
-    public List<Clothing> getAccessories() {
-        return accessories;
-    }
-
-    public Clothing addAccessory(Clothing newAccessory) {
-        accessories.add(newAccessory);
+        //Otherwise, iterate to the end of the list and add a new node
+        while (tail.next != null) { tail = tail.next; }
+        tail.next = new AccessoryNode(newAccessory);
         return newAccessory;
     }
+//    public List<Clothing> getAccessories() {
+//        return accessories;
+//    }
+//
+//    public Clothing addAccessory(Clothing newAccessory) {
+//        accessories.add(newAccessory);
+//        return newAccessory;
+//    }
 }
