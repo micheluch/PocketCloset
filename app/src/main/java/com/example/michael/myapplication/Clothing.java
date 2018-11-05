@@ -15,6 +15,17 @@ public class Clothing extends Entry {
         super(clothingName, thumbnail);
         associatedClosets = new ArrayList<>();
         associatedOutfits = new ArrayList<>();
+    }    
+    
+    public static Clothing createFromString(String properties) {
+        /* Properties is ordered, separated with commas, as follows:
+        *   Name
+        *   Id
+        *   Thumbnail (identifier)
+        *   Condition
+        */
+        String[] vals = properties.split(",");
+        return new Clothing(vals[0], Integer.parseInt(vals[1]));
     }
 
     //"Extended" methods from Entry
