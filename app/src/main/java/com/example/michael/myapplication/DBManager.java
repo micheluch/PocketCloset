@@ -54,6 +54,26 @@ public class DBManager extends SQLiteOpenHelper {
                 ");";
         db.execSQL(query);
 
+        query = "CREATE TABLE " + TABLE_OUTFIT + " (" +
+                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_OUTFIT_NAME + " TEXT, " +
+                COLUMN_OUTFIT_HEAD + " TEXT, " +
+                COLUMN_OUTFIT_TOP + " TEXT, " +
+                COLUMN_OUTFIT_BOTTOM + " TEXT, " +
+                COLUMN_OUTFIT_SHOES + " TEXT, " +
+                COLUMN_OUTFIT_OUTERWEAR + " TEXT, " +
+                COLUMN_OUTFIT_ACCESSORIES + " BLOB " +
+                ");";
+        db.execSQL(query);
+
+        query = "CREATE TABLE " + TABLE_CLOSET + " (" +
+                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_CLOSET_NAME + " TEXT, " +
+                COLUMN_CLOSET_LOCATION + " TEXT, " +
+                COLUMN_CLOSET_ITEM_COUNT + " INTEGER " +
+                ");";
+        db.execSQL(query);
+
     }
 
     @Override
