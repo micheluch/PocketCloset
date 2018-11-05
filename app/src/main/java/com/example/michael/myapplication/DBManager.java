@@ -83,4 +83,26 @@ public class DBManager extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CLOTHING);
         onCreate(db);
     }
+
+    //TODO DEFINE HOW TO ADD TO DATABASE
+    //We need to hash out how we are constructing classes. In android
+    //adding to database can be done with values as done here
+    public void addOutfit(Outfit newOutfit){
+        ContentValues valuesToAdd = new ContentValues();
+        //We will put all the necessary data for an entry into the ContentValues object
+        valuesToAdd.put(COLUMN_OUTFIT_NAME, newOutfit.getOutfitName());
+
+        SQLiteDatabase db = getWritableDatabase();
+        db.insert(TABLE_OUTFIT, null, valuesToAdd);
+        db.close(); //MUST ALWAYS CLOSE
+
+    }
+
+    public void addCloset(Closet newCloset){
+
+    }
+
+    public void addClothing(Clothing newClothing){
+
+    }
 }
