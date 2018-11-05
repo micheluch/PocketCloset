@@ -19,6 +19,17 @@ public class Clothing {
         associatedOutfits = new ArrayList<>();
     }
 
+    public static Clothing createFromString(String properties) {
+        /* Properties is ordered, separated with commas, as follows:
+        *   Name
+        *   Id
+        *   Thumbnail (identifier)
+        *   Condition
+        */
+        String[] vals = properties.split(",");
+        return new Clothing(vals[0], Integer.parseInt(vals[1]));
+    }
+
     public int getClothingId() {
         return clothingId;
     }
