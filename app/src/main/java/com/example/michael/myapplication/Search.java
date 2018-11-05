@@ -48,6 +48,7 @@ public class Search extends AppCompatActivity{ //implements SearchView.OnQueryTe
         items = new ArrayList<>();
         items.add(new Closet("Home Closet", loremIpsum, R.drawable.closet1, 'W'));
         items.add(new Closet("Casual Outfit", loremIpsum, R.drawable.outfit2, 'O'));
+        items.add(new Closet("Grandma's Getting Lucky Necklace", loremIpsum, R.mipmap.necklace, 'C'));
         items.add(new Closet("Vacation Home Closet", loremIpsum, R.drawable.closet2, 'W'));
         items.add(new Closet("Button Down Shirt", loremIpsum, R.drawable.shirt1, 'C'));
         items.add(new Closet("Work Outfit", loremIpsum, R.drawable.outfit1, 'O'));

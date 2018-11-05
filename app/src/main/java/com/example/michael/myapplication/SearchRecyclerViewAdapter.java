@@ -49,10 +49,10 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
                 switch(type)
                 {
                     case 'W':
-                        intent = new Intent(myContext,ViewClothing.class);
+                        intent = new Intent(myContext,OneClosetActivity.class);
                         intent.putExtra("Name", myCloset.get(i).getClosetName());
-                        intent.putExtra("Description", myCloset.get(i).getDescription());
-                        intent.putExtra("Thumbnail", myCloset.get(i).getThumbnail());
+                        //intent.putExtra("Description", myCloset.get(i).getDescription());
+                        //intent.putExtra("Thumbnail", myCloset.get(i).getThumbnail());
                         myContext.startActivity(intent);
                         break;
                     case 'C':
