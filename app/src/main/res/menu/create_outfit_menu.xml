@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".CreateOutfit">
+    <item
+        android:id="@+id/main_add_sticker"
+        android:icon="@drawable/ic_add_black_24dp"
+        android:title="Add Clothing"
+        app:showAsAction="always"
+        />
+
+    <item
+        android:id="@+id/main_save_outfit"
+        android:icon="@drawable/ic_save_black_24dp"
+        android:title="Save"
+        app:showAsAction="always"
+        />
+</menu>
