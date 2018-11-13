@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.content.Context;
 import android.content.ContentValues;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 public class DBManager extends SQLiteOpenHelper {
 
@@ -89,20 +90,110 @@ public class DBManager extends SQLiteOpenHelper {
     //adding to database can be done with values as done here
     public void addOutfit(Outfit newOutfit){
         ContentValues valuesToAdd = new ContentValues();
-        //We will put all the necessary data for an entry into the ContentValues object
         valuesToAdd.put(COLUMN_OUTFIT_NAME, newOutfit.getOutfitName());
-
         SQLiteDatabase db = getWritableDatabase();
         db.insert(TABLE_OUTFIT, null, valuesToAdd);
         db.close(); //MUST ALWAYS CLOSE
 
     }
 
-    public void addCloset(Closet newCloset){
+    public Outfit getOutfit(int outfitID){
+        SQLiteDatabase db = getWritableDatabase(); //check formatting on selectquery. Potentially spacing issues
+        String selectQuery = "SELECT  * FROM " +
+                TABLE_OUTFIT +
+                " WHERE " +
+                COLUMN_ID +
+                " = " + outfitID;
+        //should consider adding a Log
+        //    Log.e(LOG, selectQuery);
+        Cursor cursor = db.rawQuery(selectQuery,null);
+        if(cursor != null)
+            cursor.moveToFirst();
+        return new Outfit(cursor.getString(cursor.getColumnIndex(COLUMN_OUTFIT_NAME)),0);
 
     }
 
-    public void addClothing(Clothing newClothing){
+    public void deleteOutfit(String outfitName){
+        SQLiteDatabase db = getWritableDatabase();
+        String query = "DELETE FROM " +
+                TABLE_OUTFIT +
+                " WHERE " +
+                COLUMN_OUTFIT_NAME +
+                "=\"" +
+                outfitName +
+                "\";";
+        db.execSQL(query);
+    }
 
+    public void addCloset(Closet newCloset){
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_CLOSET_NAME, newCloset.getClosetName());
+        SQLiteDatabase db = getWritableDatabase();
+        db.insert(TABLE_CLOSET, null, values);
+        db.close();
+    }
+
+    public Outfit getCloset(int closetID){
+        SQLiteDatabase db = getWritableDatabase(); //check formatting on selectquery. Potentially spacing issues
+        String selectQuery = "SELECT  * FROM " +
+                TABLE_CLOSET +
+                " WHERE " +
+                COLUMN_ID +
+                " = " + closetID;
+        //should consider adding a Log
+        //    Log.e(LOG, selectQuery);
+        Cursor cursor = db.rawQuery(selectQuery,null);
+        if(cursor != null)
+            cursor.moveToFirst();
+        return new Outfit(cursor.getString(cursor.getColumnIndex(COLUMN_CLOSET_NAME)),0);
+
+    }
+
+    public void deleteCloset(String closetName){
+        SQLiteDatabase db = getWritableDatabase();
+        String query = "DELETE FROM " +
+                TABLE_CLOSET +
+                " WHERE " +
+                COLUMN_CLOSET_NAME +
+                "=\"" +
+                closetName +
+                "\";";
+        db.execSQL(query);
+    }
+
+    public void addClothing(Clothing newClothing){
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_CLOTHING_NAME, newClothing.getClothingName());
+        SQLiteDatabase db = getWritableDatabase();
+        db.insert(TABLE_CLOTHING, null, values);
+        db.close();
+    }
+
+    public Outfit getClothing(int clothingID){
+        SQLiteDatabase db = getWritableDatabase(); //check formatting on selectquery. Potentially spacing issues
+        String selectQuery = "SELECT  * FROM " +
+                TABLE_CLOTHING +
+                " WHERE " +
+                COLUMN_ID +
+                " = " + clothingID;
+        //should consider adding a Log
+        //    Log.e(LOG, selectQuery);
+        Cursor cursor = db.rawQuery(selectQuery,null);
+        if(cursor != null)
+            cursor.moveToFirst();
+        return new Outfit(cursor.getString(cursor.getColumnIndex(COLUMN_CLOTHING_NAME)),0);
+
+    }
+
+    public void deleteClothing(String clothingName){
+        SQLiteDatabase db = getWritableDatabase();
+        String query = "DELETE FROM " +
+                TABLE_CLOTHING +
+                " WHERE " +
+                COLUMN_CLOTHING_NAME +
+                "=\"" +
+                clothingName +
+                "\";";
+        db.execSQL(query);
     }
 }
