@@ -45,6 +45,7 @@ public class OutfitActivity extends AppCompatActivity implements NavigationView.
         outfitList.add(new Outfit("Grandma's Spring Attire", R.drawable.outfit1));
         outfitList.add(new Outfit("Grandma's Casual Wear", R.drawable.outfit2));
         outfitList.add(new Outfit("Grandma's Happy Day", R.drawable.happy_outfit));
+        outfitList.add(new Outfit("Grandma's Happy Day", R.drawable.happy_outfit));
         outfitList.add(new Outfit("Grandma's Clubbing Outfit", R.drawable.clubbing_outfit));
         outfitList.add(new Outfit("Grandma's Cookie Baking Outfit", R.drawable.grandmas_cooking_outfit));
         outfitList.add(new Outfit("Grandma's Breakdance Gear", R.drawable.grandmas_breakdance_gear));
@@ -94,7 +95,7 @@ public class OutfitActivity extends AppCompatActivity implements NavigationView.
                 startActivity(intent);
                 break;
             case R.id.add:
-                intent = new Intent(OutfitActivity.this,ClothingActivity.class);
+                intent = new Intent(OutfitActivity.this,CreateOutfit.class);
                 startActivity(intent);
                 break;
             case R.id.delete:
