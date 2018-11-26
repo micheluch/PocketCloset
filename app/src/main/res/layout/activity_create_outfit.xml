@@ -16,8 +16,10 @@
         android:background="@color/colorPrimary"
         android:theme="@style/ThemeOverlay.AppCompat.Dark"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
-        app:title="Create Outfit"
-        app:titleTextColor="#fff">
+        app:title="                  Create Outfit"
+        app:titleTextColor="#fff"
+        android:gravity="center"
+        >
 
     </android.support.v7.widget.Toolbar>
 
@@ -27,20 +29,32 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
-
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/addButton"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:src="@drawable/ic_add_black_24dp"
-        android:onClick="addtoOutfitButton"/>
-</LinearLayout>
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal">
+
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/addButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:onClick="addtoOutfitButton"
+            android:src="@drawable/ic_add_black_24dp"
+            app:backgroundTint="@color/colorPrimary" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/saveButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:onClick="saveOutfitButton"
+            android:src="@drawable/ic_save_black_24dp"
+            app:backgroundTint="@color/colorPrimary" />
+
+    </LinearLayout>
 
 
 </RelativeLayout>
