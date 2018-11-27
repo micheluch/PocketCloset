@@ -2,6 +2,8 @@ package com.example.michael.myapplication;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.example.michael.myapplication.Entry;
+
 
 public class Outfit {
 
@@ -12,6 +14,8 @@ public class Outfit {
     private Clothing bottom;
     private Clothing shoes;
     private Clothing outerwear;
+    private final int DEFAULT_INVALID_CONDITION = -1;
+
 
     public int getThumbnail() {
         return thumbnail;
@@ -24,10 +28,22 @@ public class Outfit {
     private List<Clothing> accessories;
     int thumbnail;
 
-    public Outfit(String outfitName, int thumbnail) {
+    public Outfit(int outfitId, String outfitName, Clothing hat, Clothing top,
+                  Clothing bottom, Clothing shoes, Clothing outerwear, int thumbnail) {
+        this.outfitId = outfitId;
         this.outfitName = outfitName;
-        accessories = new ArrayList<>();
+        this.hat = hat;
+        this.top = top;
+        this.bottom = bottom;
+        this.shoes = shoes;
+        this.outerwear = outerwear;
+        this.accessories = null;
         this.thumbnail = thumbnail;
+    }
+
+    public Outfit(String outfitName) {
+        this(-1, outfitName, null, null, null, null, null,
+                -1);
     }
 
     public int getOutfitId() {

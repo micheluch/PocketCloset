@@ -11,32 +11,33 @@ import android.util.Log;
 public class DBManager extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "pocketcloset.db";
-    private static final String TABLE_OUTFIT = "outfits";
-    private static final String TABLE_CLOSET = "closets";
-    private static final String TABLE_CLOTHING = "clothing";
+    public static final String DATABASE_NAME = "pocketcloset.db";
+    public static final String TABLE_OUTFIT = "outfits";
+    public static final String TABLE_CLOSET = "closets";
+    public static final String TABLE_CLOTHING = "clothing";
 
-    private static final String COLUMN_ID = "id";
+    public static final String COLUMN_ID = "id";
 
     //Clothing database information
-    private static final String COLUMN_CLOTHING_NAME = "clothing_name";
-    private static final String COLUMN_CLOTHING_CONDITION = "clothing_condition";
-    private static final String COLUMN_CLOTHING_PICTURE = "picture";
+    public static final String COLUMN_CLOTHING_NAME = "clothing_name";
+    public static final String COLUMN_CLOTHING_CONDITION = "clothing_condition";
+    public static final String COLUMN_CLOTHING_PICTURE = "picture";
+    public static final String COLUMN_CLOTHING_TYPE = "type";
 
     //Closet database information
-    private static final String COLUMN_CLOSET_NAME = "closet_name";
-    private static final String COLUMN_CLOSET_LOCATION = "closet_location";
-    private static final String COLUMN_CLOSET_ITEM_COUNT = "closet_size";
-    private static final String COLUMN_THUMBNAIL = "thumbnail";
+    public static final String COLUMN_CLOSET_NAME = "closet_name";
+    public static final String COLUMN_CLOSET_LOCATION = "closet_location";
+    public static final String COLUMN_CLOSET_ITEM_COUNT = "closet_size";
+    public static final String COLUMN_THUMBNAIL = "thumbnail";
 
     //Outfit database information
-    private static final String COLUMN_OUTFIT_NAME = "outfit_name";
-    private static final String COLUMN_OUTFIT_HEAD = "outfit_headwear";
-    private static final String COLUMN_OUTFIT_TOP = "outfit_top";
-    private static final String COLUMN_OUTFIT_BOTTOM = "outfit_bottom";
-    private static final String COLUMN_OUTFIT_SHOES = "outfit_shoes";
-    private static final String COLUMN_OUTFIT_ACCESSORIES= "outfit_accessories";
-    private static final String COLUMN_OUTFIT_OUTERWEAR = "outfit_outerwear";
+    public static final String COLUMN_OUTFIT_NAME = "outfit_name";
+    public static final String COLUMN_OUTFIT_HEAD = "outfit_headwear";
+    public static final String COLUMN_OUTFIT_TOP = "outfit_top";
+    public static final String COLUMN_OUTFIT_BOTTOM = "outfit_bottom";
+    public static final String COLUMN_OUTFIT_SHOES = "outfit_shoes";
+    public static final String COLUMN_OUTFIT_ACCESSORIES= "outfit_accessories";
+    public static final String COLUMN_OUTFIT_OUTERWEAR = "outfit_outerwear";
 
 
 
@@ -49,6 +50,7 @@ public class DBManager extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String query = "CREATE TABLE " + TABLE_CLOTHING + " (" +
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_CLOTHING_TYPE + " INTEGER, " +
                 COLUMN_CLOTHING_NAME + " TEXT, " +
                 COLUMN_CLOTHING_PICTURE + " INTEGER, " +
                 COLUMN_CLOTHING_CONDITION + " TEXT " +
@@ -88,18 +90,24 @@ public class DBManager extends SQLiteOpenHelper {
     //TODO DEFINE HOW TO ADD TO DATABASE
     //We need to hash out how we are constructing classes. In android
     //adding to database can be done with values as done here
-    public void addOutfit(Outfit newOutfit){
+    private void addOutfit(Outfit newOutfit){
         ContentValues valuesToAdd = new ContentValues();
         valuesToAdd.put(COLUMN_OUTFIT_NAME, newOutfit.getOutfitName());
+        //valuesToAdd.put(COLUMN_OUTFIT_ACCESSORIES, newOutfit.getAccessories());
+        valuesToAdd.put(COLUMN_OUTFIT_BOTTOM, newOutfit.getBottom().getClothingName());
+        valuesToAdd.put(COLUMN_OUTFIT_HEAD, newOutfit.getHat().getClothingName());
+        valuesToAdd.put(COLUMN_OUTFIT_OUTERWEAR, newOutfit.getOuterwear().getClothingName());
+        valuesToAdd.put(COLUMN_OUTFIT_SHOES, newOutfit.getShoes().getClothingName());
+        valuesToAdd.put(COLUMN_OUTFIT_TOP, newOutfit.getTop().getClothingName());
         SQLiteDatabase db = getWritableDatabase();
         db.insert(TABLE_OUTFIT, null, valuesToAdd);
         db.close(); //MUST ALWAYS CLOSE
 
     }
 
-    public Outfit getOutfit(int outfitID){
+    private Outfit getOutfit(int outfitID){
         SQLiteDatabase db = getWritableDatabase(); //check formatting on selectquery. Potentially spacing issues
-        String selectQuery = "SELECT  * FROM " +
+        String selectQuery = "SELECT * FROM " +
                 TABLE_OUTFIT +
                 " WHERE " +
                 COLUMN_ID +
@@ -109,11 +117,11 @@ public class DBManager extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(selectQuery,null);
         if(cursor != null)
             cursor.moveToFirst();
-        return new Outfit(cursor.getString(cursor.getColumnIndex(COLUMN_OUTFIT_NAME)),0);
+        return new Outfit(cursor.getString(cursor.getColumnIndex(COLUMN_OUTFIT_NAME)));
 
     }
 
-    public void deleteOutfit(String outfitName){
+    private void deleteOutfit(String outfitName){
         SQLiteDatabase db = getWritableDatabase();
         String query = "DELETE FROM " +
                 TABLE_OUTFIT +
@@ -125,15 +133,16 @@ public class DBManager extends SQLiteOpenHelper {
         db.execSQL(query);
     }
 
-    public void addCloset(Closet newCloset){
+    private void addCloset(Closet newCloset){
         ContentValues values = new ContentValues();
         values.put(COLUMN_CLOSET_NAME, newCloset.getClosetName());
+
         SQLiteDatabase db = getWritableDatabase();
         db.insert(TABLE_CLOSET, null, values);
         db.close();
     }
 
-    public Outfit getCloset(int closetID){
+    private Outfit getCloset(int closetID){
         SQLiteDatabase db = getWritableDatabase(); //check formatting on selectquery. Potentially spacing issues
         String selectQuery = "SELECT  * FROM " +
                 TABLE_CLOSET +
@@ -145,11 +154,11 @@ public class DBManager extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(selectQuery,null);
         if(cursor != null)
             cursor.moveToFirst();
-        return new Outfit(cursor.getString(cursor.getColumnIndex(COLUMN_CLOSET_NAME)),0);
+        return new Outfit(cursor.getString(cursor.getColumnIndex(COLUMN_CLOSET_NAME)));
 
     }
 
-    public void deleteCloset(String closetName){
+    private void deleteCloset(String closetName){
         SQLiteDatabase db = getWritableDatabase();
         String query = "DELETE FROM " +
                 TABLE_CLOSET +
@@ -162,38 +171,68 @@ public class DBManager extends SQLiteOpenHelper {
     }
 
     public void addClothing(Clothing newClothing){
+        SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_CLOTHING_NAME, newClothing.getClothingName());
-        SQLiteDatabase db = getWritableDatabase();
-        db.insert(TABLE_CLOTHING, null, values);
+        values.put(COLUMN_CLOTHING_CONDITION, newClothing.getClothingCondition());
+        values.put(COLUMN_CLOTHING_PICTURE, newClothing.getThumbnail());
+        values.put(COLUMN_CLOTHING_TYPE, newClothing.getType());
+
+        if(entryExists(newClothing.name, TABLE_CLOTHING)){
+            db.update(TABLE_CLOTHING,values, null,null);
+        }
+        else{
+            db.insert(TABLE_CLOTHING, null, values);
+        }
         db.close();
     }
 
-    public Outfit getClothing(int clothingID){
+    public Clothing getClothing(String clothingName){
         SQLiteDatabase db = getWritableDatabase(); //check formatting on selectquery. Potentially spacing issues
         String selectQuery = "SELECT  * FROM " +
                 TABLE_CLOTHING +
                 " WHERE " +
-                COLUMN_ID +
-                " = " + clothingID;
+                COLUMN_CLOTHING_NAME +
+                " LIKE '%" +clothingName + "%'";
         //should consider adding a Log
         //    Log.e(LOG, selectQuery);
         Cursor cursor = db.rawQuery(selectQuery,null);
-        if(cursor != null)
+        Clothing searchedClothing = null;
+        if(cursor.getCount() > 0){
             cursor.moveToFirst();
-        return new Outfit(cursor.getString(cursor.getColumnIndex(COLUMN_CLOTHING_NAME)),0);
+            searchedClothing = new Clothing(cursor.getString(cursor.getColumnIndex(COLUMN_CLOTHING_NAME)),R.drawable.taco_socks);
+        }
+        cursor.close();
+        return searchedClothing;
 
     }
 
-    public void deleteClothing(String clothingName){
+    private void deleteClothing(String clothingName){
         SQLiteDatabase db = getWritableDatabase();
         String query = "DELETE FROM " +
                 TABLE_CLOTHING +
                 " WHERE " +
                 COLUMN_CLOTHING_NAME +
-                "=\"" +
-                clothingName +
-                "\";";
+                " LIKE '%" +clothingName + "%'";
         db.execSQL(query);
+    }
+
+    private boolean entryExists(String entryName, String tableName){
+        Entry potentialExistingEntry = null;
+        switch(tableName){
+            case TABLE_CLOSET:
+                //potentialExistingEntry = getCloset(tableName);
+                break;
+            case TABLE_CLOTHING:
+                potentialExistingEntry = getClothing(entryName);
+                break;
+            case TABLE_OUTFIT:
+                //potentialExistingEntry = getOutfit(tableName);
+                break;
+            default:
+                break;
+
+        }
+        return potentialExistingEntry != null;
     }
 }

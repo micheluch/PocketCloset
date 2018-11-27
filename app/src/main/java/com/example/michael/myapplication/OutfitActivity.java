@@ -40,17 +40,17 @@ public class OutfitActivity extends AppCompatActivity implements NavigationView.
 
         outfitList = new ArrayList<>();
 
-        outfitList.add(new Outfit("Grandma's Formal Clothes", R.drawable.closet2));
-        outfitList.add(new Outfit("Grandma's Easter Mass Outfit", R.drawable.easter_mass_outfit));
-        outfitList.add(new Outfit("Grandma's Spring Attire", R.drawable.outfit1));
-        outfitList.add(new Outfit("Grandma's Casual Wear", R.drawable.outfit2));
-        outfitList.add(new Outfit("Grandma's Happy Day", R.drawable.happy_outfit));
-        outfitList.add(new Outfit("Grandma's Clubbing Outfit", R.drawable.clubbing_outfit));
-        outfitList.add(new Outfit("Grandma's Cookie Baking Outfit", R.drawable.grandmas_cooking_outfit));
-        outfitList.add(new Outfit("Grandma's Breakdance Gear", R.drawable.grandmas_breakdance_gear));
-        outfitList.add(new Outfit("Grandma's Fire Fighter Outfit", R.drawable.firefighter_outfit));
-        outfitList.add(new Outfit("Grandma's Graduation Gown", R.drawable.graduation_gown));
-        outfitList.add(new Outfit("Grandma's Halloween 2018", R.drawable.halloween_outfit));
+//        outfitList.add(new Outfit("Grandma's Formal Clothes", R.drawable.closet2));
+//        outfitList.add(new Outfit("Grandma's Easter Mass Outfit", R.drawable.easter_mass_outfit));
+//        outfitList.add(new Outfit("Grandma's Spring Attire", R.drawable.outfit1));
+//        outfitList.add(new Outfit("Grandma's Casual Wear", R.drawable.outfit2));
+//        outfitList.add(new Outfit("Grandma's Happy Day", R.drawable.happy_outfit));
+//        outfitList.add(new Outfit("Grandma's Clubbing Outfit", R.drawable.clubbing_outfit));
+//        outfitList.add(new Outfit("Grandma's Cookie Baking Outfit", R.drawable.grandmas_cooking_outfit));
+//        outfitList.add(new Outfit("Grandma's Breakdance Gear", R.drawable.grandmas_breakdance_gear));
+//        outfitList.add(new Outfit("Grandma's Fire Fighter Outfit", R.drawable.firefighter_outfit));
+//        outfitList.add(new Outfit("Grandma's Graduation Gown", R.drawable.graduation_gown));
+//        outfitList.add(new Outfit("Grandma's Halloween 2018", R.drawable.halloween_outfit));
 
 
         RecyclerView my_recycler_view = (RecyclerView) findViewById(R.id.outfit_recyclerview_id);
