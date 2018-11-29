@@ -5,16 +5,13 @@ import java.util.List;
 import com.example.michael.myapplication.Entry;
 
 
-public class Outfit {
+public class Outfit extends Entry{
 
-    private int outfitId;
-    private String outfitName;
-    private Clothing hat;
-    private Clothing top; //shirt blouse etc
-    private Clothing bottom;
-    private Clothing shoes;
-    private Clothing outerwear;
+    private List<Clothing> clothingList;
+    private String description;
+    private int imageLoc;
     private final int DEFAULT_INVALID_CONDITION = -1;
+
 
 
     public int getThumbnail() {
@@ -25,89 +22,42 @@ public class Outfit {
         this.thumbnail = thumbnail;
     }
 
-    private List<Clothing> accessories;
-    int thumbnail;
-
-    public Outfit(int outfitId, String outfitName, Clothing hat, Clothing top,
-                  Clothing bottom, Clothing shoes, Clothing outerwear, int thumbnail) {
-        this.outfitId = outfitId;
-        this.outfitName = outfitName;
-        this.hat = hat;
-        this.top = top;
-        this.bottom = bottom;
-        this.shoes = shoes;
-        this.outerwear = outerwear;
-        this.accessories = null;
+    public Outfit( String outfitName, List<Clothing> clothingList, String description,
+                  int imageLoc, int thumbnail) {
+        super(outfitName,thumbnail);
+        this.clothingList = clothingList;
+        this.description = description;
+        this.imageLoc = imageLoc;
         this.thumbnail = thumbnail;
+        super.setEntryId(DEFAULT_INVALID_CONDITION);
     }
 
     public Outfit(String outfitName) {
-        this(-1, outfitName, null, null, null, null, null,
-                -1);
+        this(outfitName, new ArrayList<Clothing>(), null,
+                -1, -1);
     }
 
-    public int getOutfitId() {
-        return outfitId;
+    public String getDescription() {
+        return description;
     }
 
-    public void setOutfitId(int outfitId) {
-        this.outfitId = outfitId;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public String getOutfitName() {
-        return outfitName;
+    public int getImageLoc() {
+        return imageLoc;
     }
 
-    public void setOutfitName(String outfitName) {
-        this.outfitName = outfitName;
+    public void setImageLoc(int imageLoc) {
+        this.imageLoc = imageLoc;
     }
 
-    public Clothing getHat() {
-        return hat;
+    private void addClothingToOutfit(Clothing clothingToAdd){
+        this.clothingList.add(clothingToAdd);
     }
 
-    public void setHat(Clothing hat) {
-        this.hat = hat;
-    }
-
-    public Clothing getTop() {
-        return top;
-    }
-
-    public void setTop(Clothing top) {
-        this.top = top;
-    }
-
-    public Clothing getBottom() {
-        return bottom;
-    }
-
-    public void setBottom(Clothing bottom) {
-        this.bottom = bottom;
-    }
-
-    public Clothing getShoes() {
-        return shoes;
-    }
-
-    public void setShoes(Clothing shoes) {
-        this.shoes = shoes;
-    }
-
-    public Clothing getOuterwear() {
-        return outerwear;
-    }
-
-    public void setOuterwear(Clothing outerwear) {
-        this.outerwear = outerwear;
-    }
-
-    public List<Clothing> getAccessories() {
-        return accessories;
-    }
-
-    public Clothing addAccessory(Clothing newAccessory) {
-        accessories.add(newAccessory);
-        return newAccessory;
+    public List<Clothing> getClothingList() {
+        return clothingList;
     }
 }
