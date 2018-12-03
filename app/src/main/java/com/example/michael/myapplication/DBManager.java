@@ -114,6 +114,7 @@ public class DBManager extends SQLiteOpenHelper {
     //We need to hash out how we are constructing classes. In android
     //adding to database can be done with values as done here
     private void addOutfit(Outfit newOutfit) {
+        // TODO: rework this method to take a Closet argument and add the clothing to a closet
         ContentValues valuesToAdd = new ContentValues();
         valuesToAdd.put(COLUMN_OUTFIT_NAME, newOutfit.getEntryName());
         valuesToAdd.put(COLUMN_ID, newOutfit.getEntryId());
@@ -231,8 +232,8 @@ public class DBManager extends SQLiteOpenHelper {
         db.execSQL(query);
     }
 
-    /* addEntryToCloset
-     * Adds a single entry object to the proper closet reference table.
+    /** addEntryToCloset
+     *  Adds a single entry object to the proper closet reference table.
      */
     public void addEntryToCloset(Entry entry, int closetID) {
         SQLiteDatabase db = getWritableDatabase();
@@ -245,6 +246,9 @@ public class DBManager extends SQLiteOpenHelper {
 
     }
 
+    /** addEntriesToCloset
+     *  Adds a list of entries to the relevant closet.
+     */
     public void addEntriesToCloset(List<Entry> entryReferenceList, int closetID) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -259,6 +263,7 @@ public class DBManager extends SQLiteOpenHelper {
     }
 
     public void addClothing(Clothing newClothing) {
+        // TODO: rework this method to take a Closet argument and add the clothing to a closet
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_CLOTHING_NAME, newClothing.getClothingName());
