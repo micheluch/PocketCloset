@@ -9,7 +9,6 @@ public class Outfit extends Entry{
 
     private List<Clothing> clothingList;
     private String description;
-    private int imageLoc;
     private final int DEFAULT_INVALID_CONDITION = -1;
 
 
@@ -22,19 +21,16 @@ public class Outfit extends Entry{
         this.thumbnail = thumbnail;
     }
 
-    public Outfit( String outfitName, List<Clothing> clothingList, String description,
-                  int imageLoc, int thumbnail) {
+    public Outfit( String outfitName, List<Clothing> clothingList, String description, int thumbnail) {
         super(outfitName,thumbnail);
         this.clothingList = clothingList;
         this.description = description;
-        this.imageLoc = imageLoc;
         this.thumbnail = thumbnail;
         super.setEntryId(DEFAULT_INVALID_CONDITION);
     }
 
     public Outfit(String outfitName) {
-        this(outfitName, new ArrayList<Clothing>(), null,
-                -1, -1);
+        this(outfitName, new ArrayList<Clothing>(), null, -1);
     }
 
     public String getDescription() {
@@ -45,15 +41,7 @@ public class Outfit extends Entry{
         this.description = description;
     }
 
-    public int getImageLoc() {
-        return imageLoc;
-    }
-
-    public void setImageLoc(int imageLoc) {
-        this.imageLoc = imageLoc;
-    }
-
-    private void addClothingToOutfit(Clothing clothingToAdd){
+    public void addClothingToOutfit(Clothing clothingToAdd){
         this.clothingList.add(clothingToAdd);
     }
 

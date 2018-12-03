@@ -11,9 +11,10 @@ public abstract class Entry
     protected static final String DEFAULT_CONDITION = "Good";
 
 
-    public Entry(String entryName, int thumbnail) {
+    public Entry(String entryName, int thumbnail, int id) {
         this.name = entryName;
         this.thumbnail = thumbnail;
+        this.id = id;
     }
 
     //Methods that are shared by Clothing and Outfit

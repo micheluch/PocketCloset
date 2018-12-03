@@ -71,7 +71,7 @@ public class DBManager extends SQLiteOpenHelper {
 
         query = "CREATE TABLE " + REFERENCE_TABLE_OUTFIT + " (" +
                 COLUMN_ID + " INTEGER PRIMARY KEY, " +
-                COLUMN_REFERENCE_OUTFIT_ID + " INTEGER, " +
+                COLUMN_REFERENCE_OUTFIT_ID + " TEXT, " +
                 COLUMN_REFERNCE_CLOTHING_ID + " INTEGER, " +
                 COLUMN_REFERENCE_CLOTHING_X + " INTEGER, " +
                 COLUMN_REFERENCE_CLOTHING_Y + " INTEGER " +
@@ -104,11 +104,11 @@ public class DBManager extends SQLiteOpenHelper {
         ContentValues valuesToAdd = new ContentValues();
         valuesToAdd.put(COLUMN_OUTFIT_NAME, newOutfit.getEntryName());
         valuesToAdd.put(COLUMN_ID, newOutfit.getEntryId());
-        valuesToAdd.put(COLUMN_OUTFIT_IMAGEPATH, newOutfit.getImageLoc());
+        valuesToAdd.put(COLUMN_OUTFIT_IMAGEPATH, newOutfit.getThumbnail());
         valuesToAdd.put(COLUMN_OUTFIT_DESCRIPTION, newOutfit.getDescription());
         SQLiteDatabase db = getWritableDatabase();
 
-        addClothesToReference(newOutfit.getClothingList(), newOutfit.getEntryId());
+        addClothesToReference(newOutfit.getClothingList(), newOutfit.getEntryName());
 
         if (entryExists(newOutfit.getEntryName(), TABLE_OUTFIT)) {
             db.update(TABLE_OUTFIT, valuesToAdd, null, null);
@@ -117,14 +117,12 @@ public class DBManager extends SQLiteOpenHelper {
         }
 
         db.close(); //MUST ALWAYS CLOSE
-
     }
 
-    private void addClothesToReference(List<Clothing> clothingReferenceList, int outfitID){
+    private void addClothesToReference(List<Clothing> clothingReferenceList, String outfitID){
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_REFERENCE_OUTFIT_ID,outfitID);
-
 
         for(Clothing item: clothingReferenceList){
             values.put(COLUMN_REFERENCE_CLOTHING_X, -99999999);
@@ -147,7 +145,29 @@ public class DBManager extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(selectQuery, null);
         if (cursor != null)
             cursor.moveToFirst();
-        return new Outfit(cursor.getString(cursor.getColumnIndex(COLUMN_OUTFIT_NAME)));
+
+        Outfit databaseOutfit = new Outfit(cursor.getString(cursor.getColumnIndex(COLUMN_OUTFIT_NAME)));
+        databaseOutfit.setDescription(cursor.getString(cursor.getColumnIndex(COLUMN_OUTFIT_DESCRIPTION)));
+        databaseOutfit.setEntryId(cursor.getInt(cursor.getColumnIndex(COLUMN_ID)));
+        databaseOutfit.setThumbnail(-999999);
+        cursor.close();
+
+        //populate clothing entries.
+        selectQuery = "SELECT * FROM " +
+                REFERENCE_TABLE_OUTFIT +
+                " WHERE " +
+                COLUMN_REFERENCE_OUTFIT_ID +
+                " LIKE '%" + outfitName + "%'";
+        cursor = db.rawQuery(selectQuery, null);
+        if (cursor != null)
+            cursor.moveToFirst();
+        while(cursor.moveToNext()){
+            Clothing outfitItem = getClothing(cursor.getString(cursor.getColumnIndex(COLUMN_REFERNCE_CLOTHING_ID)));
+            databaseOutfit.addClothingToOutfit(outfitItem);
+        }
+
+
+        return databaseOutfit;
 
     }
 
@@ -229,11 +249,27 @@ public class DBManager extends SQLiteOpenHelper {
         Clothing searchedClothing = null;
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
+            searchedClothing = new Clothing(cursor.getString(cursor.getColumnIndex(COLUMN_CLOTHING_NAME)), R.drawable.taco_socks, 0);
+        }
+        cursor.close();
+        return searchedClothing;
+    }
+
+    public Clothing getClothing(int clothingID) {
+        SQLiteDatabase db = getWritableDatabase(); //check formatting on selectquery. Potentially spacing issues
+        String selectQuery = "SELECT  * FROM " +
+                TABLE_CLOTHING +
+                " WHERE " +
+                COLUMN_ID +
+                " = " + clothingID;
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        Clothing searchedClothing = null;
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
             searchedClothing = new Clothing(cursor.getString(cursor.getColumnIndex(COLUMN_CLOTHING_NAME)), R.drawable.taco_socks);
         }
         cursor.close();
         return searchedClothing;
-
     }
 
     private void deleteClothing(String clothingName) {
