@@ -22,7 +22,7 @@ public class Outfit extends Entry{
     }
 
     public Outfit( String outfitName, List<Clothing> clothingList, String description, int thumbnail) {
-        super(outfitName,thumbnail);
+        super(outfitName,thumbnail, -999999);
         this.clothingList = clothingList;
         this.description = description;
         this.thumbnail = thumbnail;
