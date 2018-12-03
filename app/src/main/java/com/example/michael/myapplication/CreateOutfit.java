@@ -1,13 +1,20 @@
 package com.example.michael.myapplication;
 
 import android.app.Dialog;
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.PointF;
+import android.net.Uri;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -22,6 +29,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.List;
+
 public class CreateOutfit extends AppCompatActivity {
 
     public static final int SELECT_STICKER_REQUEST_CODE = 123;
@@ -29,6 +43,8 @@ public class CreateOutfit extends AppCompatActivity {
     //Button addButton;
     protected ImageView imageEntity;
     Dialog dialog;
+    Bitmap bitmap;
+    Outfit outfit = new Outfit("",0);
 
     private final MotionView.MotionViewCallback motionViewCallback = new MotionView.MotionViewCallback() {
 
@@ -81,24 +97,123 @@ public class CreateOutfit extends AppCompatActivity {
 
     public void saveOutfitButton(View view){
         showSaveOutfitPopup(view);
+        Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        view.draw(canvas);
+        this.bitmap = bitmap;
     }
 
     public void showSaveOutfitPopup (View v) {
 
         TextView txtclose;
-        Button btnAdd;
+        Button btnSave;
+        final TextInputLayout textInputOutfitName;
+        final TextInputLayout textInputDescription;
+
         dialog.setContentView(R.layout.save_outfit_popup);
         txtclose = (TextView) dialog.findViewById(R.id.txtClosetclose);
-        btnAdd = (Button) dialog.findViewById(R.id.saveOutfitButton);
+        btnSave = (Button) dialog.findViewById(R.id.saveOutfitButton);
+        textInputOutfitName = dialog.findViewById(R.id.text_input_outfitName);
+        textInputDescription = dialog.findViewById(R.id.text_input_description);
         txtclose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
             }
         });
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!validateName(textInputOutfitName) | !validateDescription(textInputDescription)){
+
+                    return;
+                }
+                List<MotionEntity> items = motionView.getEntities();
+                Bitmap outfitImage = Bitmap.createBitmap(items.get(0).getWidth() * 2, items.get(0).getHeight() * 2, Bitmap.Config.ARGB_8888);
+                Canvas canvas = new Canvas(outfitImage);
+                Paint paint = new Paint();
+                for(int i = 0; i < items.size(); i++){
+                    canvas.drawBitmap(items.get(i).getBitmap(), items.get(i).getWidth() * (i % 2), items.get(i).getHeight() * (i / 2), paint);
+                }
+
+                outfit.setEntryName(textInputOutfitName.getEditText().getText().toString().trim());
+                outfit.setOutfitImage(outfitImage);
+                //out.set
+
+                ContextWrapper cw = new ContextWrapper(getApplicationContext());
+                File directory = cw.getDir("outfits", Context.MODE_PRIVATE);
+                if(!directory.exists()){
+                    directory.mkdir();
+                }
+                File mypath = new File(directory, outfit.getOutfitName() + ".jpg");
+                FileOutputStream fos = null;
+                try{
+                    fos = new FileOutputStream(mypath);
+                    outfitImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                    fos.close();
+
+                }catch(Exception e){
+
+                    e.printStackTrace();
+                }
+
+                //String d = directory.getAbsolutePath();
+                //outfit.setOutfitName(d);
+
+                try{
+                    ContextWrapper c = new ContextWrapper(getApplicationContext());
+                    File path1 = c.getDir("imageDir", Context.MODE_PRIVATE);
+                    File f = new File(path1, outfit.getOutfitName() + ".jpg");
+                    Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
+                    ImageView img = (ImageView) findViewById(R.id.viewImage);
+                    img.setImageBitmap(b);
+
+                }catch(FileNotFoundException e){
+                    e.printStackTrace();
+                }
+
+
+                Intent i = new Intent(CreateOutfit.this,AddOutfit.class);
+                i.putExtra("Name", outfit.getEntryName());
+                i.putExtra("Description", textInputDescription.getEditText().getText().toString().trim());
+                i.putExtra("Thumbnail", outfitImage);
+
+                CreateOutfit.this.startActivity(i);
+               // dialog.cancel();
+            }
+        });
         //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
     }
+
+    private boolean validateName(TextInputLayout inputname){
+
+        String name = inputname.getEditText().getText().toString().trim();
+
+        if(name.isEmpty()){
+            inputname.setError("Enter a name.");
+            return false;
+        }else{
+
+            inputname.setError(null);
+            return true;
+        }
+    }
+
+    private boolean validateDescription(TextInputLayout inputdescription){
+
+        String description = inputdescription.getEditText().getText().toString().trim();
+
+        if(description.isEmpty()){
+            inputdescription.setError("Enter a name.");
+            return false;
+        }else{
+
+            inputdescription.setError(null);
+            return true;
+        }
+    }
+
     private void addSticker(final int stickerResId) {
         motionView.post(new Runnable() {
             @Override

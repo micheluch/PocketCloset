@@ -1,5 +1,7 @@
 package com.example.michael.myapplication;
 
+import android.graphics.Bitmap;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +14,7 @@ public class Outfit extends Entry {
     private Clothing shoes;
     private Clothing outerwear;
     private AccessoryNode head;
+    private Bitmap outfitImage;
 
     static class AccessoryNode
     {
@@ -23,7 +26,7 @@ public class Outfit extends Entry {
     //private List<Clothing> accessories;
 
     //"Extended" methods from Entry
-    public Outfit(String outfitName, int thumbnail) { super(outfitName, thumbnail); }
+    public Outfit(String outfitName, int thumbnail) { super(outfitName, thumbnail);}
     public int getOutfitId() {
         return getEntryId();
     }
@@ -36,6 +39,8 @@ public class Outfit extends Entry {
     public void setOutfitName(String outfitName) {
         setEntryName(outfitName);
     }
+    public void setOutfitImage(Bitmap image){outfitImage = image;}
+    public Bitmap getOutfitImage(){return outfitImage;}
 
     //Outfit-only methods
     public Clothing getHat() {
