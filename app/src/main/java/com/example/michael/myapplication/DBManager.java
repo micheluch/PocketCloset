@@ -224,7 +224,7 @@ public class DBManager extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_CLOTHING_NAME, newClothing.getClothingName());
-        values.put(COLUMN_CLOTHING_CONDITION, newClothing.getClothingCondition());
+        values.put(COLUMN_CLOTHING_CONDITION, newClothing.getCondition().ordinal());
         values.put(COLUMN_CLOTHING_PICTURE, newClothing.getThumbnail());
         values.put(COLUMN_CLOTHING_TYPE, newClothing.getType());
 
