@@ -26,6 +26,9 @@ public class DBManager extends SQLiteOpenHelper {
     public static final String COLUMN_CLOTHING_CONDITION = "clothing_condition";
     public static final String COLUMN_CLOTHING_PICTURE = "picture";
     public static final String COLUMN_CLOTHING_TYPE = "type";
+    public static final String COLUMN_CLOTHING_XCOORD = "xcoord";
+    public static final String COLUMN_CLOTHING_YCOORD = "ycoord";
+    public static final String COLUMN_CLOTHING_COLOR = "color";
 
     //Closet database information
     public static final String COLUMN_CLOSET_NAME = "closet_name";
@@ -57,6 +60,9 @@ public class DBManager extends SQLiteOpenHelper {
                 COLUMN_CLOTHING_TYPE + " INTEGER, " +
                 COLUMN_CLOTHING_NAME + " TEXT, " +
                 COLUMN_CLOTHING_PICTURE + " INTEGER, " +
+                COLUMN_CLOTHING_XCOORD + " INTEGER, " +
+                COLUMN_CLOTHING_YCOORD + " INTEGER, " +
+                COLUMN_CLOTHING_COLOR + " INTEGER, " +
                 COLUMN_CLOTHING_CONDITION + " TEXT " +
                 ");";
         db.execSQL(query);
@@ -72,9 +78,7 @@ public class DBManager extends SQLiteOpenHelper {
         query = "CREATE TABLE " + REFERENCE_TABLE_OUTFIT + " (" +
                 COLUMN_ID + " INTEGER PRIMARY KEY, " +
                 COLUMN_REFERENCE_OUTFIT_ID + " TEXT, " +
-                COLUMN_REFERNCE_CLOTHING_ID + " INTEGER, " +
-                COLUMN_REFERENCE_CLOTHING_X + " INTEGER, " +
-                COLUMN_REFERENCE_CLOTHING_Y + " INTEGER " +
+                COLUMN_REFERNCE_CLOTHING_ID + " INTEGER " +
                 ");";
         db.execSQL(query);
 
@@ -249,7 +253,15 @@ public class DBManager extends SQLiteOpenHelper {
         Clothing searchedClothing = null;
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
-            searchedClothing = new Clothing(cursor.getString(cursor.getColumnIndex(COLUMN_CLOTHING_NAME)), R.drawable.taco_socks, 0);
+            searchedClothing = new Clothing(cursor.getString(cursor.getColumnIndex(COLUMN_CLOTHING_NAME)),
+                    cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_PICTURE)),
+                    cursor.getInt(cursor.getColumnIndex(COLUMN_ID)),
+                    Clothing.clothingType.values()[cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_TYPE))],
+                    Clothing.clothingColor.values()[cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_COLOR))],
+                    Clothing.clothingCondition.values()[cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_CONDITION))],
+                    cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_XCOORD)),
+                    cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_YCOORD))
+            );
         }
         cursor.close();
         return searchedClothing;
@@ -266,7 +278,15 @@ public class DBManager extends SQLiteOpenHelper {
         Clothing searchedClothing = null;
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
-            searchedClothing = new Clothing(cursor.getString(cursor.getColumnIndex(COLUMN_CLOTHING_NAME)), R.drawable.taco_socks);
+            searchedClothing = new Clothing(cursor.getString(cursor.getColumnIndex(COLUMN_CLOTHING_NAME)),
+                        cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_PICTURE)),
+                        cursor.getInt(cursor.getColumnIndex(COLUMN_ID)),
+                        Clothing.clothingType.values()[cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_TYPE))],
+                        Clothing.clothingColor.values()[cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_COLOR))],
+                        Clothing.clothingCondition.values()[cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_CONDITION))],
+                        cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_XCOORD)),
+                        cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_YCOORD))
+                            );
         }
         cursor.close();
         return searchedClothing;
