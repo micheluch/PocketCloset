@@ -18,6 +18,7 @@ public class DBManager extends SQLiteOpenHelper {
     public static final String TABLE_CLOSET = "closets";
     public static final String TABLE_CLOTHING = "clothing";
     public static final String REFERENCE_TABLE_OUTFIT = "reference_outfit";
+    public static final String REFERENCE_TABLE_CLOSET = "reference_closet";
 
     public static final String COLUMN_ID = "id";
 
@@ -47,6 +48,8 @@ public class DBManager extends SQLiteOpenHelper {
     public static final String COLUMN_REFERENCE_CLOTHING_Y = "y_cord"; //y coordinate of item
     public static final String COLUMN_REFERNCE_CLOTHING_ID = "clothing_id"; //id for clothing table
 
+    //Closet reference table
+    public static final String COLUMN_REFERENCE_TABLE_ID = "closet_id";
 
     public DBManager(@Nullable Context context, @Nullable String name,
                      @Nullable SQLiteDatabase.CursorFactory factory, int version) {
@@ -87,6 +90,13 @@ public class DBManager extends SQLiteOpenHelper {
                 COLUMN_CLOSET_NAME + " TEXT, " +
                 COLUMN_CLOSET_LOCATION + " TEXT, " +
                 COLUMN_CLOSET_ITEM_COUNT + " INTEGER " +
+                ");";
+        db.execSQL(query);
+
+        query = "CREATE TABLE " + REFERENCE_TABLE_CLOSET+ " (" +
+                COLUMN_ID + " INTEGER PRIMARY KEY, " +
+                COLUMN_REFERENCE_TABLE_ID + " INTEGER, " +
+                COLUMN_REFERENCE_OUTFIT_ID + " INTEGER " +
                 ");";
         db.execSQL(query);
 
@@ -222,6 +232,20 @@ public class DBManager extends SQLiteOpenHelper {
                 closetName +
                 "\";";
         db.execSQL(query);
+    }
+
+    public void addEntriesToCloset(List<Entry> entryReferenceList, int closetID) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_REFERENCE_OUTFIT_ID, closetID);
+
+        for(Entry entry: entryReferenceList){
+            values.put(COLUMN_REFERENCE_CLOTHING_X, -99999999);
+            values.put(COLUMN_REFERENCE_CLOTHING_Y, -99999999);
+            values.put(COLUMN_REFERNCE_CLOTHING_ID, entry.getEntryId());
+
+            db.insert(REFERENCE_TABLE_CLOSET, null, values);
+        }
     }
 
     public void addClothing(Clothing newClothing) {
