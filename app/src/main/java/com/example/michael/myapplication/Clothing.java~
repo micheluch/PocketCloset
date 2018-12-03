@@ -9,7 +9,6 @@ import java.util.List;
 public class Clothing extends Entry {
 
     //Clothing-only data members
-
     public enum clothingType {shirt, pants, shoes, other} //can get integer value by doing getOrdinal();
     private clothingType type;
     public enum clothingColor {white, black, grey, red, orange, yellow, green, blue, purple, pink, brown}
@@ -42,6 +41,8 @@ public class Clothing extends Entry {
     }
     public String getClothingName() {
         return getEntryName();
+<<<<<<< HEAD
+=======
     }
     public void setClothingName(String clothingName) { setEntryName(clothingName); }
 
@@ -62,8 +63,24 @@ public class Clothing extends Entry {
 
     public void setCondition(clothingCondition condition) {
         this.condition = condition;
+>>>>>>> 61effe20b8be96ab5c2bc3848d0aa7ecb387b5ef
     }
+    public void setClothingName(String clothingName) { setEntryName(clothingName); }
 
+<<<<<<< HEAD
+    //Clothing-only methods
+    public String getClothingCondition() {
+        return clothingCondition;
+    }
+    public List<Outfit> getAssociatedOutfits() {
+        return associatedOutfits;
+    }
+    public void setAssociatedOutfits(List<Outfit> associatedOutfits) {
+        this.associatedOutfits = associatedOutfits;
+    }
+    public List<Closet> getAssociatedClosets() {
+        return associatedClosets;
+=======
     public int getType() {
         return type.ordinal();
     }
@@ -82,9 +99,18 @@ public class Clothing extends Entry {
 
     public int getYcoordinate() {
         return Ycoordinate;
+>>>>>>> 61effe20b8be96ab5c2bc3848d0aa7ecb387b5ef
     }
+    //TODO: Add to associated closets and outfitsPock
+    public void addClothing(Clothing newClothing)
+    {
 
+<<<<<<< HEAD
+    }
+}
+=======
     public void setYcoordinate(int ycoordinate) {
         Ycoordinate = ycoordinate;
     }
 }
+>>>>>>> 61effe20b8be96ab5c2bc3848d0aa7ecb387b5ef
