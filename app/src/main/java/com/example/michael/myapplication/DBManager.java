@@ -44,12 +44,11 @@ public class DBManager extends SQLiteOpenHelper {
 
     //Outfit reference table
     public static final String COLUMN_REFERENCE_OUTFIT_ID = "outfit_id";
-    public static final String COLUMN_REFERENCE_CLOTHING_X = "x_cord"; //x coordinate of item
-    public static final String COLUMN_REFERENCE_CLOTHING_Y = "y_cord"; //y coordinate of item
-    public static final String COLUMN_REFERNCE_CLOTHING_ID = "clothing_id"; //id for clothing table
+    public static final String COLUMN_REFERENCE_CLOTHING_ID = "clothing_id"; //id for clothing table
 
     //Closet reference table
-    public static final String COLUMN_REFERENCE_TABLE_ID = "closet_id";
+    public static final String COLUMN_REFERENCE_CLOSET_ID = "closet_id";
+    public static final String COLUMN_REFERENCE_ENTRY_TYPE = "entry_type";
 
     public DBManager(@Nullable Context context, @Nullable String name,
                      @Nullable SQLiteDatabase.CursorFactory factory, int version) {
@@ -81,7 +80,7 @@ public class DBManager extends SQLiteOpenHelper {
         query = "CREATE TABLE " + REFERENCE_TABLE_OUTFIT + " (" +
                 COLUMN_ID + " INTEGER PRIMARY KEY, " +
                 COLUMN_REFERENCE_OUTFIT_ID + " TEXT, " +
-                COLUMN_REFERNCE_CLOTHING_ID + " INTEGER " +
+                COLUMN_REFERENCE_CLOTHING_ID + " INTEGER " +
                 ");";
         db.execSQL(query);
 
@@ -93,9 +92,9 @@ public class DBManager extends SQLiteOpenHelper {
                 ");";
         db.execSQL(query);
 
-        query = "CREATE TABLE " + REFERENCE_TABLE_CLOSET+ " (" +
+        query = "CREATE TABLE " + REFERENCE_TABLE_CLOSET + " (" +
                 COLUMN_ID + " INTEGER PRIMARY KEY, " +
-                COLUMN_REFERENCE_TABLE_ID + " INTEGER, " +
+                COLUMN_REFERENCE_CLOSET_ID + " INTEGER, " +
                 COLUMN_REFERENCE_OUTFIT_ID + " INTEGER " +
                 ");";
         db.execSQL(query);
@@ -133,15 +132,13 @@ public class DBManager extends SQLiteOpenHelper {
         db.close(); //MUST ALWAYS CLOSE
     }
 
-    private void addClothesToReference(List<Clothing> clothingReferenceList, String outfitID){
+    private void addClothesToReference(List<Clothing> clothingReferenceList, String outfitID) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(COLUMN_REFERENCE_OUTFIT_ID,outfitID);
+        values.put(COLUMN_REFERENCE_OUTFIT_ID, outfitID);
 
-        for(Clothing item: clothingReferenceList){
-            values.put(COLUMN_REFERENCE_CLOTHING_X, -99999999);
-            values.put(COLUMN_REFERENCE_CLOTHING_Y, -99999999);
-            values.put(COLUMN_REFERNCE_CLOTHING_ID, item.getEntryId());
+        for (Clothing item : clothingReferenceList) {
+            values.put(COLUMN_REFERENCE_CLOTHING_ID, item.getEntryId());
 
             db.insert(REFERENCE_TABLE_OUTFIT, null, values);
         }
@@ -175,8 +172,8 @@ public class DBManager extends SQLiteOpenHelper {
         cursor = db.rawQuery(selectQuery, null);
         if (cursor != null)
             cursor.moveToFirst();
-        while(cursor.moveToNext()){
-            Clothing outfitItem = getClothing(cursor.getString(cursor.getColumnIndex(COLUMN_REFERNCE_CLOTHING_ID)));
+        while (cursor.moveToNext()) {
+            Clothing outfitItem = getClothing(cursor.getString(cursor.getColumnIndex(COLUMN_REFERENCE_CLOTHING_ID)));
             databaseOutfit.addClothingToOutfit(outfitItem);
         }
 
@@ -234,15 +231,28 @@ public class DBManager extends SQLiteOpenHelper {
         db.execSQL(query);
     }
 
+    /* addEntryToCloset
+     * Adds a single entry object to the proper closet reference table.
+     */
+    public void addEntryToCloset(Entry entry, int closetID) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_REFERENCE_CLOSET_ID, closetID);
+        values.put(COLUMN_REFERENCE_ENTRY_TYPE, entry.type.ordinal());
+        values.put(COLUMN_REFERENCE_CLOTHING_ID, entry.getEntryId());
+
+        db.insert(REFERENCE_TABLE_CLOSET, null, values);
+
+    }
+
     public void addEntriesToCloset(List<Entry> entryReferenceList, int closetID) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(COLUMN_REFERENCE_OUTFIT_ID, closetID);
+        values.put(COLUMN_REFERENCE_CLOSET_ID, closetID);
 
-        for(Entry entry: entryReferenceList){
-            values.put(COLUMN_REFERENCE_CLOTHING_X, -99999999);
-            values.put(COLUMN_REFERENCE_CLOTHING_Y, -99999999);
-            values.put(COLUMN_REFERNCE_CLOTHING_ID, entry.getEntryId());
+        for (Entry entry : entryReferenceList) {
+            values.put(COLUMN_REFERENCE_ENTRY_TYPE, entry.type.ordinal());
+            values.put(COLUMN_REFERENCE_CLOTHING_ID, entry.getEntryId());
 
             db.insert(REFERENCE_TABLE_CLOSET, null, values);
         }
@@ -303,14 +313,14 @@ public class DBManager extends SQLiteOpenHelper {
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
             searchedClothing = new Clothing(cursor.getString(cursor.getColumnIndex(COLUMN_CLOTHING_NAME)),
-                        cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_PICTURE)),
-                        cursor.getInt(cursor.getColumnIndex(COLUMN_ID)),
-                        Clothing.clothingType.values()[cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_TYPE))],
-                        Clothing.clothingColor.values()[cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_COLOR))],
-                        Clothing.clothingCondition.values()[cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_CONDITION))],
-                        cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_XCOORD)),
-                        cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_YCOORD))
-                            );
+                    cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_PICTURE)),
+                    cursor.getInt(cursor.getColumnIndex(COLUMN_ID)),
+                    Clothing.clothingType.values()[cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_TYPE))],
+                    Clothing.clothingColor.values()[cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_COLOR))],
+                    Clothing.clothingCondition.values()[cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_CONDITION))],
+                    cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_XCOORD)),
+                    cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_YCOORD))
+            );
         }
         cursor.close();
         return searchedClothing;
