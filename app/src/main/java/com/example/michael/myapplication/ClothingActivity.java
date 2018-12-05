@@ -11,6 +11,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -26,7 +27,7 @@ import java.util.List;
 
 public class ClothingActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    List<Clothing> clothingList; //switch to wearable later for clothing and outfits
+    List<Entry> clothingList; //switch to wearable later for clothing and outfits
     private final static int ROWS_WIDE = 3;
 
     private Button returnHomeButton;
@@ -37,7 +38,6 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
     private ActionBarDrawerToggle toggle;
     private Dialog dialog;
     private DBManager manager;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +60,6 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
             }
             cursor.close();
         }
-
-
-
 
         RecyclerView my_recycler_view = (RecyclerView) findViewById(R.id.clothing_recyclerview_id);
         ClothingRecyclerViewAdapter myAdapter = new ClothingRecyclerViewAdapter(this, clothingList);
@@ -130,8 +127,8 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
             public void onClick(View v) {
                 EditText entryBox = (EditText) dialog.findViewById(R.id.nameEntryBox);
                 String name = entryBox.getText().toString();
-                Clothing entry = new Clothing(name, R.drawable.taco_socks, 0);
-                manager.addClothing(entry);
+                //Clothing entry = new Clothing(name, R.drawable.taco_socks);
+                //manager.addClothing(entry);
 
 
                 dialog.dismiss();

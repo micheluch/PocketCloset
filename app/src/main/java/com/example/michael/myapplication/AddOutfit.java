@@ -18,8 +18,8 @@ import android.widget.TextView;
 public class AddOutfit extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
     private TextView tvName, tvDescription;
-    private ImageView img;
-    private CardView outfitCard;
+    private ImageView hatimg, topImg, bottomImg, shoeImg;
+    private CardView outfitCard, topCard, bottomCard, accessoryCard, shoeCard;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
@@ -36,21 +36,36 @@ public class AddOutfit extends AppCompatActivity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_outfit);
 
-        outfitCard = (CardView) findViewById(R.id.outfit_item_card);
-        outfitCard.setOnClickListener(this);
+        //outfitCard = (CardView) findViewById(R.id.outfit_item_card);
+        topCard = (CardView) findViewById(R.id.top_card);
+        bottomCard = (CardView) findViewById(R.id.bottoms_card);
+        accessoryCard = (CardView) findViewById(R.id.accessory_card);
+        shoeCard = (CardView) findViewById(R.id.shoes_card);
 
-        tvName = (TextView) findViewById(R.id.name_id);
+        topCard.setOnClickListener(this);
+        bottomCard.setOnClickListener(this);
+        accessoryCard.setOnClickListener(this);
+        shoeCard.setOnClickListener(this);
+        //outfitCard.setOnClickListener(this);
+
+        //tvName = (TextView) findViewById(R.id.name_id);
         tvDescription = (TextView) findViewById(R.id.description_id);
-        img = (ImageView) findViewById(R.id.clothing_thumbnail);
+        //hatimg = (ImageView) findViewById(R.id.headware_thumbnail);
+        //topImg = (ImageView) findViewById(R.id.top_thumbnail);
+        //bottomImg = (ImageView) findViewById(R.id.bottom_thumbnail);
+        //shoeImg = (ImageView) findViewById(R.id.shoe_thumbnail);
 
         Intent intent = getIntent();
         String name = intent.getExtras().getString("Name");
         String description = intent.getExtras().getString("Description");
         int image = intent.getIntExtra("Thumbnail", 0);
 
-        tvName.setText(name);
+        //tvName.setText(name);
         tvDescription.setText(description);
-        img.setImageResource(image);
+        //hatimg.setImageResource(image);
+        //topImg.setImageResource(image);
+        //bottomImg.setImageResource(image);
+        //shoeImg.setImageResource(image);
 
         android.support.v7.widget.Toolbar toolbar = findViewById(R.id.toolbar_id);
         setSupportActionBar(toolbar);
@@ -99,16 +114,16 @@ public class AddOutfit extends AppCompatActivity implements View.OnClickListener
                 startActivity(intent);
                 break;
             case R.id.edit:
-                //intent = new Intent(AddOutfit.this,AddOutfit.class);
-                //startActivity(intent);
+                intent = new Intent(AddOutfit.this,EditOutfit.class);
+                startActivity(intent);
                 break;
             case R.id.add:
                 intent = new Intent(AddOutfit.this,ClothingActivity.class);
                 startActivity(intent);
                 break;
             case R.id.delete:
-                intent = new Intent(AddOutfit.this,OutfitActivity.class);
-                startActivity(intent);
+                //intent = new Intent(AddOutfit.this,OutfitActivity.class);
+                //startActivity(intent);
                 break;
         }
 

@@ -50,30 +50,6 @@ public class OneClosetActivity extends AppCompatActivity implements NavigationVi
 
 
         wearableList = new ArrayList<>();
-        if(j == 'J')
-        {
-            wearableList.add(new Clothing("Grandma Clubbing", R.mipmap.image1));
-            wearableList.add(new Clothing("Grandma's Cookie Baking Outfit", R.mipmap.image2));
-            wearableList.add(new Clothing("Grandma's Breakdance Gear", R.mipmap.image3));
-            wearableList.add(new Clothing("Grandma's Fire Fighter Outfit", R.mipmap.image4));
-
-        }
-        else
-        {
-            wearableList.add(new Clothing("Grandma's Clubbing Outfit", R.drawable.clubbing_outfit));
-            wearableList.add(new Clothing("Grandma's Cookie Baking Outfit", R.drawable.grandmas_cooking_outfit));
-            wearableList.add(new Clothing("Grandma's Breakdance Gear", R.drawable.grandmas_breakdance_gear));
-            wearableList.add(new Clothing("Grandma's Fire Fighter Outfit", R.drawable.firefighter_outfit));
-            wearableList.add(new Clothing("Grandma's Graduation Gown", R.drawable.graduation_gown));
-            wearableList.add(new Clothing("Grandma's Halloween 2018", R.drawable.halloween_outfit));
-            wearableList.add(new Clothing("Grandma's Bad Mood Outfit", R.drawable.teacher_outfit));
-            wearableList.add(new Clothing("Grandma's Formal Clothes", R.drawable.closet2));
-            wearableList.add(new Clothing("Grandma's Easter Mass Outfit", R.drawable.easter_mass_outfit));
-            wearableList.add(new Clothing("Grandma's Spring Attire", R.drawable.outfit1));
-            wearableList.add(new Clothing("Grandma's Casual Wear", R.drawable.outfit2));
-            wearableList.add(new Clothing("Grandma's Happy New Year", R.drawable.happy_outfit));
-        }
-
 
         RecyclerView my_recycler_view = (RecyclerView) findViewById(R.id.closet_recyclerview_id);
         OneClosetRecyclerViewAdapter myAdapter = new OneClosetRecyclerViewAdapter(this,wearableList);
