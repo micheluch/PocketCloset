@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -167,7 +168,14 @@ public class CreateOutfit extends AppCompatActivity {
                 }
 
                 outfit.setPath(directory.getAbsolutePath());
+                SQLiteDatabase db = dbManager.getWritableDatabase();
+                dbManager.addOutfit(outfit);
 
+                String query = "SELECT * FROM " + DBManager.TABLE_OUTFIT;
+
+                Cursor cursor = db.rawQuery(query, null);
+                int numberOfTableElements = cursor.getCount();
+                cursor.close();
                 //get image
 
                 ImageView img = (ImageView) dialog.findViewById(R.id.viewImage);
@@ -196,6 +204,7 @@ public class CreateOutfit extends AppCompatActivity {
             }
         });
         //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dbManager.close();
         dialog.show();
     }
 

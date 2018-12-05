@@ -1,5 +1,6 @@
 package com.example.michael.myapplication;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -35,6 +36,7 @@ public class OutfitActivity extends AppCompatActivity implements NavigationView.
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
     private DBManager manager;
+    private Dialog dialog;
 
 
     @Override
@@ -45,15 +47,16 @@ public class OutfitActivity extends AppCompatActivity implements NavigationView.
         outfitList = new ArrayList<>();
         manager = new DBManager(this, null, null, 1);
         String query = "SELECT * FROM " + DBManager.TABLE_OUTFIT;
-        SQLiteDatabase db = manager.getWritableDatabase();Cursor cursor = db.rawQuery(query, null);
+        SQLiteDatabase db = manager.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
         int numberOfTableElements = cursor.getCount();
         if(numberOfTableElements > 0){
             cursor.moveToFirst();
-            while (cursor.moveToNext()) {
+            do{
                 int dummyInt = cursor.getColumnIndex(DBManager.COLUMN_OUTFIT_NAME);
                 String outfitName = cursor.getString(dummyInt);
-                outfitList.add(manager.getClothing(outfitName));
-            }
+                outfitList.add(manager.getOutfit(outfitName));
+            }while (cursor.moveToNext());
             cursor.close();
         }
 
@@ -74,7 +77,7 @@ public class OutfitActivity extends AppCompatActivity implements NavigationView.
 
         navigationView = (NavigationView) findViewById(R.id.outfitsNavViewId);
         navigationView.setNavigationItemSelectedListener(this);
-
+        dialog = new Dialog(this);
     }
 
     @Override

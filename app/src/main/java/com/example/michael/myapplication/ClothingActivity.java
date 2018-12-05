@@ -53,11 +53,11 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
         int numberOfTableElements = cursor.getCount();
         if(numberOfTableElements > 0){
             cursor.moveToFirst();
-            while (cursor.moveToNext()) {
+            do{
                 int dummyInt = cursor.getColumnIndex(DBManager.COLUMN_CLOTHING_NAME);
                 String clothingName = cursor.getString(dummyInt);
                 clothingList.add(manager.getClothing(clothingName));
-            }
+            } while (cursor.moveToNext());
             cursor.close();
         }
 

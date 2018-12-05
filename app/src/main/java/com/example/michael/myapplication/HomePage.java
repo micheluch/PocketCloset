@@ -25,6 +25,14 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
         outfitCard.setOnClickListener(this);
         searchCard.setOnClickListener(this);
 
+        DBManager dbManager = new DBManager(this, null, null, 1);
+        dbManager.onUpgrade(dbManager.getWritableDatabase(),1,1);
+        Clothing testClothing = new Clothing("TestName", R.drawable.firefighter_outfit,-999,Clothing.clothingType.pants,
+                                Clothing.clothingColor.black,Clothing.clothingCondition.dirty);
+        //Outfit testOutfit = new Outfit("TestOutfit",-999);
+        dbManager.addClothing(testClothing);
+        //dbManager.addOutfit(testOutfit);
+        //dbManager.close();
     }
 
 

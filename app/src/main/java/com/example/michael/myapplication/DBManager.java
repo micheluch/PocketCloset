@@ -107,7 +107,7 @@ public class DBManager extends SQLiteOpenHelper {
 
     //We need to hash out how we are constructing classes. In android
     //adding to database can be done with values as done here
-    private void addOutfit(Outfit newOutfit) {
+    public void addOutfit(Outfit newOutfit) {
         ContentValues valuesToAdd = new ContentValues();
         valuesToAdd.put(COLUMN_OUTFIT_NAME, newOutfit.getEntryName());
         valuesToAdd.put(COLUMN_ID, newOutfit.getEntryId());
@@ -123,8 +123,8 @@ public class DBManager extends SQLiteOpenHelper {
             db.insert(TABLE_OUTFIT, null, valuesToAdd);
             outfitID++;
         }
-
-        db.close(); //MUST ALWAYS CLOSE
+        //db.close(); //MUST ALWAYS CLOSE
+        Outfit testOutfit = getOutfit(newOutfit.getEntryName());
     }
 
     private void addClothesToReference(List<Clothing> clothingReferenceList, int outfitID){
@@ -137,19 +137,20 @@ public class DBManager extends SQLiteOpenHelper {
 
             db.insert(REFERENCE_TABLE_OUTFIT, null, values);
         }
+        //db.close();
     }
 
     public int getOutfitID() {
         return outfitID;
     }
 
-    private Outfit getOutfit(String outfitName) {
+    public Outfit getOutfit(String outfitName) {
         SQLiteDatabase db = getWritableDatabase(); //check formatting on selectquery. Potentially spacing issues
         String selectQuery = "SELECT * FROM " +
-                TABLE_OUTFIT +
-                " WHERE " +
-                COLUMN_OUTFIT_NAME +
-                " LIKE '%" + outfitName + "%'";
+                TABLE_OUTFIT; //+
+//                " WHERE " +
+//                COLUMN_OUTFIT_NAME +
+//                " LIKE '%" + outfitName + "%'";
         //should consider adding a Log
         //    Log.e(LOG, selectQuery);
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -162,6 +163,7 @@ public class DBManager extends SQLiteOpenHelper {
         databaseOutfit.setOutfitImage(databaseOutfit.retrieveImageFromFolder());
         cursor.close();
 
+
         //populate clothing entries.
         selectQuery = "SELECT * FROM " +
                 REFERENCE_TABLE_OUTFIT +
@@ -169,12 +171,16 @@ public class DBManager extends SQLiteOpenHelper {
                 COLUMN_REFERENCE_OUTFIT_ID +
                 " = " + databaseOutfit.getEntryId();
         cursor = db.rawQuery(selectQuery, null);
-        if (cursor != null)
+        if (cursor != null && cursor.getCount() > 0){
             cursor.moveToFirst();
-        while(cursor.moveToNext()){
-            Clothing outfitItem = getClothing(cursor.getString(cursor.getColumnIndex(COLUMN_REFERNCE_CLOTHING_ID)));
-            databaseOutfit.addClothingToOutfit(outfitItem);
+            do{
+                Clothing outfitItem = getClothing(cursor.getString(cursor.getColumnIndex(COLUMN_REFERNCE_CLOTHING_ID)));
+                databaseOutfit.addClothingToOutfit(outfitItem);
+            }while(cursor.moveToNext());
+            cursor.close();
         }
+
+        //db.close();
 
 
         return databaseOutfit;
@@ -191,6 +197,7 @@ public class DBManager extends SQLiteOpenHelper {
                 outfitName +
                 "\";";
         db.execSQL(query);
+        db.close();
     }
 
     private void addCloset(Closet newCloset) {
@@ -199,7 +206,7 @@ public class DBManager extends SQLiteOpenHelper {
 
         SQLiteDatabase db = getWritableDatabase();
         db.insert(TABLE_CLOSET, null, values);
-        db.close();
+        //db.close();
     }
 
     private Outfit getCloset(int closetID) {
@@ -228,6 +235,7 @@ public class DBManager extends SQLiteOpenHelper {
                 closetName +
                 "\";";
         db.execSQL(query);
+        //db.close();
     }
 
     public void addClothing(Clothing newClothing) {
@@ -237,6 +245,9 @@ public class DBManager extends SQLiteOpenHelper {
         values.put(COLUMN_CLOTHING_CONDITION, newClothing.getCondition().ordinal());
         values.put(COLUMN_CLOTHING_PICTURE, newClothing.getThumbnail());
         values.put(COLUMN_CLOTHING_TYPE, newClothing.getType());
+        values.put(COLUMN_CLOTHING_COLOR, newClothing.getColor().ordinal());
+        values.put(COLUMN_CLOTHING_XCOORD,newClothing.getXcoordinate());
+        values.put(COLUMN_CLOTHING_YCOORD, newClothing.getYcoordinate());
 
         if (entryExists(newClothing.name, TABLE_CLOTHING)) {
             db.update(TABLE_CLOTHING, values, null, null);
@@ -257,7 +268,7 @@ public class DBManager extends SQLiteOpenHelper {
         //    Log.e(LOG, selectQuery);
         Cursor cursor = db.rawQuery(selectQuery, null);
         Clothing searchedClothing = null;
-        if (cursor.getCount() > 0) {
+        if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
             searchedClothing = new Clothing(cursor.getString(cursor.getColumnIndex(COLUMN_CLOTHING_NAME)),
                     cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_PICTURE)),
@@ -268,8 +279,10 @@ public class DBManager extends SQLiteOpenHelper {
                     cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_XCOORD)),
                     cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_YCOORD))
             );
+            cursor.close();
         }
-        cursor.close();
+
+        //db.close();
         return searchedClothing;
     }
 
@@ -282,7 +295,7 @@ public class DBManager extends SQLiteOpenHelper {
                 " = " + clothingID;
         Cursor cursor = db.rawQuery(selectQuery, null);
         Clothing searchedClothing = null;
-        if (cursor.getCount() > 0) {
+        if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
             searchedClothing = new Clothing(cursor.getString(cursor.getColumnIndex(COLUMN_CLOTHING_NAME)),
                         cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_PICTURE)),
@@ -293,8 +306,9 @@ public class DBManager extends SQLiteOpenHelper {
                         cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_XCOORD)),
                         cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_YCOORD))
                             );
+            cursor.close();
         }
-        cursor.close();
+        db.close();
         return searchedClothing;
     }
 
