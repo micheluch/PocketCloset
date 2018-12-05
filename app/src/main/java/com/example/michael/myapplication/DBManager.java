@@ -12,7 +12,8 @@ import java.util.List;
 
 public class DBManager extends SQLiteOpenHelper {
 
-    private int outfitID;
+    private int outfitIDVal;
+    private int clothingIDVal;
     private static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "pocketcloset.db";
     public static final String TABLE_OUTFIT = "outfits";
@@ -57,7 +58,7 @@ public class DBManager extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String query = "CREATE TABLE " + TABLE_CLOTHING + " (" +
-                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_ID + " INTEGER PRIMARY KEY , " +
                 COLUMN_CLOTHING_TYPE + " INTEGER, " +
                 COLUMN_CLOTHING_NAME + " TEXT, " +
                 COLUMN_CLOTHING_PICTURE + " INTEGER, " +
@@ -69,7 +70,7 @@ public class DBManager extends SQLiteOpenHelper {
         db.execSQL(query);
 
         query = "CREATE TABLE " + TABLE_OUTFIT + " (" +
-                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_ID + " INTEGER PRIMARY KEY , " +
                 COLUMN_OUTFIT_NAME + " TEXT, " +
                 COLUMN_OUTFIT_DESCRIPTION + " TEXT," +
                 COLUMN_OUTFIT_IMAGEPATH + " TEXT " +
@@ -91,7 +92,7 @@ public class DBManager extends SQLiteOpenHelper {
                 ");";
         db.execSQL(query);
 
-        outfitID = 1;
+        outfitIDVal = 1;
 
     }
 
@@ -110,7 +111,7 @@ public class DBManager extends SQLiteOpenHelper {
     public void addOutfit(Outfit newOutfit) {
         ContentValues valuesToAdd = new ContentValues();
         valuesToAdd.put(COLUMN_OUTFIT_NAME, newOutfit.getEntryName());
-        valuesToAdd.put(COLUMN_ID, newOutfit.getEntryId());
+
         valuesToAdd.put(COLUMN_OUTFIT_IMAGEPATH, newOutfit.getPath());
         valuesToAdd.put(COLUMN_OUTFIT_DESCRIPTION, newOutfit.getDescription());
         SQLiteDatabase db = getWritableDatabase();
@@ -118,10 +119,12 @@ public class DBManager extends SQLiteOpenHelper {
         addClothesToReference(newOutfit.getClothingList(), newOutfit.getEntryId());
 
         if (entryExists(newOutfit.getEntryName(), TABLE_OUTFIT)) {
+            valuesToAdd.put(COLUMN_ID, newOutfit.getEntryId());
             db.update(TABLE_OUTFIT, valuesToAdd, null, null);
         } else {
+            valuesToAdd.put(COLUMN_ID, outfitIDVal);
             db.insert(TABLE_OUTFIT, null, valuesToAdd);
-            outfitID++;
+            outfitIDVal++;
         }
         //db.close(); //MUST ALWAYS CLOSE
         Outfit testOutfit = getOutfit(newOutfit.getEntryName());
@@ -141,16 +144,20 @@ public class DBManager extends SQLiteOpenHelper {
     }
 
     public int getOutfitID() {
-        return outfitID;
+        return outfitIDVal;
+    }
+
+    public int getClothingIDVal() {
+        return clothingIDVal;
     }
 
     public Outfit getOutfit(String outfitName) {
         SQLiteDatabase db = getWritableDatabase(); //check formatting on selectquery. Potentially spacing issues
         String selectQuery = "SELECT * FROM " +
-                TABLE_OUTFIT; //+
-//                " WHERE " +
-//                COLUMN_OUTFIT_NAME +
-//                " LIKE '%" + outfitName + "%'";
+                TABLE_OUTFIT +
+                " WHERE " +
+                COLUMN_OUTFIT_NAME +
+                " LIKE '%" + outfitName + "%'";
         //should consider adding a Log
         //    Log.e(LOG, selectQuery);
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -174,7 +181,7 @@ public class DBManager extends SQLiteOpenHelper {
         if (cursor != null && cursor.getCount() > 0){
             cursor.moveToFirst();
             do{
-                Clothing outfitItem = getClothing(cursor.getString(cursor.getColumnIndex(COLUMN_REFERNCE_CLOTHING_ID)));
+                Clothing outfitItem = getClothing(cursor.getInt(cursor.getColumnIndex(COLUMN_REFERNCE_CLOTHING_ID)));
                 databaseOutfit.addClothingToOutfit(outfitItem);
             }while(cursor.moveToNext());
             cursor.close();
@@ -241,6 +248,7 @@ public class DBManager extends SQLiteOpenHelper {
     public void addClothing(Clothing newClothing) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
+
         values.put(COLUMN_CLOTHING_NAME, newClothing.getClothingName());
         values.put(COLUMN_CLOTHING_CONDITION, newClothing.getCondition().ordinal());
         values.put(COLUMN_CLOTHING_PICTURE, newClothing.getThumbnail());
@@ -250,9 +258,12 @@ public class DBManager extends SQLiteOpenHelper {
         values.put(COLUMN_CLOTHING_YCOORD, newClothing.getYcoordinate());
 
         if (entryExists(newClothing.name, TABLE_CLOTHING)) {
+            values.put(COLUMN_ID, newClothing.getEntryId());
             db.update(TABLE_CLOTHING, values, null, null);
         } else {
+            values.put(COLUMN_ID, clothingIDVal);
             db.insert(TABLE_CLOTHING, null, values);
+            clothingIDVal++;
         }
         db.close();
     }
@@ -295,8 +306,9 @@ public class DBManager extends SQLiteOpenHelper {
                 " = " + clothingID;
         Cursor cursor = db.rawQuery(selectQuery, null);
         Clothing searchedClothing = null;
-        if (cursor != null && cursor.getCount() > 0) {
-            cursor.moveToFirst();
+        int testVal = cursor.getCount();
+        cursor.moveToFirst();
+        if (cursor != null && testVal > 0) {
             searchedClothing = new Clothing(cursor.getString(cursor.getColumnIndex(COLUMN_CLOTHING_NAME)),
                         cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_PICTURE)),
                         cursor.getInt(cursor.getColumnIndex(COLUMN_ID)),
@@ -332,7 +344,7 @@ public class DBManager extends SQLiteOpenHelper {
                 potentialExistingEntry = getClothing(entryName);
                 break;
             case TABLE_OUTFIT:
-                //potentialExistingEntry = getOutfit(tableName);
+                potentialExistingEntry = getOutfit(tableName);
                 break;
             default:
                 break;
