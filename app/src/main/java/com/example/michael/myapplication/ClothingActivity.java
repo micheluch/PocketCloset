@@ -127,8 +127,8 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
             public void onClick(View v) {
                 EditText entryBox = (EditText) dialog.findViewById(R.id.nameEntryBox);
                 String name = entryBox.getText().toString();
-                Clothing entry = new Clothing(name, R.drawable.taco_socks);
-                manager.addClothing(entry);
+                //Clothing entry = new Clothing(name, R.drawable.taco_socks);
+                //manager.addClothing(entry);
 
 
                 dialog.dismiss();

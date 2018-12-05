@@ -25,6 +25,7 @@ import android.support.v7.widget.AppCompatButton;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -43,8 +44,8 @@ public class CreateOutfit extends AppCompatActivity {
     //Button addButton;
     protected ImageView imageEntity;
     Dialog dialog;
-    Bitmap bitmap;
-    Outfit outfit = new Outfit("",0);
+    Bitmap outfitImage;
+    Outfit outfit = new Outfit("");
 
     private final MotionView.MotionViewCallback motionViewCallback = new MotionView.MotionViewCallback() {
 
@@ -97,10 +98,11 @@ public class CreateOutfit extends AppCompatActivity {
 
     public void saveOutfitButton(View view){
         showSaveOutfitPopup(view);
-        Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
+        ViewGroup v = (ViewGroup) findViewById(R.id.main_motion_view);
+        Bitmap bitmap = Bitmap.createBitmap(v.getWidth(), v.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
-        view.draw(canvas);
-        this.bitmap = bitmap;
+        v.draw(canvas);
+        this.outfitImage = bitmap;
     }
 
     public void showSaveOutfitPopup (View v) {
@@ -128,24 +130,28 @@ public class CreateOutfit extends AppCompatActivity {
 
                     return;
                 }
-                List<MotionEntity> items = motionView.getEntities();
-                Bitmap outfitImage = Bitmap.createBitmap(items.get(0).getWidth() * 2, items.get(0).getHeight() * 2, Bitmap.Config.ARGB_8888);
-                Canvas canvas = new Canvas(outfitImage);
-                Paint paint = new Paint();
-                for(int i = 0; i < items.size(); i++){
-                    canvas.drawBitmap(items.get(i).getBitmap(), items.get(i).getWidth() * (i % 2), items.get(i).getHeight() * (i / 2), paint);
-                }
+//                List<MotionEntity> items = motionView.getEntities();
+//                Bitmap outfitImage = Bitmap.createBitmap(items.get(0).getWidth() * 2, items.get(0).getHeight() * 2, Bitmap.Config.ARGB_8888);
+//                Canvas canvas = new Canvas(outfitImage);
+//                Paint paint = new Paint();
+//                for(int i = 0; i < items.size(); i++){
+//                    canvas.drawBitmap(items.get(i).getBitmap(), items.get(i).getWidth() * (i % 2), items.get(i).getHeight() * (i / 2), paint);
+//                }
 
+                //set image
                 outfit.setEntryName(textInputOutfitName.getEditText().getText().toString().trim());
                 outfit.setOutfitImage(outfitImage);
+                outfit.setDescription(textInputDescription.getEditText().getText().toString().trim());
+                outfit.setContext(getApplicationContext());
                 //out.set
 
+                //save image
                 ContextWrapper cw = new ContextWrapper(getApplicationContext());
                 File directory = cw.getDir("outfits", Context.MODE_PRIVATE);
                 if(!directory.exists()){
                     directory.mkdir();
                 }
-                File mypath = new File(directory, outfit.getOutfitName() + ".jpg");
+                File mypath = new File(directory, outfit.getEntryName() + ".png");
                 FileOutputStream fos = null;
                 try{
                     fos = new FileOutputStream(mypath);
@@ -157,28 +163,32 @@ public class CreateOutfit extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                //String d = directory.getAbsolutePath();
-                //outfit.setOutfitName(d);
+                outfit.setPath(directory.getAbsolutePath());
 
-                try{
-                    ContextWrapper c = new ContextWrapper(getApplicationContext());
-                    File path1 = c.getDir("imageDir", Context.MODE_PRIVATE);
-                    File f = new File(path1, outfit.getOutfitName() + ".jpg");
-                    Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
-                    ImageView img = (ImageView) findViewById(R.id.viewImage);
-                    img.setImageBitmap(b);
+                //get image
 
-                }catch(FileNotFoundException e){
-                    e.printStackTrace();
-                }
+                ImageView img = (ImageView) dialog.findViewById(R.id.viewImage);
+                img.setImageBitmap(outfit.retrieveImageFromFolder());
+
+//                try{
+//                    ContextWrapper c = new ContextWrapper(getApplicationContext());
+//                    File path1 = c.getDir("outfits", Context.MODE_PRIVATE);
+//                    File f = new File(path1, outfit.getEntryName() + ".png");
+//                    Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
+//                    ImageView img = (ImageView) dialog.findViewById(R.id.viewImage);
+//                    img.setImageBitmap(b);
+//
+//                }catch(FileNotFoundException e){
+//                    e.printStackTrace();
+//                }
 
 
-                Intent i = new Intent(CreateOutfit.this,AddOutfit.class);
-                i.putExtra("Name", outfit.getEntryName());
-                i.putExtra("Description", textInputDescription.getEditText().getText().toString().trim());
-                i.putExtra("Thumbnail", outfitImage);
-
-                CreateOutfit.this.startActivity(i);
+//                Intent i = new Intent(CreateOutfit.this,AddOutfit.class);
+//                i.putExtra("Name", outfit.getEntryName());
+//                i.putExtra("Description", textInputDescription.getEditText().getText().toString().trim());
+//                i.putExtra("Thumbnail", bitmap);
+//
+//                CreateOutfit.this.startActivity(i);
                // dialog.cancel();
             }
         });
