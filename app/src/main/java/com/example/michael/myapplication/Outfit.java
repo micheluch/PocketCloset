@@ -26,7 +26,6 @@ public class Outfit extends Entry{
         this.clothingList = clothingList;
         this.description = description;
         this.thumbnail = thumbnail;
-        super.setEntryId(DEFAULT_INVALID_CONDITION);
     }
 
     public Outfit(String outfitName) {

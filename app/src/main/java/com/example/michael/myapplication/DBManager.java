@@ -101,7 +101,7 @@ public class DBManager extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    //TODO DEFINE HOW TO ADD TO DATABASE
+
     //We need to hash out how we are constructing classes. In android
     //adding to database can be done with values as done here
     private void addOutfit(Outfit newOutfit) {
@@ -129,8 +129,6 @@ public class DBManager extends SQLiteOpenHelper {
         values.put(COLUMN_REFERENCE_OUTFIT_ID,outfitID);
 
         for(Clothing item: clothingReferenceList){
-            values.put(COLUMN_REFERENCE_CLOTHING_X, -99999999);
-            values.put(COLUMN_REFERENCE_CLOTHING_Y, -99999999);
             values.put(COLUMN_REFERNCE_CLOTHING_ID, item.getEntryId());
 
             db.insert(REFERENCE_TABLE_OUTFIT, null, values);
