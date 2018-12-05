@@ -3,7 +3,7 @@ package com.example.michael.myapplication;
 public abstract class Entry
 {
     public enum entryType {
-        clethingType,
+        clothingType,
         outfitType
     }
 
