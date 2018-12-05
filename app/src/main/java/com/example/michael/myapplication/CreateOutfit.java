@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -45,7 +46,8 @@ public class CreateOutfit extends AppCompatActivity {
     protected ImageView imageEntity;
     Dialog dialog;
     Bitmap outfitImage;
-    Outfit outfit = new Outfit("");
+    Outfit outfit;
+    DBManager dbManager;
 
     private final MotionView.MotionViewCallback motionViewCallback = new MotionView.MotionViewCallback() {
 
@@ -72,7 +74,8 @@ public class CreateOutfit extends AppCompatActivity {
         motionView = (MotionView) findViewById(R.id.main_motion_view);
         motionView.setMotionViewCallback(motionViewCallback);
 
-
+        dbManager = new DBManager(this, null, null, 1);
+        this.outfit = new Outfit("",dbManager.getOutfitID() +1);
         //addButton = (Button)findViewById(R.id.addClothesButton);
 
         android.support.v7.widget.Toolbar toolbar = findViewById(R.id.create_outfit_toolbar_id);

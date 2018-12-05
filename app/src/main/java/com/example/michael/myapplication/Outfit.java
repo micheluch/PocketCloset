@@ -23,15 +23,14 @@ public class Outfit extends Entry{
     private String path;
     private Context context;
 
-    public Outfit( String outfitName, List<Clothing> clothingList, String description, int thumbnail) {
-        super(outfitName,thumbnail, -999999);
+    public Outfit( String outfitName, List<Clothing> clothingList, String description, int id, int thumbnail) {
+        super(outfitName,thumbnail, id);
         this.clothingList = clothingList;
         this.description = description;
-        this.thumbnail = thumbnail;
     }
 
-    public Outfit(String outfitName) {
-        this(outfitName, new ArrayList<Clothing>(), null, -1);
+    public Outfit(String outfitName, int id) {
+        this(outfitName, new ArrayList<Clothing>(), null, id, -1); //need to get rid of thumbnail from everywher
     }
 
     public String getDescription() {

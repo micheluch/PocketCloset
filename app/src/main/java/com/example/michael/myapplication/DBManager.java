@@ -12,6 +12,7 @@ import java.util.List;
 
 public class DBManager extends SQLiteOpenHelper {
 
+    private int outfitID;
     private static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "pocketcloset.db";
     public static final String TABLE_OUTFIT = "outfits";
@@ -71,13 +72,13 @@ public class DBManager extends SQLiteOpenHelper {
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_OUTFIT_NAME + " TEXT, " +
                 COLUMN_OUTFIT_DESCRIPTION + " TEXT," +
-                COLUMN_OUTFIT_IMAGEPATH + " INTEGER " +
+                COLUMN_OUTFIT_IMAGEPATH + " TEXT " +
                 ");";
         db.execSQL(query);
 
         query = "CREATE TABLE " + REFERENCE_TABLE_OUTFIT + " (" +
                 COLUMN_ID + " INTEGER PRIMARY KEY, " +
-                COLUMN_REFERENCE_OUTFIT_ID + " TEXT, " +
+                COLUMN_REFERENCE_OUTFIT_ID + " INTEGER, " +
                 COLUMN_REFERNCE_CLOTHING_ID + " INTEGER " +
                 ");";
         db.execSQL(query);
@@ -89,6 +90,8 @@ public class DBManager extends SQLiteOpenHelper {
                 COLUMN_CLOSET_ITEM_COUNT + " INTEGER " +
                 ");";
         db.execSQL(query);
+
+        outfitID = 1;
 
     }
 
@@ -108,22 +111,23 @@ public class DBManager extends SQLiteOpenHelper {
         ContentValues valuesToAdd = new ContentValues();
         valuesToAdd.put(COLUMN_OUTFIT_NAME, newOutfit.getEntryName());
         valuesToAdd.put(COLUMN_ID, newOutfit.getEntryId());
-        valuesToAdd.put(COLUMN_OUTFIT_IMAGEPATH, newOutfit.getThumbnail());
+        valuesToAdd.put(COLUMN_OUTFIT_IMAGEPATH, newOutfit.getPath());
         valuesToAdd.put(COLUMN_OUTFIT_DESCRIPTION, newOutfit.getDescription());
         SQLiteDatabase db = getWritableDatabase();
 
-        addClothesToReference(newOutfit.getClothingList(), newOutfit.getEntryName());
+        addClothesToReference(newOutfit.getClothingList(), newOutfit.getEntryId());
 
         if (entryExists(newOutfit.getEntryName(), TABLE_OUTFIT)) {
             db.update(TABLE_OUTFIT, valuesToAdd, null, null);
         } else {
             db.insert(TABLE_OUTFIT, null, valuesToAdd);
+            outfitID++;
         }
 
         db.close(); //MUST ALWAYS CLOSE
     }
 
-    private void addClothesToReference(List<Clothing> clothingReferenceList, String outfitID){
+    private void addClothesToReference(List<Clothing> clothingReferenceList, int outfitID){
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_REFERENCE_OUTFIT_ID,outfitID);
@@ -133,6 +137,10 @@ public class DBManager extends SQLiteOpenHelper {
 
             db.insert(REFERENCE_TABLE_OUTFIT, null, values);
         }
+    }
+
+    public int getOutfitID() {
+        return outfitID;
     }
 
     private Outfit getOutfit(String outfitName) {
@@ -148,10 +156,10 @@ public class DBManager extends SQLiteOpenHelper {
         if (cursor != null)
             cursor.moveToFirst();
 
-        Outfit databaseOutfit = new Outfit(cursor.getString(cursor.getColumnIndex(COLUMN_OUTFIT_NAME)));
+        Outfit databaseOutfit = new Outfit(cursor.getString(cursor.getColumnIndex(COLUMN_OUTFIT_NAME)),cursor.getInt(cursor.getColumnIndex(COLUMN_ID)));
         databaseOutfit.setDescription(cursor.getString(cursor.getColumnIndex(COLUMN_OUTFIT_DESCRIPTION)));
-        databaseOutfit.setEntryId(cursor.getInt(cursor.getColumnIndex(COLUMN_ID)));
-        databaseOutfit.setThumbnail(-999999);
+        databaseOutfit.setPath(cursor.getString(cursor.getColumnIndex(COLUMN_OUTFIT_IMAGEPATH)));
+        databaseOutfit.setOutfitImage(databaseOutfit.retrieveImageFromFolder());
         cursor.close();
 
         //populate clothing entries.
@@ -159,7 +167,7 @@ public class DBManager extends SQLiteOpenHelper {
                 REFERENCE_TABLE_OUTFIT +
                 " WHERE " +
                 COLUMN_REFERENCE_OUTFIT_ID +
-                " LIKE '%" + outfitName + "%'";
+                " = " + databaseOutfit.getEntryId();
         cursor = db.rawQuery(selectQuery, null);
         if (cursor != null)
             cursor.moveToFirst();
@@ -206,7 +214,7 @@ public class DBManager extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(selectQuery, null);
         if (cursor != null)
             cursor.moveToFirst();
-        return new Outfit(cursor.getString(cursor.getColumnIndex(COLUMN_CLOSET_NAME)));
+        return new Outfit(cursor.getString(cursor.getColumnIndex(COLUMN_CLOSET_NAME)),-1);
 
     }
 
