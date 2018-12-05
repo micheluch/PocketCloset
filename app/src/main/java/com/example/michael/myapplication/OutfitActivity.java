@@ -1,6 +1,8 @@
 package com.example.michael.myapplication;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -32,6 +34,7 @@ public class OutfitActivity extends AppCompatActivity implements NavigationView.
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
+    private DBManager manager;
 
 
     @Override
@@ -40,6 +43,19 @@ public class OutfitActivity extends AppCompatActivity implements NavigationView.
         setContentView(R.layout.outfit_recyclerview);
 
         outfitList = new ArrayList<>();
+        manager = new DBManager(this, null, null, 1);
+        String query = "SELECT * FROM " + DBManager.TABLE_OUTFIT;
+        SQLiteDatabase db = manager.getWritableDatabase();Cursor cursor = db.rawQuery(query, null);
+        int numberOfTableElements = cursor.getCount();
+        if(numberOfTableElements > 0){
+            cursor.moveToFirst();
+            while (cursor.moveToNext()) {
+                int dummyInt = cursor.getColumnIndex(DBManager.COLUMN_OUTFIT_NAME);
+                String outfitName = cursor.getString(dummyInt);
+                outfitList.add(manager.getClothing(outfitName));
+            }
+            cursor.close();
+        }
 
         RecyclerView my_recycler_view = (RecyclerView) findViewById(R.id.outfit_recyclerview_id);
         OutfitRecyclerViewAdapter myAdapter = new OutfitRecyclerViewAdapter(this,outfitList);
