@@ -248,7 +248,7 @@ public class DBManager extends SQLiteOpenHelper {
         }
     }
 
-    public void addClothing(Clothing newClothing) {
+    public void addClothing(Clothing newClothing) {git 
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_CLOTHING_NAME, newClothing.getClothingName());
