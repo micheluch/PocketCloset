@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="160dp"
             android:scaleType="centerCrop"
-            android:background="#2d2d2d"/>
+            android:background="#fff"/>
 
         <TextView
             android:id="@+id/specific_outfit_id"

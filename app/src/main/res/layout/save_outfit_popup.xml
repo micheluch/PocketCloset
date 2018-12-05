@@ -4,7 +4,8 @@
     android:layout_width="350dp"
     android:layout_height="490dp"
     android:padding="5dp"
-    android:layout_gravity="center">
+    android:layout_gravity="center"
+    android:background="@color/lightgray">
 
     <TextView
         android:id="@+id/txtClosetclose"

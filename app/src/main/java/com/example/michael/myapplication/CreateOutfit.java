@@ -134,14 +134,7 @@ public class CreateOutfit extends AppCompatActivity {
 
                     return;
                 }
-//                List<MotionEntity> items = motionView.getEntities();
-//                Bitmap outfitImage = Bitmap.createBitmap(items.get(0).getWidth() * 2, items.get(0).getHeight() * 2, Bitmap.Config.ARGB_8888);
-//                Canvas canvas = new Canvas(outfitImage);
-//                Paint paint = new Paint();
-//                for(int i = 0; i < items.size(); i++){
-//                    canvas.drawBitmap(items.get(i).getBitmap(), items.get(i).getWidth() * (i % 2), items.get(i).getHeight() * (i / 2), paint);
-//                }
-
+                
                 //set image
                 outfit.setEntryName(textInputOutfitName.getEditText().getText().toString().trim());
                 outfit.setOutfitImage(outfitImage);
@@ -181,26 +174,15 @@ public class CreateOutfit extends AppCompatActivity {
                 ImageView img = (ImageView) dialog.findViewById(R.id.viewImage);
                 img.setImageBitmap(outfit.retrieveImageFromFolder());
 
-//                try{
-//                    ContextWrapper c = new ContextWrapper(getApplicationContext());
-//                    File path1 = c.getDir("outfits", Context.MODE_PRIVATE);
-//                    File f = new File(path1, outfit.getEntryName() + ".png");
-//                    Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
-//                    ImageView img = (ImageView) dialog.findViewById(R.id.viewImage);
-//                    img.setImageBitmap(b);
-//
-//                }catch(FileNotFoundException e){
-//                    e.printStackTrace();
-//                }
-
-
 //                Intent i = new Intent(CreateOutfit.this,AddOutfit.class);
 //                i.putExtra("Name", outfit.getEntryName());
 //                i.putExtra("Description", textInputDescription.getEditText().getText().toString().trim());
 //                i.putExtra("Thumbnail", bitmap);
 //
 //                CreateOutfit.this.startActivity(i);
-               // dialog.cancel();
+                dialog.cancel();
+                Intent i = new Intent(CreateOutfit.this,OutfitActivity.class);
+                CreateOutfit.this.startActivity(i);
             }
         });
         //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
