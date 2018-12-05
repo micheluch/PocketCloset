@@ -306,7 +306,9 @@ public class DBManager extends SQLiteOpenHelper {
         }
     }
 
-
+<<<<<<< HEAD
+    public void addClothing(Clothing newClothing) {git 
+=======
     /**
      * getEntriesFromCloset
      * Returns a list of entries with the given type.
@@ -337,11 +339,12 @@ public class DBManager extends SQLiteOpenHelper {
             }
         }
 
-        return results;
+
     }
 
     public void addClothing(Clothing newClothing) {
         // TODO: rework this method to take a Closet argument and add the clothing to a closet
+	experimentingWithOutfit
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_CLOTHING_NAME, newClothing.getClothingName());
