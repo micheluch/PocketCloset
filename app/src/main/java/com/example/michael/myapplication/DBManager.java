@@ -8,6 +8,7 @@ import android.content.ContentValues;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DBManager extends SQLiteOpenHelper {
@@ -44,12 +45,12 @@ public class DBManager extends SQLiteOpenHelper {
 
     //Outfit reference table
     public static final String COLUMN_REFERENCE_OUTFIT_ID = "outfit_id";
-    public static final String COLUMN_REFERENCE_CLOTHING_X = "x_cord"; //x coordinate of item
-    public static final String COLUMN_REFERENCE_CLOTHING_Y = "y_cord"; //y coordinate of item
-    public static final String COLUMN_REFERNCE_CLOTHING_ID = "clothing_id"; //id for clothing table
+    public static final String COLUMN_REFERENCE_CLOTHING_ID = "clothing_id"; //id for clothing table
 
     //Closet reference table
-    public static final String COLUMN_REFERENCE_TABLE_ID = "closet_id";
+    public static final String COLUMN_REFERENCE_CLOSET_ID = "closet_id";
+    public static final String COLUMN_REFERENCE_ENTRY_TYPE = "entry_type";
+    public static final String COLUMN_REFERENCE_ENTRY_ID = "entry_id";
 
     public DBManager(@Nullable Context context, @Nullable String name,
                      @Nullable SQLiteDatabase.CursorFactory factory, int version) {
@@ -81,7 +82,7 @@ public class DBManager extends SQLiteOpenHelper {
         query = "CREATE TABLE " + REFERENCE_TABLE_OUTFIT + " (" +
                 COLUMN_ID + " INTEGER PRIMARY KEY, " +
                 COLUMN_REFERENCE_OUTFIT_ID + " TEXT, " +
-                COLUMN_REFERNCE_CLOTHING_ID + " INTEGER " +
+                COLUMN_REFERENCE_CLOTHING_ID + " INTEGER " +
                 ");";
         db.execSQL(query);
 
@@ -93,10 +94,11 @@ public class DBManager extends SQLiteOpenHelper {
                 ");";
         db.execSQL(query);
 
-        query = "CREATE TABLE " + REFERENCE_TABLE_CLOSET+ " (" +
+        query = "CREATE TABLE " + REFERENCE_TABLE_CLOSET + " (" +
                 COLUMN_ID + " INTEGER PRIMARY KEY, " +
-                COLUMN_REFERENCE_TABLE_ID + " INTEGER, " +
-                COLUMN_REFERENCE_OUTFIT_ID + " INTEGER " +
+                COLUMN_REFERENCE_CLOSET_ID + " INTEGER, " +
+                COLUMN_REFERENCE_ENTRY_TYPE + " INTEGER, " +
+                COLUMN_REFERENCE_ENTRY_ID + " INTEGER " +
                 ");";
         db.execSQL(query);
 
@@ -115,6 +117,7 @@ public class DBManager extends SQLiteOpenHelper {
     //We need to hash out how we are constructing classes. In android
     //adding to database can be done with values as done here
     private void addOutfit(Outfit newOutfit) {
+        // TODO: rework this method to take a Closet argument and add the outfit to a closet
         ContentValues valuesToAdd = new ContentValues();
         valuesToAdd.put(COLUMN_OUTFIT_NAME, newOutfit.getEntryName());
         valuesToAdd.put(COLUMN_ID, newOutfit.getEntryId());
@@ -133,15 +136,13 @@ public class DBManager extends SQLiteOpenHelper {
         db.close(); //MUST ALWAYS CLOSE
     }
 
-    private void addClothesToReference(List<Clothing> clothingReferenceList, String outfitID){
+    private void addClothesToReference(List<Clothing> clothingReferenceList, String outfitID) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(COLUMN_REFERENCE_OUTFIT_ID,outfitID);
+        values.put(COLUMN_REFERENCE_OUTFIT_ID, outfitID);
 
-        for(Clothing item: clothingReferenceList){
-            values.put(COLUMN_REFERENCE_CLOTHING_X, -99999999);
-            values.put(COLUMN_REFERENCE_CLOTHING_Y, -99999999);
-            values.put(COLUMN_REFERNCE_CLOTHING_ID, item.getEntryId());
+        for (Clothing item : clothingReferenceList) {
+            values.put(COLUMN_REFERENCE_CLOTHING_ID, item.getEntryId());
 
             db.insert(REFERENCE_TABLE_OUTFIT, null, values);
         }
@@ -175,8 +176,46 @@ public class DBManager extends SQLiteOpenHelper {
         cursor = db.rawQuery(selectQuery, null);
         if (cursor != null)
             cursor.moveToFirst();
-        while(cursor.moveToNext()){
-            Clothing outfitItem = getClothing(cursor.getString(cursor.getColumnIndex(COLUMN_REFERNCE_CLOTHING_ID)));
+        while (cursor.moveToNext()) {
+            Clothing outfitItem = getClothing(cursor.getString(cursor.getColumnIndex(COLUMN_REFERENCE_CLOTHING_ID)));
+            databaseOutfit.addClothingToOutfit(outfitItem);
+        }
+
+
+        return databaseOutfit;
+
+    }
+
+    private Outfit getOutfit(int outfitID) {
+        SQLiteDatabase db = getWritableDatabase(); //check formatting on selectquery. Potentially spacing issues
+        String selectQuery = "SELECT * FROM " +
+                TABLE_OUTFIT +
+                " WHERE " +
+                COLUMN_ID +
+                " = " + outfitID;
+        //should consider adding a Log
+        //    Log.e(LOG, selectQuery);
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if (cursor != null)
+            cursor.moveToFirst();
+
+        Outfit databaseOutfit = new Outfit(cursor.getString(cursor.getColumnIndex(COLUMN_OUTFIT_NAME)));
+        databaseOutfit.setDescription(cursor.getString(cursor.getColumnIndex(COLUMN_OUTFIT_DESCRIPTION)));
+        databaseOutfit.setEntryId(cursor.getInt(cursor.getColumnIndex(COLUMN_ID)));
+        databaseOutfit.setThumbnail(-999999);
+        cursor.close();
+
+        //populate clothing entries.
+        selectQuery = "SELECT * FROM " +
+                REFERENCE_TABLE_OUTFIT +
+                " WHERE " +
+                COLUMN_REFERENCE_OUTFIT_ID +
+                " = " + outfitID;
+        cursor = db.rawQuery(selectQuery, null);
+        if (cursor != null)
+            cursor.moveToFirst();
+        while (cursor.moveToNext()) {
+            Clothing outfitItem = getClothing(cursor.getString(cursor.getColumnIndex(COLUMN_REFERENCE_CLOTHING_ID)));
             databaseOutfit.addClothingToOutfit(outfitItem);
         }
 
@@ -186,6 +225,7 @@ public class DBManager extends SQLiteOpenHelper {
     }
 
     private void deleteOutfit(String outfitName) {
+        // TODO: rework this method to take a Closet argument and remove the outfit from its closet
         SQLiteDatabase db = getWritableDatabase();
         String query = "DELETE FROM " +
                 TABLE_OUTFIT +
@@ -234,21 +274,74 @@ public class DBManager extends SQLiteOpenHelper {
         db.execSQL(query);
     }
 
+    /**
+     * addEntryToCloset
+     * Adds a single entry object to the proper closet reference table.
+     */
+    public void addEntryToCloset(Entry entry, int closetID) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_REFERENCE_CLOSET_ID, closetID);
+        values.put(COLUMN_REFERENCE_ENTRY_TYPE, entry.type.ordinal());
+        values.put(COLUMN_REFERENCE_CLOTHING_ID, entry.getEntryId());
+
+        db.insert(REFERENCE_TABLE_CLOSET, null, values);
+
+    }
+
+    /**
+     * addEntriesToCloset
+     * Adds a list of entries to the relevant closet.
+     */
     public void addEntriesToCloset(List<Entry> entryReferenceList, int closetID) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(COLUMN_REFERENCE_OUTFIT_ID, closetID);
+        values.put(COLUMN_REFERENCE_CLOSET_ID, closetID);
 
-        for(Entry entry: entryReferenceList){
-            values.put(COLUMN_REFERENCE_CLOTHING_X, -99999999);
-            values.put(COLUMN_REFERENCE_CLOTHING_Y, -99999999);
-            values.put(COLUMN_REFERNCE_CLOTHING_ID, entry.getEntryId());
+        for (Entry entry : entryReferenceList) {
+            values.put(COLUMN_REFERENCE_ENTRY_TYPE, entry.type.ordinal());
+            values.put(COLUMN_REFERENCE_CLOTHING_ID, entry.getEntryId());
 
             db.insert(REFERENCE_TABLE_CLOSET, null, values);
         }
     }
 
-    public void addClothing(Clothing newClothing) {git 
+
+    /**
+     * getEntriesFromCloset
+     * Returns a list of entries with the given type.
+     *
+     * @param closetID The ID of the Closet to get entries from.
+     * @param type     The Entry type of the items wanted.
+     */
+    public List<Entry> getEntriesFromCloset(int closetID, Entry.entryType type) {
+        SQLiteDatabase db = getWritableDatabase();
+        String selectQuery = "SELECT * FROM " +
+                REFERENCE_TABLE_CLOSET +
+                " WHERE " +
+                COLUMN_REFERENCE_CLOSET_ID +
+                " = " + closetID +
+                " AND " +
+                COLUMN_REFERENCE_ENTRY_TYPE +
+                " = " + type.ordinal();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        List<Entry> results = new ArrayList<>();
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            switch(type) {
+                case outfitType:
+                    results.add(getOutfit(cursor.getInt(cursor.getColumnIndex(COLUMN_REFERENCE_ENTRY_ID))));
+                    break;
+                case clothingType:
+                    results.add(getClothing(cursor.getInt(cursor.getColumnIndex(COLUMN_REFERENCE_ENTRY_ID))));
+            }
+        }
+
+
+    }
+
+    public void addClothing(Clothing newClothing) {
+        // TODO: rework this method to take a Closet argument and add the clothing to a closet
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_CLOTHING_NAME, newClothing.getClothingName());
@@ -303,20 +396,21 @@ public class DBManager extends SQLiteOpenHelper {
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
             searchedClothing = new Clothing(cursor.getString(cursor.getColumnIndex(COLUMN_CLOTHING_NAME)),
-                        cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_PICTURE)),
-                        cursor.getInt(cursor.getColumnIndex(COLUMN_ID)),
-                        Clothing.clothingType.values()[cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_TYPE))],
-                        Clothing.clothingColor.values()[cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_COLOR))],
-                        Clothing.clothingCondition.values()[cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_CONDITION))],
-                        cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_XCOORD)),
-                        cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_YCOORD))
-                            );
+                    cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_PICTURE)),
+                    cursor.getInt(cursor.getColumnIndex(COLUMN_ID)),
+                    Clothing.clothingType.values()[cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_TYPE))],
+                    Clothing.clothingColor.values()[cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_COLOR))],
+                    Clothing.clothingCondition.values()[cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_CONDITION))],
+                    cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_XCOORD)),
+                    cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_YCOORD))
+            );
         }
         cursor.close();
         return searchedClothing;
     }
 
     private void deleteClothing(String clothingName) {
+        // TODO: rework this method to take a Closet argument and remove the clothing from its closet
         SQLiteDatabase db = getWritableDatabase();
         String query = "DELETE FROM " +
                 TABLE_CLOTHING +
