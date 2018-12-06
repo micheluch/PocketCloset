@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="350dp"
+    android:layout_height="490dp"
+    android:padding="5dp"
+    android:layout_gravity="center">
+
+    <TextView
+        android:id="@+id/txtClosetclose"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:text="X"
+        android:textColor="@color/darkgray"
+        android:textStyle="bold"
+        android:layout_gravity="end"
+        android:gravity="center"
+        android:background="@drawable/circlebackground"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Description:"
+            android:background="#fff"
+            android:padding="8dp"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center"/>
+
+       <android.support.design.widget.TextInputLayout
+           android:id="@+id/text_input_outfitName"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content">
+
+           <android.support.design.widget.TextInputEditText
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:hint="Outfit Name"/>
+       </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/text_input_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.design.widget.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Outfit Description"/>
+    </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:clickable="true"
+            android:id="@+id/saveOutfitButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save"
+            android:layout_marginTop="15dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/buttonstyle"
+            />
+    <ImageView
+        android:id="@+id/viewImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

@@ -2,6 +2,8 @@ package com.example.michael.myapplication;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -9,17 +11,18 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 
 public class ClothingActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -34,48 +37,33 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
     private Dialog dialog;
+    private DBManager manager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.clothing_recyclerview);
 
-        clothingList = new ArrayList<>();
-        clothingList.add(new Clothing("Grandma's Clubbing Pants",
-                R.drawable.womens_black_jeans));
-        clothingList.add(new Clothing("Grandma's Clubbing Top",
-                R.drawable.gold_spaghetti_top));
-        clothingList.add(new Clothing("Grandma's Clubbing Shoes",
-                R.drawable.gold_high_heels));
-        clothingList.add(new Clothing("Grandma's Clubbing Earrings",
-                R.drawable.grandmas_gold_earrings));
-        clothingList.add(new Clothing("Grandma's Clubbing Socks",
-                R.drawable.taco_socks));
-        clothingList.add(new Clothing("Grandma's Clubbing Pants",
-                R.drawable.womens_black_jeans));
-        clothingList.add(new Clothing("Grandma's Clubbing Top",
-                R.drawable.gold_spaghetti_top));
-        clothingList.add(new Clothing("Grandma's Clubbing Shoes",
-                R.drawable.gold_high_heels));
-        clothingList.add(new Clothing("Grandma's Clubbing Earrings",
-                R.drawable.grandmas_gold_earrings));
-        clothingList.add(new Clothing("Grandma's Clubbing Socks",
-                R.drawable.taco_socks));
-        clothingList.add(new Clothing("Grandma's Clubbing Pants",
-                R.drawable.womens_black_jeans));
-        clothingList.add(new Clothing("Grandma's Clubbing Top",
-                R.drawable.gold_spaghetti_top));
-        clothingList.add(new Clothing("Grandma's Clubbing Shoes",
-                R.drawable.gold_high_heels));
-        clothingList.add(new Clothing("Grandma's Clubbing Earrings",
-                R.drawable.grandmas_gold_earrings));
-        clothingList.add(new Clothing("Grandma's Clubbing Socks",
-                R.drawable.taco_socks));
 
+        clothingList = new ArrayList<>();
+        manager = new DBManager(this, null, null, 1);
+        SQLiteDatabase db = manager.getWritableDatabase();
+        String query = "SELECT * FROM " + DBManager.TABLE_CLOTHING;
+        Cursor cursor = db.rawQuery(query, null);
+        int numberOfTableElements = cursor.getCount();
+        if(numberOfTableElements > 0){
+            cursor.moveToFirst();
+            do{
+                int dummyInt = cursor.getColumnIndex(DBManager.COLUMN_CLOTHING_NAME);
+                String clothingName = cursor.getString(dummyInt);
+                clothingList.add(manager.getClothing(clothingName));
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
 
         RecyclerView my_recycler_view = (RecyclerView) findViewById(R.id.clothing_recyclerview_id);
-        ClothingRecyclerViewAdapter myAdapter = new ClothingRecyclerViewAdapter(this,clothingList);
-        my_recycler_view.setLayoutManager(new GridLayoutManager(this,ROWS_WIDE));
+        ClothingRecyclerViewAdapter myAdapter = new ClothingRecyclerViewAdapter(this, clothingList);
+        my_recycler_view.setLayoutManager(new GridLayoutManager(this, ROWS_WIDE));
         my_recycler_view.setAdapter(myAdapter);
 
         android.support.v7.widget.Toolbar toolbar = findViewById(R.id.allClothingtoolbar_id);
@@ -83,7 +71,7 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
         //getSupportActionBar().setTitle(name);
 
         drawerLayout = (DrawerLayout) findViewById(R.id.clothingDrawerLayoutId);
-        toggle = new ActionBarDrawerToggle(this,drawerLayout, R.string.Open, R.string.Close);
+        toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.Open, R.string.Close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -97,8 +85,7 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(toggle.onOptionsItemSelected(item))
-        {
+        if (toggle.onOptionsItemSelected(item)) {
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -108,10 +95,9 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         int id = menuItem.getItemId();
         Intent intent;
-        switch(id)
-        {
+        switch (id) {
             case R.id.home:
-                intent = new Intent(ClothingActivity.this,HomePage.class);
+                intent = new Intent(ClothingActivity.this, HomePage.class);
                 startActivity(intent);
                 break;
             case R.id.add:
@@ -129,13 +115,28 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
         return true;
     }
 
-    public void showAddClothingPopup (View v) {
+    public void showAddClothingPopup(View v) {
 
         TextView txtclose;
         Button btnAdd;
         dialog.setContentView(R.layout.add_clothing_popup);
-        txtclose = (TextView) dialog.findViewById(R.id.txtclose);
+
         btnAdd = (Button) dialog.findViewById(R.id.addButton);
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText entryBox = (EditText) dialog.findViewById(R.id.nameEntryBox);
+                String name = entryBox.getText().toString();
+                //Clothing entry = new Clothing(name, R.drawable.taco_socks);
+                //manager.addClothing(entry);
+
+
+                dialog.dismiss();
+            }
+        });
+
+        txtclose = (TextView) dialog.findViewById(R.id.txtclose);
+
         txtclose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

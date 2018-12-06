@@ -1,91 +1,86 @@
 package com.example.michael.myapplication;
 
+import android.content.Context;
+import android.content.ContextWrapper;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.widget.ImageView;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import com.example.michael.myapplication.Entry;
 
-public class Outfit extends Entry {
 
-    //Outfit-only data members
-    private Clothing hat;
-    private Clothing top; //shirt blouse etc
-    private Clothing bottom;
-    private Clothing shoes;
-    private Clothing outerwear;
-    private AccessoryNode head;
+public class Outfit extends Entry{
 
-    static class AccessoryNode
-    {
-        Clothing item;
-        AccessoryNode next;
-        AccessoryNode(Clothing newItem)  { item = newItem;  next = null; } // Constructor
-    }
+    private List<Clothing> clothingList;
+    private String description;
+    private final int DEFAULT_INVALID_CONDITION = -1;
+    private Bitmap outfitImage;
+    private String path;
+    private Context context;
 
-    //private List<Clothing> accessories;
-
-    //"Extended" methods from Entry
-    public Outfit(String outfitName, int thumbnail) { super(outfitName, thumbnail); }
-    public int getOutfitId() {
-        return getEntryId();
-    }
-    public void setOutfitId(int outfitId) {
-        setEntryId(outfitId);
-    }
-    public String getOutfitName() {
-        return getEntryName();
-    }
-    public void setOutfitName(String outfitName) {
-        setEntryName(outfitName);
+    public Outfit( String outfitName, List<Clothing> clothingList, String description, int id, int thumbnail) {
+        super(outfitName,thumbnail, id);
+        this.clothingList = clothingList;
+        this.description = description;
     }
 
-    //Outfit-only methods
-    public Clothing getHat() {
-        return hat;
+    public Outfit(String outfitName, int id) {
+        this(outfitName, new ArrayList<Clothing>(), null, id, -1); //need to get rid of thumbnail from everywher
     }
-    public void setHat(Clothing hat) {
-        this.hat = hat;
-    }
-    public Clothing getTop() {
-        return top;
-    }
-    public void setTop(Clothing top) {
-        this.top = top;
-    }
-    public Clothing getBottom() {
-        return bottom;
-    }
-    public void setBottom(Clothing bottom) {
-        this.bottom = bottom;
-    }
-    public Clothing getShoes() {
-        return shoes;
-    }
-    public void setShoes(Clothing shoes) {
-        this.shoes = shoes;
-    }
-    public Clothing getOuterwear() {
-        return outerwear;
-    }
-    public void setOuterwear(Clothing outerwear) {
-        this.outerwear = outerwear;
-    }
-    public Clothing addAccessory(Clothing newAccessory)
-    {
-        AccessoryNode tail;
-        tail = head;
-        //If linked list is empty, add the very first node
-        if (tail == null) { tail = new AccessoryNode(newAccessory); return newAccessory; }
 
-        //Otherwise, iterate to the end of the list and add a new node
-        while (tail.next != null) { tail = tail.next; }
-        tail.next = new AccessoryNode(newAccessory);
-        return newAccessory;
+    public String getDescription() {
+        return description;
     }
-//    public List<Clothing> getAccessories() {
-//        return accessories;
-//    }
-//
-//    public Clothing addAccessory(Clothing newAccessory) {
-//        accessories.add(newAccessory);
-//        return newAccessory;
-//    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void addClothingToOutfit(Clothing clothingToAdd){
+        this.clothingList.add(clothingToAdd);
+    }
+
+    public List<Clothing> getClothingList() {
+        return clothingList;
+    }
+
+    public void setOutfitImage(Bitmap image){
+        outfitImage = image;
+    }
+
+    public void setPath(String path){
+        this.path = path;
+    }
+
+    public String getPath(){
+        return this.path;
+    }
+
+    public void setContext(Context context){
+        this.context = context;
+    }
+
+    public Bitmap retrieveImageFromFolder(){
+
+        try{
+            //ContextWrapper c = new ContextWrapper(context.getApplicationContext());
+            //File path1 = c.getDir("outfits", Context.MODE_PRIVATE);
+
+            File f = new File(this.path, getEntryName() + ".png");
+            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
+            return b;
+
+        }catch(FileNotFoundException e){
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+
 }

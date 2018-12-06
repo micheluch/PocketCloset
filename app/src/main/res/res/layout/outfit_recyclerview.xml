@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <android.support.v7.widget.Toolbar
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:id="@+id/outfitstoolbar_id"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"
+        app:title="All Outfits"
+        app:titleTextColor="#fff"
+        >
+
+
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.v4.widget.DrawerLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/outfitsDrawerLayoutId">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/outfit_recyclerview_id"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
+
+        <android.support.design.widget.NavigationView
+            android:id="@+id/outfitsNavViewId"
+            app:headerLayout="@layout/header"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="#fff"
+            app:itemTextColor="@color/darkgray"
+            app:itemIconTint="@color/darkgray"
+            app:menu="@menu/alloutfits_drawermenu"
+            android:layout_gravity ="start"
+            >
+
+        </android.support.design.widget.NavigationView>
+
+    </android.support.v4.widget.DrawerLayout>
+
+
+</LinearLayout>
