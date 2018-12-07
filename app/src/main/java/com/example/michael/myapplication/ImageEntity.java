@@ -12,7 +12,7 @@ import com.example.michael.myapplication.Layer;
 public class ImageEntity extends MotionEntity {
 
     @NonNull
-    private final Bitmap bitmap;
+    public Bitmap bitmap;
 
     public ImageEntity(@NonNull Layer layer,
                        @NonNull Bitmap bitmap,
@@ -51,6 +51,8 @@ public class ImageEntity extends MotionEntity {
     public int getHeight() {
         return bitmap.getHeight();
     }
+
+    public Bitmap getBitmap() {return bitmap;}
 
     @Override
     public void release() {

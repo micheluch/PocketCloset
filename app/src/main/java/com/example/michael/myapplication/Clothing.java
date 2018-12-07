@@ -1,4 +1,7 @@
 package com.example.michael.myapplication;
+import com.example.michael.myapplication.Closet;
+import com.example.michael.myapplication.Entry;
+import com.example.michael.myapplication.Outfit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,26 +9,28 @@ import java.util.List;
 public class Clothing extends Entry {
 
     //Clothing-only data members
-    private String clothingCondition;
-    private List<Outfit> associatedOutfits;
-    private List<Closet> associatedClosets;
 
-    public Clothing(String clothingName, int thumbnail)
-    {
-        super(clothingName, thumbnail);
-        associatedClosets = new ArrayList<>();
-        associatedOutfits = new ArrayList<>();
-    }    
-    
-    public static Clothing createFromString(String properties) {
-        /* Properties is ordered, separated with commas, as follows:
-        *   Name
-        *   Id
-        *   Thumbnail (identifier)
-        *   Condition
-        */
-        String[] vals = properties.split(",");
-        return new Clothing(vals[0], Integer.parseInt(vals[1]));
+    public enum clothingType {shirt, pants, shoes, other} //can get integer value by doing getOrdinal();
+    private clothingType type;
+    public enum clothingColor {white, black, grey, red, orange, yellow, green, blue, purple, pink, brown}
+    private clothingColor color;
+    public enum clothingCondition {dirty, borrowed, ready}
+    private clothingCondition condition;
+    private int Xcoordinate;
+    private int Ycoordinate;
+
+    public Clothing(String entryName, int thumbnail, int id, clothingType type, clothingColor color,
+                    clothingCondition condition, int xcoordinate, int ycoordinate) {
+        super(entryName, thumbnail, id);
+        this.type = type;
+        this.color = color;
+        this.condition = condition;
+        Xcoordinate = xcoordinate;
+        Ycoordinate = ycoordinate;
+    }
+
+    public Clothing(String entryName, int thumbnail, int id, clothingType type, clothingColor color, clothingCondition condition) {
+        this(entryName, thumbnail, id, type, color, condition, 0, 0);
     }
 
     //"Extended" methods from Entry
@@ -41,21 +46,45 @@ public class Clothing extends Entry {
     public void setClothingName(String clothingName) { setEntryName(clothingName); }
 
     //Clothing-only methods
-    public String getClothingCondition() {
-        return clothingCondition;
-    }
-    public List<Outfit> getAssociatedOutfits() {
-        return associatedOutfits;
-    }
-    public void setAssociatedOutfits(List<Outfit> associatedOutfits) {
-        this.associatedOutfits = associatedOutfits;
-    }
-    public List<Closet> getAssociatedClosets() {
-        return associatedClosets;
-    }
-    //TODO: Add to associated closets and outfitsPock
-    public void addClothing(Clothing newClothing)
-    {
 
+
+    public clothingColor getColor() {
+        return color;
+    }
+
+    public void setColor(clothingColor color) {
+        this.color = color;
+    }
+
+    public clothingCondition getCondition() {
+        return condition;
+    }
+
+    public void setCondition(clothingCondition condition) {
+        this.condition = condition;
+    }
+
+    public int getType() {
+        return type.ordinal();
+    }
+
+    public void setType(clothingType type) {
+        this.type = type;
+    }
+
+    public int getXcoordinate() {
+        return Xcoordinate;
+    }
+
+    public void setXcoordinate(int xcoordinate) {
+        Xcoordinate = xcoordinate;
+    }
+
+    public int getYcoordinate() {
+        return Ycoordinate;
+    }
+
+    public void setYcoordinate(int ycoordinate) {
+        Ycoordinate = ycoordinate;
     }
 }

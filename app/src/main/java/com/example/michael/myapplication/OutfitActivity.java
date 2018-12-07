@@ -1,6 +1,9 @@
 package com.example.michael.myapplication;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -22,7 +25,8 @@ import java.util.List;
 
 public class OutfitActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    List<Entry> outfitList; //switch to wearable later for clothing and outfits
+    List<Outfit> outfitList; //switch to wearable later for clothing and outfits
+
     private final static int ROWS_WIDE = 3;
 
     private Button returnHomeButton;
@@ -31,6 +35,8 @@ public class OutfitActivity extends AppCompatActivity implements NavigationView.
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
+    private DBManager manager;
+    private Dialog dialog;
 
 
     @Override
@@ -39,20 +45,20 @@ public class OutfitActivity extends AppCompatActivity implements NavigationView.
         setContentView(R.layout.outfit_recyclerview);
 
         outfitList = new ArrayList<>();
-
-        outfitList.add(new Outfit("Grandma's Formal Clothes", R.drawable.closet2));
-        outfitList.add(new Outfit("Grandma's Easter Mass Outfit", R.drawable.easter_mass_outfit));
-        outfitList.add(new Outfit("Grandma's Spring Attire", R.drawable.outfit1));
-        outfitList.add(new Outfit("Grandma's Casual Wear", R.drawable.outfit2));
-        outfitList.add(new Outfit("Grandma's Happy Day", R.drawable.happy_outfit));
-        outfitList.add(new Outfit("Grandma's Happy Day", R.drawable.happy_outfit));
-        outfitList.add(new Outfit("Grandma's Clubbing Outfit", R.drawable.clubbing_outfit));
-        outfitList.add(new Outfit("Grandma's Cookie Baking Outfit", R.drawable.grandmas_cooking_outfit));
-        outfitList.add(new Outfit("Grandma's Breakdance Gear", R.drawable.grandmas_breakdance_gear));
-        outfitList.add(new Outfit("Grandma's Fire Fighter Outfit", R.drawable.firefighter_outfit));
-        outfitList.add(new Outfit("Grandma's Graduation Gown", R.drawable.graduation_gown));
-        outfitList.add(new Outfit("Grandma's Halloween 2018", R.drawable.halloween_outfit));
-
+        manager = new DBManager(this, null, null, 1);
+        String query = "SELECT * FROM " + DBManager.TABLE_OUTFIT;
+        SQLiteDatabase db = manager.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        int numberOfTableElements = cursor.getCount();
+        if(numberOfTableElements > 0){
+            cursor.moveToFirst();
+            do{
+                int dummyInt = cursor.getColumnIndex(DBManager.COLUMN_OUTFIT_NAME);
+                String outfitName = cursor.getString(dummyInt);
+                outfitList.add(manager.getOutfit(outfitName));
+            }while (cursor.moveToNext());
+            cursor.close();
+        }
 
         RecyclerView my_recycler_view = (RecyclerView) findViewById(R.id.outfit_recyclerview_id);
         OutfitRecyclerViewAdapter myAdapter = new OutfitRecyclerViewAdapter(this,outfitList);
@@ -71,7 +77,7 @@ public class OutfitActivity extends AppCompatActivity implements NavigationView.
 
         navigationView = (NavigationView) findViewById(R.id.outfitsNavViewId);
         navigationView.setNavigationItemSelectedListener(this);
-
+        dialog = new Dialog(this);
     }
 
     @Override

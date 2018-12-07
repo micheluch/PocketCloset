@@ -7,9 +7,14 @@ public abstract class Entry
     protected String name;
     protected int thumbnail;
 
-    public Entry(String entryName, int thumbnail) {
+    protected static final int DEFAULT_TYPE = 0;
+    protected static final String DEFAULT_CONDITION = "Good";
+
+
+    public Entry(String entryName, int thumbnail, int id) {
         this.name = entryName;
         this.thumbnail = thumbnail;
+        this.id = id;
     }
 
     //Methods that are shared by Clothing and Outfit
