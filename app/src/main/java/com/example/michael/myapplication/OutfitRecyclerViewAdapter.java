@@ -11,9 +11,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class OutfitRecyclerViewAdapter extends RecyclerView.Adapter<OutfitRecyclerViewAdapter.MyViewHolder> {
+public class OutfitRecyclerViewAdapter extends RecyclerView.Adapter<OutfitRecyclerViewAdapter.MyViewHolder> implements Serializable {
 
     private Context mContext;
     private List<Outfit> mData;
@@ -36,21 +37,17 @@ public class OutfitRecyclerViewAdapter extends RecyclerView.Adapter<OutfitRecycl
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder viewHolder, final int i) {
 
-        viewHolder.tv_outfit_title.setText(mData.get(i).getOutfitName());
-        viewHolder.img_outfit_thumbnail.setImageResource(mData.get(i).getThumbnail());
+        viewHolder.tv_outfit_title.setText(mData.get(i).getEntryName());
+        viewHolder.img_outfit_thumbnail.setImageBitmap(mData.get(i).retrieveImageFromFolder());
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
-                Intent intent = new Intent(mContext,AddOutfit.class);
-                intent.putExtra("Name", mData.get(i).getOutfitName());
-                intent.putExtra("Description", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do " +
-                "eiusmod tempor incididunt ut labore et dolore magna aliqua. Lut enim ad minim " +
-                        "veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo " +
-                        "consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum " +
-                        "dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, " +
-                        "sunt in culpa qui officiae deserunt mollit anim id est laborum. Lorem ipsum dolor");
-                intent.putExtra("Thumbnail", mData.get(i).getThumbnail());
+                Intent intent = new Intent(mContext,DisplayOutfit.class);
+//                intent.putExtra("Name", mData.get(i).getEntryName());
+//                intent.putExtra("Description", mData.get(i).getDescription());
+//                intent.putExtra("Thumbnail", mData.get(i).retrieveImageFromFolder());
 
+                intent.putExtra("outfit", (Serializable) mData.get(i));
                 mContext.startActivity(intent);
             }
         });
@@ -61,6 +58,13 @@ public class OutfitRecyclerViewAdapter extends RecyclerView.Adapter<OutfitRecycl
     @Override
     public int getItemCount() {
         return mData.size();
+    }
+
+    public boolean addNewOutfitToView(Outfit addedOutfit){
+        if(mData.contains(addedOutfit))
+            return false;
+        mData.add(addedOutfit);
+        return true;
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
@@ -74,6 +78,7 @@ public class OutfitRecyclerViewAdapter extends RecyclerView.Adapter<OutfitRecycl
 
             tv_outfit_title = (TextView) itemView.findViewById(R.id.specific_outfit_id);
             img_outfit_thumbnail = (ImageView) itemView.findViewById(R.id.specific_outfit_image_id);
+            //img_outfit_thumbnail.setImageBitmap();
             cardView = (CardView) itemView.findViewById(R.id.cardview_id);
         }
     }

@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="button_add_photo">Upload a photo</string>
+    <string name="button_enter_info">Enter information</string>
+    <string name="button_add_clothing">Add item</string>
+    <string name="button_add_closet">Add closet</string>
+    <string name="button_cancel">Cancel</string>
+    <string name="text_clothing_info">Shirt&#xA;Black&#xA;Small&#xA;Cotton&#xA;Gucci&#xA;Dry clean only&#xA;My Home Closet</string>
+    <string name="prompt_closet_name">Closet Name:</string>
+    <string name="Open">Open</string>
+    <string name="Close">Close</string>
+
+</resources>

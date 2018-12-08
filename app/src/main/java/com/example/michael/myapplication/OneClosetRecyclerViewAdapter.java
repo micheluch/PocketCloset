@@ -40,7 +40,7 @@ public class OneClosetRecyclerViewAdapter extends RecyclerView.Adapter<OneCloset
     public void onBindViewHolder(@NonNull MyViewHolder viewHolder, final int i) {
 
         viewHolder.tv_wearable_title.setText(mData.get(i).getClothingName());
-        viewHolder.img_wearable_thumbnail.setImageResource(mData.get(i).getThumbnail());
+        viewHolder.img_wearable_thumbnail.setImageBitmap(mData.get(i).getImage());
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
@@ -52,7 +52,7 @@ public class OneClosetRecyclerViewAdapter extends RecyclerView.Adapter<OneCloset
                         "consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum " +
                         "dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, " +
                         "sunt in culpa qui officiae deserunt mollit anim id est laborum. Lorem ipsum dolor");
-                intent.putExtra("Thumbnail", mData.get(i).getThumbnail());
+                intent.putExtra("Thumbnail", mData.get(i).getImage());
                 mContext.startActivity(intent);
             }
         });

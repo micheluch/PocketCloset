@@ -11,6 +11,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -29,15 +30,11 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
     List<Clothing> clothingList; //switch to wearable later for clothing and outfits
     private final static int ROWS_WIDE = 3;
 
-    private Button returnHomeButton;
-    private Button addClothingButton;
-    private Button deleteClothingButton;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
     private Dialog dialog;
     private DBManager manager;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,47 +50,13 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
         int numberOfTableElements = cursor.getCount();
         if(numberOfTableElements > 0){
             cursor.moveToFirst();
-            while (cursor.moveToNext()) {
+            do{
                 int dummyInt = cursor.getColumnIndex(DBManager.COLUMN_CLOTHING_NAME);
                 String clothingName = cursor.getString(dummyInt);
                 clothingList.add(manager.getClothing(clothingName));
-            }
+            } while (cursor.moveToNext());
             cursor.close();
         }
-
-
-
-        clothingList.add(new Clothing("Grandma's Clubbing Pants",
-                R.drawable.womens_black_jeans));
-        clothingList.add(new Clothing("Grandma's Clubbing Top",
-                R.drawable.gold_spaghetti_top));
-        clothingList.add(new Clothing("Grandma's Clubbing Shoes",
-                R.drawable.gold_high_heels));
-        clothingList.add(new Clothing("Grandma's Clubbing Earrings",
-                R.drawable.grandmas_gold_earrings));
-        clothingList.add(new Clothing("Grandma's Clubbing Socks",
-                R.drawable.taco_socks));
-        clothingList.add(new Clothing("Grandma's Clubbing Pants",
-                R.drawable.womens_black_jeans));
-        clothingList.add(new Clothing("Grandma's Clubbing Top",
-                R.drawable.gold_spaghetti_top));
-        clothingList.add(new Clothing("Grandma's Clubbing Shoes",
-                R.drawable.gold_high_heels));
-        clothingList.add(new Clothing("Grandma's Clubbing Earrings",
-                R.drawable.grandmas_gold_earrings));
-        clothingList.add(new Clothing("Grandma's Clubbing Socks",
-                R.drawable.taco_socks));
-        clothingList.add(new Clothing("Grandma's Clubbing Pants",
-                R.drawable.womens_black_jeans));
-        clothingList.add(new Clothing("Grandma's Clubbing Top",
-                R.drawable.gold_spaghetti_top));
-        clothingList.add(new Clothing("Grandma's Clubbing Shoes",
-                R.drawable.gold_high_heels));
-        clothingList.add(new Clothing("Grandma's Clubbing Earrings",
-                R.drawable.grandmas_gold_earrings));
-        clothingList.add(new Clothing("Grandma's Clubbing Socks",
-                R.drawable.taco_socks));
-
 
         RecyclerView my_recycler_view = (RecyclerView) findViewById(R.id.clothing_recyclerview_id);
         ClothingRecyclerViewAdapter myAdapter = new ClothingRecyclerViewAdapter(this, clothingList);
@@ -161,8 +124,8 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
             public void onClick(View v) {
                 EditText entryBox = (EditText) dialog.findViewById(R.id.nameEntryBox);
                 String name = entryBox.getText().toString();
-                Clothing entry = new Clothing(name, R.drawable.taco_socks);
-                manager.addClothing(entry);
+                //Clothing entry = new Clothing(name, R.drawable.taco_socks);
+                //manager.addClothing(entry);
 
 
                 dialog.dismiss();
