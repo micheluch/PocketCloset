@@ -17,13 +17,14 @@ public abstract class Entry {
     protected pocketClassType type;
 
 
-    public Entry(String entryName, String path, int id) {
+    public Entry(String entryName, String path, int id, pocketClassType type) {
         this.name = entryName;
         this.id = id;
         this.path = path;
+        this.type = type;
     }
 
-    //Methods that are shared by Clothing and Outfit
+    //Methods that are shared by Clothing and Outfitdescription
     public int getEntryId() {
         return id;
     }

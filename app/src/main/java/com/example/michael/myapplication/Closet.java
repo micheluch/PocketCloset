@@ -1,59 +1,25 @@
 package com.example.michael.myapplication;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Closet extends Entry {
 
-    private String closetName;
+    protected List<Entry> contentList;
     private String description;
-    private int thumbnail;
-    private char type;
 
-    public Closet(String closetName, String description, int thumbnail, char type) {
-        super(closetName, description, thumbnail);
-        this.closetName = closetName;
+    public Closet(String closetName, String description, pocketClassType type, String path) {
+        super(closetName, path, 0, type);
         this.description = description;
-        this.thumbnail = thumbnail;
-        this.type = type;
-    }
-
-    public static Closet createFromString(String properties) {
-        /* The properties String will be ordered as follows, separated by commas:
-        *   Name
-        *   Description
-        *   Thumbnail
-        *   Type
-        */
-        String[] vals = properties.split(",");
-        return new Closet(vals[0], vals[1], Integer.parseInt(vals[2]), vals[3].charAt(0));
-    }
-
-    public String getClosetName() {
-        return closetName;
+        contentList = new ArrayList<>();
     }
 
     public String getDescription() {
         return description;
     }
 
-    public int getThumbnail() {
-        return thumbnail;
-    }
-
-    public char getType() { return type; }
-
-    public void setClosetName(String closetName) {
-        this.closetName = closetName;
-    }
-
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public void setThumbnail(int thumbnail) {
-        this.thumbnail = thumbnail;
-    }
-
-    public void setType(char type) {
-        this.type = type;
     }
 
 }
