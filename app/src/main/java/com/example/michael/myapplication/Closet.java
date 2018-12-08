@@ -1,5 +1,6 @@
 package com.example.michael.myapplication;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +21,13 @@ public class Closet extends Entry {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public boolean addEntryToCloset(Entry entry) throws IllegalArgumentException {
+        if (entry.type == pocketClassType.CLOSET_TYPE)
+            throw new IllegalArgumentException("Attempting to add Entry of type pocketClassType.CLOSET_TYPE to a Closet's contentList.");
+        else
+            return contentList.add(entry);
     }
 
 }
