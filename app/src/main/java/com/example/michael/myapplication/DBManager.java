@@ -169,7 +169,7 @@ public class DBManager extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(selectQuery, null);
         if (cursor != null)
             cursor.moveToFirst();
-        if(cursor == null || cursor.getCount() == 0)
+        if (cursor == null || cursor.getCount() == 0)
             return null;
         Outfit databaseOutfit = new Outfit(cursor.getString(cursor.getColumnIndex(COLUMN_OUTFIT_NAME)),
                 cursor.getInt(cursor.getColumnIndex(COLUMN_ID)),
@@ -186,7 +186,7 @@ public class DBManager extends SQLiteOpenHelper {
                 COLUMN_REFERENCE_OUTFIT_ID +
                 " = " + databaseOutfit.getEntryId();
         cursor = db.rawQuery(selectQuery, null);
-        if (cursor != null && cursor.getCount() > 0) {
+        if (cursor != null && cursor.getCount() > 0)
             cursor.moveToFirst();
         do {
             Clothing outfitItem = getClothing(cursor.getString(cursor.getColumnIndex(COLUMN_REFERENCE_CLOTHING_ID)));
@@ -195,7 +195,6 @@ public class DBManager extends SQLiteOpenHelper {
 
 
         return databaseOutfit;
-
     }
 
     private Outfit getOutfit(int outfitID) {
@@ -211,10 +210,12 @@ public class DBManager extends SQLiteOpenHelper {
         if (cursor != null)
             cursor.moveToFirst();
 
-        Outfit databaseOutfit = new Outfit(cursor.getString(cursor.getColumnIndex(COLUMN_OUTFIT_NAME)));
+        Outfit databaseOutfit = new Outfit(cursor.getString(cursor.getColumnIndex(COLUMN_OUTFIT_NAME)),
+                cursor.getInt(cursor.getColumnIndex(COLUMN_ID)),
+                cursor.getString(cursor.getColumnIndex(COLUMN_OUTFIT_IMAGEPATH)));
+
         databaseOutfit.setDescription(cursor.getString(cursor.getColumnIndex(COLUMN_OUTFIT_DESCRIPTION)));
         databaseOutfit.setEntryId(cursor.getInt(cursor.getColumnIndex(COLUMN_ID)));
-        databaseOutfit.setThumbnail(-999999);
         cursor.close();
 
         //populate clothing entries.
@@ -226,12 +227,11 @@ public class DBManager extends SQLiteOpenHelper {
         cursor = db.rawQuery(selectQuery, null);
         if (cursor != null)
             cursor.moveToFirst();
-            do {
-                Clothing outfitItem = getClothing(cursor.getString(cursor.getColumnIndex(COLUMN_REFERNCE_CLOTHING_ID)));
-                databaseOutfit.addClothingToOutfit(outfitItem);
-            } while (cursor.moveToNext());
-            cursor.close();
-        }
+        do {
+            Clothing outfitItem = getClothing(cursor.getString(cursor.getColumnIndex(COLUMN_REFERENCE_CLOTHING_ID)));
+            databaseOutfit.addClothingToOutfit(outfitItem);
+        } while (cursor.moveToNext());
+        cursor.close();
 
         //db.close();
 
@@ -332,7 +332,7 @@ public class DBManager extends SQLiteOpenHelper {
      * @param closetID The ID of the Closet to get entries from.
      * @param type     The Entry type of the items wanted.
      */
-    public List<Entry> getEntriesFromCloset(int closetID, Entry.entryType type) {
+    public List<Entry> getEntriesFromCloset(int closetID, Entry.pocketClassType type) {
         SQLiteDatabase db = getWritableDatabase();
         String selectQuery = "SELECT * FROM " +
                 REFERENCE_TABLE_CLOSET +
@@ -346,11 +346,11 @@ public class DBManager extends SQLiteOpenHelper {
         List<Entry> results = new ArrayList<>();
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
-            switch(type) {
-                case outfitType:
+            switch (type) {
+                case OUTFIT_TYPE:
                     results.add(getOutfit(cursor.getInt(cursor.getColumnIndex(COLUMN_REFERENCE_ENTRY_ID))));
                     break;
-                case clothingType:
+                case CLOTHING_TYPE:
                     results.add(getClothing(cursor.getInt(cursor.getColumnIndex(COLUMN_REFERENCE_ENTRY_ID))));
             }
         }
@@ -462,16 +462,17 @@ public class DBManager extends SQLiteOpenHelper {
     }
 
     //can remove this final int by restructuring the database to have all second columns be the name
-    private List<Entry> searchDatabaseByName(String searchTerm){
+    private List<Entry> searchDatabaseByName(String searchTerm) {
         Set<Entry> searchedItems = new TreeSet<>();
         searchedItems.addAll(getAllClothesByName(searchTerm));
         searchedItems.addAll(getAllOutfitsByName(searchTerm));
         //searchedItems.addAll(getAllClosetsByName(searchTerm));
-        List<Entry> returnList = new ArrayList<Entry>(); returnList.addAll(searchedItems);
+        List<Entry> returnList = new ArrayList<Entry>();
+        returnList.addAll(searchedItems);
         return returnList;
     }
 
-    private List<Entry> getAllClothesByName(String clothingName){
+    private List<Entry> getAllClothesByName(String clothingName) {
         SQLiteDatabase db = getWritableDatabase(); //check formatting on selectquery. Potentially spacing issues
         String selectQuery = "SELECT  * FROM " +
                 TABLE_CLOTHING +
@@ -480,21 +481,20 @@ public class DBManager extends SQLiteOpenHelper {
                 " LIKE '%" + clothingName + "%'";
         Cursor cursor = db.rawQuery(selectQuery, null);
         List<Entry> searchedItems = new ArrayList<>();
-        if (cursor == null || cursor.getCount() <= 0){
+        if (cursor == null || cursor.getCount() <= 0) {
             return searchedItems;
-        }
-        else
+        } else
             cursor.moveToFirst();
-        do{
+        do {
             String searchName = cursor.getString(cursor.getColumnIndex(COLUMN_CLOTHING_NAME));
             Clothing searchedClothing = getClothing(searchName);
-            if(searchedClothing != null)
+            if (searchedClothing != null)
                 searchedItems.add(searchedClothing);
-        }while(cursor.moveToNext());
+        } while (cursor.moveToNext());
         return searchedItems;
     }
 
-    private List<Entry> getAllOutfitsByName(String outfitName){
+    private List<Entry> getAllOutfitsByName(String outfitName) {
         SQLiteDatabase db = getWritableDatabase(); //check formatting on selectquery. Potentially spacing issues
         String selectQuery = "SELECT  * FROM " +
                 TABLE_OUTFIT +
@@ -503,17 +503,16 @@ public class DBManager extends SQLiteOpenHelper {
                 " LIKE '%" + outfitName + "%'";
         Cursor cursor = db.rawQuery(selectQuery, null);
         List<Entry> searchedItems = new ArrayList<>();
-        if (cursor == null || cursor.getCount() <= 0){
+        if (cursor == null || cursor.getCount() <= 0) {
             return searchedItems;
-        }
-        else
+        } else
             cursor.moveToFirst();
-        do{
+        do {
             String searchName = cursor.getString(cursor.getColumnIndex(COLUMN_CLOTHING_NAME));
             Outfit searchedOutfit = getOutfit(searchName);
-            if(searchedOutfit != null)
+            if (searchedOutfit != null)
                 searchedItems.add(searchedOutfit);
-        }while(cursor.moveToNext());
+        } while (cursor.moveToNext());
         return searchedItems;
     }
 

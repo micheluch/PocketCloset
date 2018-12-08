@@ -1,6 +1,6 @@
 package com.example.michael.myapplication;
 
-public class Closet {
+public class Closet extends Entry {
 
     private String closetName;
     private String description;
@@ -8,6 +8,7 @@ public class Closet {
     private char type;
 
     public Closet(String closetName, String description, int thumbnail, char type) {
+        super(closetName, description, thumbnail);
         this.closetName = closetName;
         this.description = description;
         this.thumbnail = thumbnail;

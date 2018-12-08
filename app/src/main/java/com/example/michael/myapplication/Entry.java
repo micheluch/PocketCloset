@@ -9,7 +9,6 @@ import java.io.FileNotFoundException;
 
 public abstract class Entry {
     //Data members shared by Clothing and Outfit
-    public entryType type;
     protected int id;
     protected String name;
     protected Bitmap image;
