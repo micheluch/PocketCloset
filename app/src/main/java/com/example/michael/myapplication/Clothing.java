@@ -19,9 +19,9 @@ public class Clothing extends Entry {
     private int Xcoordinate;
     private int Ycoordinate;
 
-    public Clothing(String entryName, int thumbnail, int id, clothingType type, clothingColor color,
+    public Clothing(String entryName, String path, int id, clothingType type, clothingColor color,
                     clothingCondition condition, int xcoordinate, int ycoordinate) {
-        super(entryName, thumbnail, id);
+        super(entryName, path, id);
         this.type = type;
         this.color = color;
         this.condition = condition;
@@ -29,8 +29,8 @@ public class Clothing extends Entry {
         Ycoordinate = ycoordinate;
     }
 
-    public Clothing(String entryName, int thumbnail, int id, clothingType type, clothingColor color, clothingCondition condition) {
-        this(entryName, thumbnail, id, type, color, condition, 0, 0);
+    public Clothing(String entryName, String path, int id, clothingType type, clothingColor color, clothingCondition condition) {
+        this(entryName, path, id, type, color, condition, 0, 0);
     }
 
     //"Extended" methods from Entry

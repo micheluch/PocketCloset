@@ -27,12 +27,9 @@ import java.util.List;
 
 public class ClothingActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    List<Entry> clothingList; //switch to wearable later for clothing and outfits
+    List<Clothing> clothingList; //switch to wearable later for clothing and outfits
     private final static int ROWS_WIDE = 3;
 
-    private Button returnHomeButton;
-    private Button addClothingButton;
-    private Button deleteClothingButton;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
