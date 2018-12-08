@@ -24,7 +24,7 @@
         <activity
             android:name=".Search"
             android:exported="true" />
-        <activity android:name=".AddOutfit" />
+        <activity android:name=".DisplayOutfit" />
         <activity android:name=".ViewClothing" />
         <activity
             android:name=".AllClosetsActivity"

@@ -1,6 +1,5 @@
 package com.example.michael.myapplication;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -15,7 +14,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class AddOutfit extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
+import java.io.Serializable;
+
+public class DisplayOutfit extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener, Serializable {
 
     private TextView tvName, tvDescription;
     private ImageView hatimg, topImg, bottomImg, shoeImg;
@@ -23,6 +24,8 @@ public class AddOutfit extends AppCompatActivity implements View.OnClickListener
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
+    private Outfit outfit;
+    private ImageView img;
     String loremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do " +
             "eiusmod tempor incididunt ut labore et dolore magna aliqua. Lut enim ad minim " +
             "veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo " +
@@ -34,42 +37,28 @@ public class AddOutfit extends AppCompatActivity implements View.OnClickListener
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_outfit);
+        setContentView(R.layout.activity_display_outfit);
 
-        //outfitCard = (CardView) findViewById(R.id.outfit_item_card);
-        topCard = (CardView) findViewById(R.id.top_card);
-        bottomCard = (CardView) findViewById(R.id.bottoms_card);
-        accessoryCard = (CardView) findViewById(R.id.accessory_card);
-        shoeCard = (CardView) findViewById(R.id.shoes_card);
+        outfitCard = (CardView) findViewById(R.id.outfit_card);
+        outfitCard.setOnClickListener(this);
 
-        topCard.setOnClickListener(this);
-        bottomCard.setOnClickListener(this);
-        accessoryCard.setOnClickListener(this);
-        shoeCard.setOnClickListener(this);
-        //outfitCard.setOnClickListener(this);
-
-        //tvName = (TextView) findViewById(R.id.name_id);
         tvDescription = (TextView) findViewById(R.id.description_id);
-        //hatimg = (ImageView) findViewById(R.id.headware_thumbnail);
-        //topImg = (ImageView) findViewById(R.id.top_thumbnail);
-        //bottomImg = (ImageView) findViewById(R.id.bottom_thumbnail);
-        //shoeImg = (ImageView) findViewById(R.id.shoe_thumbnail);
+        img = (ImageView) findViewById(R.id.outfit_image);
 
         Intent intent = getIntent();
-        String name = intent.getExtras().getString("Name");
-        String description = intent.getExtras().getString("Description");
-        int image = intent.getIntExtra("Thumbnail", 0);
+        outfit = (Outfit)intent.getSerializableExtra("outfit");
+
+        //String name = intent.getExtras().getString("Name");
+        //String description = intent.getExtras().getString("Description");
+        //int image = intent.getIntExtra("Thumbnail", 0);
 
         //tvName.setText(name);
-        tvDescription.setText(description);
-        //hatimg.setImageResource(image);
-        //topImg.setImageResource(image);
-        //bottomImg.setImageResource(image);
-        //shoeImg.setImageResource(image);
+        tvDescription.setText(outfit.getDescription());
+        img.setImageBitmap(outfit.retrieveImageFromFolder());
 
         android.support.v7.widget.Toolbar toolbar = findViewById(R.id.toolbar_id);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(name);
+        getSupportActionBar().setTitle(outfit.getEntryName());
 
         drawerLayout = (DrawerLayout) findViewById(R.id.addOufitDrawerLayoutId);
         toggle = new ActionBarDrawerToggle(this,drawerLayout, R.string.Open, R.string.Close);
@@ -110,19 +99,19 @@ public class AddOutfit extends AppCompatActivity implements View.OnClickListener
         switch(id)
         {
             case R.id.home:
-                intent = new Intent(AddOutfit.this,HomePage.class);
+                intent = new Intent(DisplayOutfit.this,HomePage.class);
                 startActivity(intent);
                 break;
             case R.id.edit:
-                intent = new Intent(AddOutfit.this,EditOutfit.class);
+                intent = new Intent(DisplayOutfit.this,EditOutfit.class);
                 startActivity(intent);
                 break;
             case R.id.add:
-                intent = new Intent(AddOutfit.this,ClothingActivity.class);
+                intent = new Intent(DisplayOutfit.this,ClothingActivity.class);
                 startActivity(intent);
                 break;
             case R.id.delete:
-                //intent = new Intent(AddOutfit.this,OutfitActivity.class);
+                //intent = new Intent(DisplayOutfit.this,OutfitActivity.class);
                 //startActivity(intent);
                 break;
         }

@@ -86,7 +86,7 @@ public class ViewClothing extends AppCompatActivity implements NavigationView.On
                 startActivity(intent);
                 break;
             case R.id.edit:
-                //intent = new Intent(AddOutfit.this,AddOutfit.class);
+                //intent = new Intent(DisplayOutfit.this,DisplayOutfit.class);
                 //startActivity(intent);
                 View view = menuItem.getActionView();
                 showAddClothingPopup(view);

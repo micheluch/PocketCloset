@@ -53,6 +53,8 @@ public class OneClosetRecyclerViewAdapter extends RecyclerView.Adapter<OneCloset
                         "dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, " +
                         "sunt in culpa qui officiae deserunt mollit anim id est laborum. Lorem ipsum dolor");
                 intent.putExtra("Thumbnail", mData.get(i).getThumbnail());
+
+
                 mContext.startActivity(intent);
             }
         });

@@ -18,12 +18,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 
 
-public class OutfitActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class OutfitActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Serializable {
 
     List<Outfit> outfitList; //switch to wearable later for clothing and outfits
 

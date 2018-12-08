@@ -11,9 +11,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class OutfitRecyclerViewAdapter extends RecyclerView.Adapter<OutfitRecyclerViewAdapter.MyViewHolder> {
+public class OutfitRecyclerViewAdapter extends RecyclerView.Adapter<OutfitRecyclerViewAdapter.MyViewHolder> implements Serializable {
 
     private Context mContext;
     private List<Outfit> mData;
@@ -41,11 +42,12 @@ public class OutfitRecyclerViewAdapter extends RecyclerView.Adapter<OutfitRecycl
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
-                Intent intent = new Intent(mContext,AddOutfit.class);
-                intent.putExtra("Name", mData.get(i).getEntryName());
-                intent.putExtra("Description", mData.get(i).getDescription());
-                intent.putExtra("Thumbnail", mData.get(i).retrieveImageFromFolder());
+                Intent intent = new Intent(mContext,DisplayOutfit.class);
+//                intent.putExtra("Name", mData.get(i).getEntryName());
+//                intent.putExtra("Description", mData.get(i).getDescription());
+//                intent.putExtra("Thumbnail", mData.get(i).retrieveImageFromFolder());
 
+                intent.putExtra("outfit", (Serializable) mData.get(i));
                 mContext.startActivity(intent);
             }
         });
