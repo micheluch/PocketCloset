@@ -160,8 +160,9 @@ public class CreateOutfit extends AppCompatActivity {
                 //set image
                 outfit.setEntryName(textInputOutfitName.getEditText().getText().toString().trim());
                 outfit.setDescription(textInputDescription.getEditText().getText().toString().trim());
-                //out.set
+                outfit.setImage();
                 dbManager.addOutfit(outfit);
+
 
                 String query = "SELECT * FROM " + DBManager.TABLE_OUTFIT;
 

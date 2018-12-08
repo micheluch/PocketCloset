@@ -60,6 +60,13 @@ public class OutfitRecyclerViewAdapter extends RecyclerView.Adapter<OutfitRecycl
         return mData.size();
     }
 
+    public boolean addNewOutfitToView(Outfit addedOutfit){
+        if(mData.contains(addedOutfit))
+            return false;
+        mData.add(addedOutfit);
+        return true;
+    }
+
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 
         TextView tv_outfit_title;

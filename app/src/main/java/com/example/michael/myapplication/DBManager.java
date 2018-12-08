@@ -15,7 +15,7 @@ import java.util.TreeSet;
 
 public class DBManager extends SQLiteOpenHelper {
 
-    private int outfitID;
+    private static int outfitID;
     private static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "pocketcloset.db";
     public static final String TABLE_OUTFIT = "outfits";
