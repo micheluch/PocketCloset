@@ -76,7 +76,7 @@ public class CreateOutfit extends AppCompatActivity {
         motionView.setMotionViewCallback(motionViewCallback);
 
         dbManager = new DBManager(this, null, null, 1);
-        this.outfit = new Outfit("",dbManager.getOutfitID() +1);
+        this.outfit = new Outfit("",dbManager.getOutfitID() +1,"");
         //addButton = (Button)findViewById(R.id.addClothesButton);
 
         android.support.v7.widget.Toolbar toolbar = findViewById(R.id.create_outfit_toolbar_id);
@@ -135,12 +135,7 @@ public class CreateOutfit extends AppCompatActivity {
                     return;
                 }
                 
-                //set image
-                outfit.setEntryName(textInputOutfitName.getEditText().getText().toString().trim());
-                outfit.setOutfitImage(outfitImage);
-                outfit.setDescription(textInputDescription.getEditText().getText().toString().trim());
-                outfit.setContext(getApplicationContext());
-                //out.set
+
 
                 //save image
                 ContextWrapper cw = new ContextWrapper(getApplicationContext());
@@ -162,6 +157,10 @@ public class CreateOutfit extends AppCompatActivity {
 
                 outfit.setPath(directory.getAbsolutePath());
                 SQLiteDatabase db = dbManager.getWritableDatabase();
+                //set image
+                outfit.setEntryName(textInputOutfitName.getEditText().getText().toString().trim());
+                outfit.setDescription(textInputDescription.getEditText().getText().toString().trim());
+                //out.set
                 dbManager.addOutfit(outfit);
 
                 String query = "SELECT * FROM " + DBManager.TABLE_OUTFIT;

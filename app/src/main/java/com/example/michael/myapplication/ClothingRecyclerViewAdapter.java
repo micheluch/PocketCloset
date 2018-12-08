@@ -16,9 +16,9 @@ import java.util.List;
 public class ClothingRecyclerViewAdapter extends RecyclerView.Adapter<ClothingRecyclerViewAdapter.MyViewHolder> {
 
     private Context mContext;
-    private List<Entry> mData;
+    private List<Clothing> mData;
 
-    public ClothingRecyclerViewAdapter(Context mContext, List<Entry> mData) {
+    public ClothingRecyclerViewAdapter(Context mContext, List<Clothing> mData) {
         this.mContext = mContext;
         this.mData = mData;
     }
@@ -37,7 +37,7 @@ public class ClothingRecyclerViewAdapter extends RecyclerView.Adapter<ClothingRe
     public void onBindViewHolder(@NonNull final MyViewHolder viewHolder, final int i) {
 
         viewHolder.tv_clothing_title.setText(mData.get(i).getEntryName());
-        viewHolder.img_clothing_thumbnail.setImageResource(mData.get(i).getThumbnail());
+        viewHolder.img_clothing_thumbnail.setImageBitmap(mData.get(i).getImage());
 
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,7 +50,7 @@ public class ClothingRecyclerViewAdapter extends RecyclerView.Adapter<ClothingRe
                         "consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum " +
                         "dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, " +
                         "sunt in culpa qui officiae deserunt mollit anim id est laborum. Lorem ipsum dolor");
-                intent.putExtra("Thumbnail", mData.get(i).getThumbnail());
+                intent.putExtra("Thumbnail", mData.get(i).getImage());
                 mContext.startActivity(intent);
             }
         });
