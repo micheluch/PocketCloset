@@ -69,6 +69,7 @@ public abstract class Entry {
         try {
             File f = new File(this.path, getEntryName() + ".png");
             Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
+            this.image = b;
             return b;
         } catch (FileNotFoundException e) {
             e.printStackTrace();

@@ -172,11 +172,11 @@ public class CreateOutfit extends AppCompatActivity {
                 //get image
 
                 ImageView img = (ImageView) dialog.findViewById(R.id.viewImage);
-                img.setImageBitmap(outfit.retrieveImageFromFolder());
+                img.setImageBitmap(outfit.getImage());
 
-                dialog.cancel();
-                Intent i = new Intent(CreateOutfit.this,OutfitActivity.class);
-                CreateOutfit.this.startActivity(i);
+                //dialog.cancel();
+                //Intent i = new Intent(CreateOutfit.this,OutfitActivity.class);
+                //CreateOutfit.this.startActivity(i);
             }
         });
         //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));

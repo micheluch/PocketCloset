@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
     private ActionBarDrawerToggle toggle;
     private Dialog dialog;
     private DBManager manager;
+    private Spinner spinnerType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,13 +119,17 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
         TextView txtclose;
         Button btnAdd;
         dialog.setContentView(R.layout.add_clothing_popup);
+        spinnerType = findViewById(R.id.type);
+        List<String> typeCategories = new ArrayList<>();
+        typeCategories.add(0, "Choose a Type");
+
 
         btnAdd = (Button) dialog.findViewById(R.id.addButton);
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText entryBox = (EditText) dialog.findViewById(R.id.nameEntryBox);
-                String name = entryBox.getText().toString();
+                //EditText entryBox = (EditText) dialog.findViewById(R.id.nameEntryBox);
+                //String name = entryBox.getText().toString();
                 //Clothing entry = new Clothing(name, R.drawable.taco_socks);
                 //manager.addClothing(entry);
 
