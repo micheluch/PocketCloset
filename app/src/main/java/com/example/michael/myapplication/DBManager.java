@@ -8,7 +8,10 @@ import android.content.ContentValues;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class DBManager extends SQLiteOpenHelper {
 
@@ -265,8 +268,6 @@ public class DBManager extends SQLiteOpenHelper {
                 " WHERE " +
                 COLUMN_CLOTHING_NAME +
                 " LIKE '%" + clothingName + "%'";
-        //should consider adding a Log
-        //    Log.e(LOG, selectQuery);
         Cursor cursor = db.rawQuery(selectQuery, null);
         Clothing searchedClothing = null;
         if (cursor != null && cursor.getCount() > 0) {
@@ -341,4 +342,84 @@ public class DBManager extends SQLiteOpenHelper {
         }
         return potentialExistingEntry != null;
     }
+
+    //can remove this final int by restructuring the database to have all second columns be the name
+    private List<Entry> searchDatabaseByName(String searchTerm){
+        Set<Entry> searchedItems = new TreeSet<>();
+        searchedItems.addAll(getAllClothesByName(searchTerm));
+        searchedItems.addAll(getAllOutfitsByName(searchTerm));
+        //searchedItems.addAll(getAllClosetsByName(searchTerm));
+        List<Entry> returnList = new ArrayList<Entry>(); returnList.addAll(searchedItems);
+        return returnList;
+    }
+
+    private List<Entry> getAllClothesByName(String clothingName){
+        SQLiteDatabase db = getWritableDatabase(); //check formatting on selectquery. Potentially spacing issues
+        String selectQuery = "SELECT  * FROM " +
+                TABLE_CLOTHING +
+                " WHERE " +
+                COLUMN_CLOTHING_NAME +
+                " LIKE '%" + clothingName + "%'";
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        List<Entry> searchedItems = new ArrayList<>();
+        if (cursor == null || cursor.getCount() <= 0){
+            return searchedItems;
+        }
+        else
+            cursor.moveToFirst();
+        do{
+            String searchName = cursor.getString(cursor.getColumnIndex(COLUMN_CLOTHING_NAME));
+            Clothing searchedClothing = getClothing(searchName);
+            if(searchedClothing != null)
+                searchedItems.add(searchedClothing);
+        }while(cursor.moveToNext());
+        return searchedItems;
+    }
+
+    private List<Entry> getAllOutfitsByName(String outfitName){
+        SQLiteDatabase db = getWritableDatabase(); //check formatting on selectquery. Potentially spacing issues
+        String selectQuery = "SELECT  * FROM " +
+                TABLE_OUTFIT +
+                " WHERE " +
+                COLUMN_OUTFIT_NAME +
+                " LIKE '%" + outfitName + "%'";
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        List<Entry> searchedItems = new ArrayList<>();
+        if (cursor == null || cursor.getCount() <= 0){
+            return searchedItems;
+        }
+        else
+            cursor.moveToFirst();
+        do{
+            String searchName = cursor.getString(cursor.getColumnIndex(COLUMN_CLOTHING_NAME));
+            Outfit searchedOutfit = getOutfit(searchName);
+            if(searchedOutfit != null)
+                searchedItems.add(searchedOutfit);
+        }while(cursor.moveToNext());
+        return searchedItems;
+    }
+
+    //@TODO Make Closet an extension of an entry
+//    private List<Entry> getAllClosetsByName(String closetName){
+//        SQLiteDatabase db = getWritableDatabase(); //check formatting on selectquery. Potentially spacing issues
+//        String selectQuery = "SELECT  * FROM " +
+//                TABLE_CLOSET +
+//                " WHERE " +
+//                COLUMN_CLOSET_NAME +
+//                " LIKE '%" + closetName + "%'";
+//        Cursor cursor = db.rawQuery(selectQuery, null);
+//        List<Entry> searchedItems = new ArrayList<>();
+//        if (cursor == null || cursor.getCount() <= 0){
+//            return searchedItems;
+//        }
+//        else
+//            cursor.moveToFirst();
+//        do{
+//            String searchName = cursor.getString(cursor.getColumnIndex(COLUMN_CLOTHING_NAME));
+//            Closet searchedCloset = getCloset(searchName);
+//            if(searchedCloset != null)
+//                searchedItems.add(searchedCloset);
+//        }while(cursor.moveToNext());
+//        return searchedItems;
+//    }
 }

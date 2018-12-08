@@ -17,11 +17,11 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
 
 
     private Context myContext;
-    private List<Closet> myCloset;
+    private List<Entry> searchItems;
 
-    public SearchRecyclerViewAdapter(Context myContext, List<Closet> myCloset) {
+    public SearchRecyclerViewAdapter(Context myContext, List<Entry> myCloset) {
         this.myContext = myContext;
-        this.myCloset = myCloset;
+        this.searchItems = myCloset;
     }
 
     @NonNull
@@ -36,37 +36,37 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, final int i) {
-        myViewHolder.tv_closet_name.setText(myCloset.get(i).getClosetName());
-        myViewHolder.img_closet_thumbnail.setImageResource(myCloset.get(i).getThumbnail());
+        myViewHolder.tv_closet_name.setText(searchItems.get(i).getEntryName());
+        myViewHolder.img_closet_thumbnail.setImageBitmap(searchItems.get(i).getImage());
 
         myViewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                char type = myCloset.get(i).getType();
+                Entry.pocketClassType type = searchItems.get(i).getEntryType();
                 Intent intent;
 
                 switch(type)
                 {
-                    case 'W':
+                    case CLOSET_TYPE:
                         intent = new Intent(myContext,OneClosetActivity.class);
-                        intent.putExtra("Name", myCloset.get(i).getClosetName());
+                        //intent.putExtra("Name", myCloset.get(i).getClosetName());
                         //intent.putExtra("Description", myCloset.get(i).getDescription());
                         //intent.putExtra("Thumbnail", myCloset.get(i).getThumbnail());
                         myContext.startActivity(intent);
                         break;
-                    case 'C':
+                    case CLOTHING_TYPE:
                         intent = new Intent(myContext,ViewClothing.class);
-                        intent.putExtra("Name", myCloset.get(i).getClosetName());
-                        intent.putExtra("Description", myCloset.get(i).getDescription());
-                        intent.putExtra("Thumbnail", myCloset.get(i).getThumbnail());
+//                        intent.putExtra("Name", searchItems.get(i).getEntryName());
+//                        intent.putExtra("Description", searchItems.get(i).;
+//                        intent.putExtra("Thumbnail", myCloset.get(i).getThumbnail());
                         myContext.startActivity(intent);
                         break;
-                    case 'O':
+                    case OUTFIT_TYPE:
                         intent = new Intent(myContext,AddOutfit.class);
-                        intent.putExtra("Name", myCloset.get(i).getClosetName());
-                        intent.putExtra("Description", myCloset.get(i).getDescription());
-                        intent.putExtra("Thumbnail", myCloset.get(i).getThumbnail());
+//                        intent.putExtra("Name", searchItems.get(i).getEntryName());
+//                        intent.putExtra("Description", myCloset.get(i).getDescription());
+//                        intent.putExtra("Thumbnail", myCloset.get(i).getThumbnail());
                         myContext.startActivity(intent);
                         break;
                         default:
@@ -79,7 +79,7 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
 
     @Override
     public int getItemCount() {
-        return myCloset.size();
+        return searchItems.size();
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{

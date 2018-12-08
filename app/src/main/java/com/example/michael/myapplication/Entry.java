@@ -13,6 +13,8 @@ public abstract class Entry {
     protected String name;
     protected Bitmap image;
     protected String path;
+    protected enum pocketClassType{INVALID_TYPE, CLOTHING_TYPE, OUTFIT_TYPE, CLOSET_TYPE}
+    protected pocketClassType type;
 
 
     public Entry(String entryName, String path, int id) {
@@ -52,6 +54,14 @@ public abstract class Entry {
 
     public void setPath(String path) {
         this.path = path;
+    }
+
+    public pocketClassType getEntryType() {
+        return type;
+    }
+
+    public void setEntryType(pocketClassType type) {
+        this.type = type;
     }
 
     public Bitmap retrieveImageFromFolder() {

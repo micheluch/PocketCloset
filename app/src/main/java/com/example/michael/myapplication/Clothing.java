@@ -22,6 +22,7 @@ public class Clothing extends Entry {
     public Clothing(String entryName, String path, int id, clothingType type, clothingColor color,
                     clothingCondition condition, int xcoordinate, int ycoordinate) {
         super(entryName, path, id);
+        setEntryType(pocketClassType.CLOTHING_TYPE);
         this.type = type;
         this.color = color;
         this.condition = condition;
