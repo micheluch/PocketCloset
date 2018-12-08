@@ -29,6 +29,7 @@ public class Search extends AppCompatActivity{ //implements SearchView.OnQueryTe
         toolbar = (Toolbar)findViewById(R.id.toolbar_id);
         setSupportActionBar(toolbar);
 
+        //@TODO utilize database to search
 //        recyclerView = findViewById(R.id.search_recyclerview_id);
 //        layoutManager = new LinearLayoutManager(this);
 //        recyclerView.setLayoutManager(layoutManager);
