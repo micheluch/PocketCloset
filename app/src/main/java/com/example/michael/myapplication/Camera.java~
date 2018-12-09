@@ -1,13 +1,9 @@
 package com.example.michael.myapplication;
 
 import android.Manifest;
-<<<<<<< HEAD
-import android.content.Context;
-=======
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
->>>>>>> 0ec3c2375e28cee8a24e6484f14e11a14f1b96fd
 import android.content.pm.PackageManager;
 import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
@@ -42,21 +38,14 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-<<<<<<< HEAD
-=======
 import java.io.Serializable;
->>>>>>> 0ec3c2375e28cee8a24e6484f14e11a14f1b96fd
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-<<<<<<< HEAD
-public class Camera extends AppCompatActivity {
-=======
 public class Camera extends AppCompatActivity implements Serializable {
->>>>>>> 0ec3c2375e28cee8a24e6484f14e11a14f1b96fd
 
     private Button btnCapture;
     private TextureView textureView;
@@ -118,20 +107,12 @@ public class Camera extends AppCompatActivity implements Serializable {
         btnCapture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-<<<<<<< HEAD
-                takePicture();
-=======
                 takePicture(view);
->>>>>>> 0ec3c2375e28cee8a24e6484f14e11a14f1b96fd
             }
         });
     }
 
-<<<<<<< HEAD
-    private void takePicture() {
-=======
     private void takePicture(final View v) {
->>>>>>> 0ec3c2375e28cee8a24e6484f14e11a14f1b96fd
         if(cameraDevice == null)
             return;
         CameraManager manager = (CameraManager)getSystemService(Context.CAMERA_SERVICE);
@@ -175,6 +156,13 @@ public class Camera extends AppCompatActivity implements Serializable {
                         byte[] bytes = new byte[buffer.capacity()];
                         buffer.get(bytes);
                         save(bytes);
+                        if (displayImage(v, file)) {
+                            Toast.makeText(Camera.this, "Saved " + file, Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            createCameraPreview();
+                        }
 
                     }
                     catch (FileNotFoundException e)
@@ -209,18 +197,7 @@ public class Camera extends AppCompatActivity implements Serializable {
                 @Override
                 public void onCaptureCompleted(@NonNull CameraCaptureSession session, @NonNull CaptureRequest request, @NonNull TotalCaptureResult result) {
                     super.onCaptureCompleted(session, request, result);
-<<<<<<< HEAD
-                    Toast.makeText(Camera.this, "Saved "+file, Toast.LENGTH_SHORT).show();
                     createCameraPreview();
-=======
-                    if (displayImage(v, file)) {
-                        Toast.makeText(Camera.this, "Saved " + file, Toast.LENGTH_SHORT).show();
-                    }
-                    else
-                    {
-                        createCameraPreview();
-                    }
->>>>>>> 0ec3c2375e28cee8a24e6484f14e11a14f1b96fd
 
                 }
             };
@@ -384,16 +361,19 @@ public class Camera extends AppCompatActivity implements Serializable {
     public Image getLatestImage(){
         return this.latestImage;
     }
-<<<<<<< HEAD
-=======
 
     private boolean displayImage(View v, File image)
     {
-        Intent mIntent = new Intent(this,ImagePreview.class);
+        Intent mIntent = new Intent(v.getContext(),ImagePreview.class);
         Bundle mBundle = new Bundle();
         mBundle.putSerializable("image",image);
         mIntent.putExtras(mBundle);
         startActivityForResult(mIntent, 1);
+<<<<<<< HEAD
+        return true; // stub
+=======
+        return true;
+>>>>>>> 349cc71e25f8f8bebb528bbdf8fc87657f5346f8
     }
 
     @Override
@@ -403,10 +383,9 @@ public class Camera extends AppCompatActivity implements Serializable {
             if(resultCode == Activity.RESULT_OK){
                 boolean result = data.getBooleanExtra("result", true);
             }
-            if (resultCode == Activity.RESULT_CANCELED) {
-                //Write your code if there's no result
+            else if (resultCode == Activity.RESULT_CANCELED) {
+                //No result I guess
             }
         }
     }//onActivityResult
->>>>>>> 0ec3c2375e28cee8a24e6484f14e11a14f1b96fd
 }

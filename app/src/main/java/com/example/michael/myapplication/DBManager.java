@@ -267,7 +267,7 @@ public class DBManager extends SQLiteOpenHelper {
         //db.close();
     }
 
-    private Closet getCloset(int closetID) {
+    public Closet getCloset(int closetID) {
         SQLiteDatabase db = getWritableDatabase(); //check formatting on selectquery. Potentially spacing issues
         String selectQuery = "SELECT  * FROM " +
                 TABLE_CLOSET +
@@ -285,6 +285,26 @@ public class DBManager extends SQLiteOpenHelper {
                 cursor.getString(cursor.getColumnIndex(COLUMN_CLOSET_IMAGEPATH)));
 
     }
+
+    public Closet getCloset(String closetName) {
+        SQLiteDatabase db = getWritableDatabase(); //check formatting on selectquery. Potentially spacing issues
+        String selectQuery = "SELECT  * FROM " +
+                TABLE_CLOSET +
+                " WHERE " +
+                COLUMN_ID +
+                " LIKE '%" + closetName + "%'";
+        //should consider adding a Log
+        //    Log.e(LOG, selectQuery);
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if (cursor != null)
+            cursor.moveToFirst();
+        return new Closet(cursor.getString(cursor.getColumnIndex(COLUMN_CLOSET_NAME)),
+                cursor.getString(cursor.getColumnIndex(COLUMN_CLOSET_DESCRIPTION)),
+                Entry.pocketClassType.CLOSET_TYPE,
+                cursor.getString(cursor.getColumnIndex(COLUMN_CLOSET_IMAGEPATH)));
+
+    }
+
 
     private void deleteCloset(String closetName) {
         SQLiteDatabase db = getWritableDatabase();

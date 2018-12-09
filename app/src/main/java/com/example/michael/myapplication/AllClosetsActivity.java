@@ -53,9 +53,9 @@ public class AllClosetsActivity extends AppCompatActivity implements NavigationV
         if(numberOfTableElements > 0){
             cursor.moveToFirst();
             do{
-                int dummyInt = cursor.getColumnIndex(DBManager.COLUMN_OUTFIT_NAME);
-                String outfitName = cursor.getString(dummyInt);
-                closetList.add(manager.getCloset(outfitName));
+                int dummyInt = cursor.getColumnIndex(DBManager.COLUMN_CLOSET_NAME);
+                String closetName = cursor.getString(dummyInt);
+                closetList.add(manager.getCloset(closetName));
             }while (cursor.moveToNext());
             cursor.close();
         }
