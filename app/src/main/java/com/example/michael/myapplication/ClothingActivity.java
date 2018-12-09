@@ -137,7 +137,7 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
             }
         });
 
-        camera = (CardView) dialog.findViewById(R.id.cameraView);
+        camera = (CardView) dialog.findViewById(R.id.cameraViewClothing);
         camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
