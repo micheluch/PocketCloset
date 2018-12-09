@@ -368,6 +368,7 @@ public class Camera extends AppCompatActivity implements Serializable {
         mBundle.putSerializable("image",image);
         mIntent.putExtras(mBundle);
         startActivityForResult(mIntent, 1);
+        return true; // stub
     }
 
     @Override
