@@ -44,6 +44,7 @@ public class DisplayOutfit extends AppCompatActivity implements View.OnClickList
         outfitCard = (CardView) findViewById(R.id.outfit_card);
         outfitCard.setOnClickListener(this);
 
+        tvName = (TextView) findViewById(R.id.name_id);
         tvDescription = (TextView) findViewById(R.id.description_id);
         img = (ImageView) findViewById(R.id.outfit_image);
 
@@ -55,7 +56,7 @@ public class DisplayOutfit extends AppCompatActivity implements View.OnClickList
         //String description = intent.getExtras().getString("Description");
         //int image = intent.getIntExtra("Thumbnail", 0);
 
-        //tvName.setText(name);
+        tvName.setText(name);
         tvDescription.setText(outfit.getDescription());
         img.setImageBitmap(outfit.retrieveImageFromFolder());
 

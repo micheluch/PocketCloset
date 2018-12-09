@@ -68,7 +68,7 @@
                             android:layout_height="wrap_content"
                             android:text="Item Name"
                             android:layout_marginTop="10dp"
-                            android:textSize="18sp"
+                            android:textSize="24sp"
                             android:textStyle="bold"
                             android:gravity="center"/>
 
@@ -85,13 +85,43 @@
                 <!--android:padding="8dp"-->
                 <!--android:layout_marginTop="10dp"/>-->
 
-                <TextView
-                    android:id="@+id/description_id"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="Description"
-                    android:textSize="18sp" />
+                <!--<TextView-->
+                    <!--android:id="@+id/description_id"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginTop="10dp"-->
+                    <!--android:text="Description"-->
+                    <!--android:textSize="18sp" />-->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textSize="18dp"
+                        android:layout_marginTop="35dp"
+                        android:text="Description"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/lightgray"
+                        android:layout_margin="10dp"/>
+                    <TextView
+                        android:id="@+id/description_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textSize="18dp"
+                        android:text="Access your closets"
+                        android:padding="5dp"
+                        android:textColor="@android:color/darker_gray"/>
+
+                </LinearLayout>
 
 
             </LinearLayout>
