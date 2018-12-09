@@ -2,6 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.michael.myapplication">
 
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera"
+        android:required="true" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -43,6 +49,8 @@
         <activity android:name=".EditOutfit" />
         <activity android:name=".CreateOutfit"></activity>
         <activity android:name=".CreateOutfitSticker" />
+        <activity android:name=".Camera" />
+        <activity android:name=".ImagePreview" />
 
     </application>
 

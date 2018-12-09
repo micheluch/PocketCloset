@@ -116,6 +116,7 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
 
         TextView txtclose;
         Button btnAdd;
+        CardView camera;
         dialog.setContentView(R.layout.add_clothing_popup);
 
         btnAdd = (Button) dialog.findViewById(R.id.addButton);
@@ -129,6 +130,15 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
 
 
                 dialog.dismiss();
+            }
+        });
+
+        camera = (CardView) dialog.findViewById(R.id.cameraView);
+        camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(v.getContext(),Camera.class);
+                startActivity(i);
             }
         });
 
