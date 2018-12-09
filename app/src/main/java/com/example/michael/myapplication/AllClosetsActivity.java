@@ -11,6 +11,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -123,6 +124,7 @@ public class AllClosetsActivity extends AppCompatActivity implements NavigationV
 
         TextView txtclose;
         Button btnAdd;
+        CardView cameraView;
         dialog.setContentView(R.layout.add_closet_popup);
         txtclose = (TextView) dialog.findViewById(R.id.txtClosetclose);
         btnAdd = (Button) dialog.findViewById(R.id.addClosetButton);
@@ -139,6 +141,15 @@ public class AllClosetsActivity extends AppCompatActivity implements NavigationV
                 Closet newCloset = new Closet(entryBox.getText().toString(), "Test", Entry.pocketClassType.CLOSET_TYPE, "");
                 manager.addCloset(newCloset);
                 dialog.dismiss();
+            }
+        });
+
+        cameraView = (CardView) dialog.findViewById(R.id.closet_camera_view);
+        cameraView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(v.getContext(),Camera.class);
+                startActivity(i);
             }
         });
         //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
