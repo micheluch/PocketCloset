@@ -17,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -129,6 +130,12 @@ public class AllClosetsActivity extends AppCompatActivity implements NavigationV
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+            }
+        });
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText entryBox = (EditText) dialog.findViewById(R.id.closet_name_entry_box);
             }
         });
         //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
