@@ -2,6 +2,7 @@ package com.example.michael.myapplication;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -14,7 +15,7 @@ import android.widget.TextView;
 import java.io.Serializable;
 import java.util.List;
 
-public class OutfitRecyclerViewAdapter extends RecyclerView.Adapter<OutfitRecyclerViewAdapter.MyViewHolder> implements Serializable {
+public class OutfitRecyclerViewAdapter extends RecyclerView.Adapter<OutfitRecyclerViewAdapter.MyViewHolder> {
 
     private Context mContext;
     private List<Outfit> mData;
@@ -43,11 +44,12 @@ public class OutfitRecyclerViewAdapter extends RecyclerView.Adapter<OutfitRecycl
             @Override
             public void onClick(View v){
                 Intent intent = new Intent(mContext,DisplayOutfit.class);
-//                intent.putExtra("Name", mData.get(i).getEntryName());
-//                intent.putExtra("Description", mData.get(i).getDescription());
-//                intent.putExtra("Thumbnail", mData.get(i).retrieveImageFromFolder());
-
-                intent.putExtra("outfit", (Serializable) mData.get(i));
+                intent.putExtra("Name", mData.get(i).getEntryName());
+                //Serializable serializedOutfit = mData.get(i);
+                //Bundle mBundle = new Bundle();
+                //mBundle.putSerializable("outift", mData.get(i));
+                //intent.putExtras(mBundle);
+                //intent.putExtra("outfit", mData.get(i));
                 mContext.startActivity(intent);
             }
         });

@@ -143,11 +143,11 @@ public class CreateOutfit extends AppCompatActivity {
                 if(!directory.exists()){
                     directory.mkdir();
                 }
-                File mypath = new File(directory, outfit.getEntryName() + ".png");
+                File mypath = new File(directory, outfit.getEntryName() + ".jpg");
                 FileOutputStream fos = null;
                 try{
                     fos = new FileOutputStream(mypath);
-                    outfitImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                    outfitImage.compress(Bitmap.CompressFormat.JPEG, 1, fos);
                     fos.close();
 
                 }catch(Exception e){
@@ -175,8 +175,8 @@ public class CreateOutfit extends AppCompatActivity {
                 img.setImageBitmap(outfit.getImage());
 
                 //dialog.cancel();
-                //Intent i = new Intent(CreateOutfit.this,OutfitActivity.class);
-                //CreateOutfit.this.startActivity(i);
+                Intent i = new Intent(CreateOutfit.this,OutfitActivity.class);
+                CreateOutfit.this.startActivity(i);
             }
         });
         //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -212,12 +212,13 @@ public class CreateOutfit extends AppCompatActivity {
         }
     }
 
-    private void addSticker(final int stickerResId) {
+    private void addSticker(final String stickerResId) {
         motionView.post(new Runnable() {
             @Override
             public void run() {
                 Layer layer = new Layer();
-                Bitmap item = BitmapFactory.decodeResource(getResources(), stickerResId);
+                //Bitmap item = BitmapFactory.decodeResource(getResources(), stickerResId);
+                Bitmap item = dbManager.getClothing(stickerResId).getImage();
 
                 ImageEntity entity = new ImageEntity(layer, item, motionView.getWidth(), motionView.getHeight());
 
@@ -240,8 +241,8 @@ public class CreateOutfit extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             if (requestCode == SELECT_STICKER_REQUEST_CODE) {
                 if (data != null) {
-                    int stickerId = data.getIntExtra(CreateOutfitSticker.EXTRA_STICKER_ID, 0);
-                    if (stickerId != 0) {
+                    String stickerId = data.getStringExtra(CreateOutfitSticker.EXTRA_STICKER_ID);
+                    if (stickerId != null) {
                         addSticker(stickerId);
                     }
                 }

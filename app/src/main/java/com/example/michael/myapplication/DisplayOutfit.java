@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import java.io.Serializable;
 
-public class DisplayOutfit extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener, Serializable {
+public class DisplayOutfit extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
     private TextView tvName, tvDescription;
     private ImageView hatimg, topImg, bottomImg, shoeImg;
@@ -26,6 +26,7 @@ public class DisplayOutfit extends AppCompatActivity implements View.OnClickList
     private NavigationView navigationView;
     private Outfit outfit;
     private ImageView img;
+    private DBManager manager;
     String loremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do " +
             "eiusmod tempor incididunt ut labore et dolore magna aliqua. Lut enim ad minim " +
             "veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo " +
@@ -39,6 +40,7 @@ public class DisplayOutfit extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_outfit);
 
+        manager = new DBManager(this, null, null, 1);
         outfitCard = (CardView) findViewById(R.id.outfit_card);
         outfitCard.setOnClickListener(this);
 
@@ -46,9 +48,10 @@ public class DisplayOutfit extends AppCompatActivity implements View.OnClickList
         img = (ImageView) findViewById(R.id.outfit_image);
 
         Intent intent = getIntent();
-        outfit = (Outfit)intent.getSerializableExtra("outfit");
+        //outfit = (Outfit)intent.getSerializableExtra("outfit");
 
-        //String name = intent.getExtras().getString("Name");
+        String name = intent.getExtras().getString("Name");
+        outfit = manager.getOutfit(name);
         //String description = intent.getExtras().getString("Description");
         //int image = intent.getIntExtra("Thumbnail", 0);
 
@@ -58,7 +61,7 @@ public class DisplayOutfit extends AppCompatActivity implements View.OnClickList
 
         android.support.v7.widget.Toolbar toolbar = findViewById(R.id.toolbar_id);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(outfit.getEntryName());
+        getSupportActionBar().setTitle(name);
 
         drawerLayout = (DrawerLayout) findViewById(R.id.addOufitDrawerLayoutId);
         toggle = new ActionBarDrawerToggle(this,drawerLayout, R.string.Open, R.string.Close);
