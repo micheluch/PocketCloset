@@ -87,7 +87,7 @@ public class OneClosetActivity extends AppCompatActivity implements NavigationVi
                 startActivity(intent);
                 break;
             case R.id.add:
-                intent = new Intent(OneClosetActivity.this,ClothingActivity.class);
+                intent = new Intent(OneClosetActivity.this,AddToCloset.class);
                 startActivity(intent);
                 break;
             case R.id.delete:

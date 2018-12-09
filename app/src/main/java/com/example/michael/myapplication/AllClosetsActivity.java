@@ -31,9 +31,6 @@ public class AllClosetsActivity extends AppCompatActivity implements NavigationV
     List<Closet> closetList;
     private final static int ROWS_WIDE = 3;
 
-    private Button returnHomeButton;
-    private Button addClothingButton;
-    private Button deleteClothingButton;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
