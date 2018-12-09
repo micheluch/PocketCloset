@@ -1,7 +1,9 @@
 package com.example.michael.myapplication;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
@@ -36,13 +38,14 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-public class Camera extends AppCompatActivity {
+public class Camera extends AppCompatActivity implements Serializable {
 
     private Button btnCapture;
     private TextureView textureView;
@@ -104,12 +107,12 @@ public class Camera extends AppCompatActivity {
         btnCapture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                takePicture();
+                takePicture(view);
             }
         });
     }
 
-    private void takePicture() {
+    private void takePicture(final View v) {
         if(cameraDevice == null)
             return;
         CameraManager manager = (CameraManager)getSystemService(Context.CAMERA_SERVICE);
@@ -187,8 +190,13 @@ public class Camera extends AppCompatActivity {
                 @Override
                 public void onCaptureCompleted(@NonNull CameraCaptureSession session, @NonNull CaptureRequest request, @NonNull TotalCaptureResult result) {
                     super.onCaptureCompleted(session, request, result);
-                    Toast.makeText(Camera.this, "Saved "+file, Toast.LENGTH_SHORT).show();
-                    createCameraPreview();
+                    if (displayImage(v, file)) {
+                        Toast.makeText(Camera.this, "Saved " + file, Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        createCameraPreview();
+                    }
 
                 }
             };
@@ -352,4 +360,26 @@ public class Camera extends AppCompatActivity {
     public Image getLatestImage(){
         return this.latestImage;
     }
+
+    private boolean displayImage(View v, File image)
+    {
+        Intent mIntent = new Intent(this,ImagePreview.class);
+        Bundle mBundle = new Bundle();
+        mBundle.putSerializable("image",image);
+        mIntent.putExtras(mBundle);
+        startActivityForResult(mIntent, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 1) {
+            if(resultCode == Activity.RESULT_OK){
+                boolean result = data.getBooleanExtra("result", true);
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+            }
+        }
+    }//onActivityResult
 }
