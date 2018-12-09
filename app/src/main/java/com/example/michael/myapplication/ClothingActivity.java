@@ -41,7 +41,6 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.clothing_recyclerview);
 
-
         clothingList = new ArrayList<>();
         manager = new DBManager(this, null, null, 1);
         SQLiteDatabase db = manager.getWritableDatabase();
