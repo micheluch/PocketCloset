@@ -1,5 +1,7 @@
 package com.example.michael.myapplication;
 
+import android.content.res.AssetManager;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Parcel;
@@ -20,10 +22,11 @@ public abstract class Entry {
     protected pocketClassType type;
 
 
-    public Entry(String entryName, String path, int id) {
+    public Entry(String entryName, String path, int id, pocketClassType type) {
         this.name = entryName;
         this.id = id;
         this.path = path;
+        this.type = type;
     }
 
     //Methods that are shared by Clothing and Outfit
@@ -80,6 +83,4 @@ public abstract class Entry {
 
         return null;
     }
-
-
 }

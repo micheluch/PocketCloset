@@ -118,6 +118,7 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
 
         TextView txtclose;
         Button btnAdd;
+        CardView camera;
         dialog.setContentView(R.layout.add_clothing_popup);
         spinnerType = findViewById(R.id.type);
         List<String> typeCategories = new ArrayList<>();
@@ -128,17 +129,33 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //EditText entryBox = (EditText) dialog.findViewById(R.id.nameEntryBox);
-                //String name = entryBox.getText().toString();
-                //Clothing entry = new Clothing(name, R.drawable.taco_socks);
-                //manager.addClothing(entry);
+                EditText entryBox = (EditText) dialog.findViewById(R.id.nameEntryBox);
+                String name = entryBox.getText().toString();
+                Clothing entry = new Clothing(name,
+                        "",
+                        0,
+                        Clothing.clothingType.other,
+                        Clothing.clothingColor.black,
+                        Clothing.clothingCondition.borrowed,
+                        0,
+                        0);
+                manager.addClothing(entry);
 
 
                 dialog.dismiss();
             }
         });
 
-        txtclose = (TextView) dialog.findViewById(R.id.txtclose);
+        camera = (CardView) dialog.findViewById(R.id.cameraView);
+        camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(v.getContext(),Camera.class);
+                startActivity(i);
+            }
+        });
+
+        txtclose = (TextView)dialog.findViewById(R.id.txtclose);
 
         txtclose.setOnClickListener(new View.OnClickListener() {
             @Override
