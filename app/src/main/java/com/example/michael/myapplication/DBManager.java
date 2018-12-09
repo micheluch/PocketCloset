@@ -614,4 +614,40 @@ public class DBManager extends SQLiteOpenHelper {
         }while(cursor.moveToNext());
         return searchedItems;
     }
+
+    public List<Clothing> getAllClothes(){
+        SQLiteDatabase db = getWritableDatabase();
+        List<Clothing> clothingList = new ArrayList<>();
+        String query = "SELECT * FROM " + TABLE_CLOTHING;
+        Cursor cursor = db.rawQuery(query, null);
+        int numberOfTableElements = cursor.getCount();
+        if(numberOfTableElements > 0){
+            cursor.moveToFirst();
+            do{
+                int dummyInt = cursor.getColumnIndex(COLUMN_CLOTHING_NAME);
+                String clothingName = cursor.getString(dummyInt);
+                clothingList.add(getClothing(clothingName));
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
+        return clothingList;
+    }
+
+    public List<Outfit> getAllOutfits(){
+        SQLiteDatabase db = getWritableDatabase();
+        List<Outfit> outfitList = new ArrayList<>();
+        String query = "SELECT * FROM " + TABLE_OUTFIT;
+        Cursor cursor = db.rawQuery(query, null);
+        int numberOfTableElements = cursor.getCount();
+        if(numberOfTableElements > 0){
+            cursor.moveToFirst();
+            do{
+                int dummyInt = cursor.getColumnIndex(COLUMN_CLOTHING_NAME);
+                String clothingName = cursor.getString(dummyInt);
+                outfitList.add(getOutfit(clothingName));
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
+        return outfitList;
+    }
 }
