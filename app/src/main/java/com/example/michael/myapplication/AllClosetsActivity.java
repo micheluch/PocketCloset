@@ -2,6 +2,8 @@ package com.example.michael.myapplication;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -33,6 +35,7 @@ public class AllClosetsActivity extends AppCompatActivity implements NavigationV
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
+    private DBManager manager;
     private Dialog dialog;
 
 
@@ -42,22 +45,20 @@ public class AllClosetsActivity extends AppCompatActivity implements NavigationV
         setContentView(R.layout.closet_recyclerview_layout);
 
         closetList = new ArrayList<>();
-        closetList.add(new Closet("Grandma's Upstairs Closet","The closet at Grandma's House",
-                R.drawable.double_closet_doors, 'W'));
-        closetList.add(new Closet("Grandma's Ski Resort","Michael's ski resort",
-                R.drawable.wooden_closet_doors_1, 'W'));
-        closetList.add(new Closet("Grandma's Downstairs Closet","The guest bedroom closet at Grandma's House",
-                R.drawable.white_bypass_doors, 'W'));
-        closetList.add(new Closet("Grandpa's Forbidden Closet","The guest bedroom closet at Grandma's House",
-                R.drawable.dark_wood_doors, 'W'));
-        closetList.add(new Closet("Grandpa's Stylin' Closet ","The guest bedroom closet at Grandma's House",
-                R.drawable.mirrored_wooden_doors, 'W'));
-        closetList.add(new Closet("Toy Closet","The guest bedroom closet at Grandma's House",
-                R.drawable.red_stainless_doors, 'W'));
-        closetList.add(new Closet("Great Aunt Susie's Guest Bedroom","The guest bedroom closet at Grandma's House",
-                R.drawable.modern_bar_door, 'W'));
-        closetList.add(new Closet("Grandma's Dark Past","Grandma's Skeletons",
-                R.drawable.skeletons, 'J'));
+        manager = new DBManager(this, null, null, 1);
+        String query = "SELECT * FROM " + DBManager.TABLE_CLOSET;
+        SQLiteDatabase db = manager.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        int numberOfTableElements = cursor.getCount();
+        if(numberOfTableElements > 0){
+            cursor.moveToFirst();
+            do{
+                int dummyInt = cursor.getColumnIndex(DBManager.COLUMN_OUTFIT_NAME);
+                String outfitName = cursor.getString(dummyInt);
+                closetList.add(manager.getCloset(outfitName));
+            }while (cursor.moveToNext());
+            cursor.close();
+        }
 
         RecyclerView my_recycler_view = (RecyclerView) findViewById(R.id.closet_recyclerview_id);
         AllClosetsRecyclerViewAdapter myAdapter = new AllClosetsRecyclerViewAdapter(this,closetList);

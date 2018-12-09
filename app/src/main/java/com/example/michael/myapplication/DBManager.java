@@ -39,7 +39,8 @@ public class DBManager extends SQLiteOpenHelper {
     public static final String COLUMN_CLOSET_NAME = "closet_name";
     public static final String COLUMN_CLOSET_LOCATION = "closet_location";
     public static final String COLUMN_CLOSET_ITEM_COUNT = "closet_size";
-    public static final String COLUMN_THUMBNAIL = "thumbnail";
+    public static final String COLUMN_CLOSET_DESCRIPTION = "closet_description";
+    public static final String COLUMN_CLOSET_IMAGEPATH = "closet_column_imagepath";
 
     //Outfit database information
     public static final String COLUMN_OUTFIT_NAME = "outfit_name";
@@ -92,8 +93,10 @@ public class DBManager extends SQLiteOpenHelper {
         query = "CREATE TABLE " + TABLE_CLOSET + " (" +
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_CLOSET_NAME + " TEXT, " +
+                COLUMN_CLOSET_DESCRIPTION + " TEXT, " +
                 COLUMN_CLOSET_LOCATION + " TEXT, " +
-                COLUMN_CLOSET_ITEM_COUNT + " INTEGER " +
+                COLUMN_CLOSET_ITEM_COUNT + " INTEGER, " +
+                COLUMN_CLOSET_IMAGEPATH + " TEXT " +
                 ");";
         db.execSQL(query);
 
@@ -256,28 +259,32 @@ public class DBManager extends SQLiteOpenHelper {
 
     private void addCloset(Closet newCloset) {
         ContentValues values = new ContentValues();
-        values.put(COLUMN_CLOSET_NAME, newCloset.getClosetName());
+        values.put(COLUMN_CLOSET_NAME, newCloset.getEntryName());
+        values.put(COLUMN_CLOSET_DESCRIPTION, newCloset.getDescription());
 
         SQLiteDatabase db = getWritableDatabase();
         db.insert(TABLE_CLOSET, null, values);
         //db.close();
     }
 
-//    private Outfit getCloset(int closetID) {
-//        SQLiteDatabase db = getWritableDatabase(); //check formatting on selectquery. Potentially spacing issues
-//        String selectQuery = "SELECT  * FROM " +
-//                TABLE_CLOSET +
-//                " WHERE " +
-//                COLUMN_ID +
-//                " = " + closetID;
-//        //should consider adding a Log
-//        //    Log.e(LOG, selectQuery);
-//        Cursor cursor = db.rawQuery(selectQuery, null);
-//        if (cursor != null)
-//            cursor.moveToFirst();
-//        return new Outfit(cursor.getString(cursor.getColumnIndex(COLUMN_CLOSET_NAME)), -1);
-//
-//    }
+    private Closet getCloset(int closetID) {
+        SQLiteDatabase db = getWritableDatabase(); //check formatting on selectquery. Potentially spacing issues
+        String selectQuery = "SELECT  * FROM " +
+                TABLE_CLOSET +
+                " WHERE " +
+                COLUMN_ID +
+                " = " + closetID;
+        //should consider adding a Log
+        //    Log.e(LOG, selectQuery);
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if (cursor != null)
+            cursor.moveToFirst();
+        return new Closet(cursor.getString(cursor.getColumnIndex(COLUMN_CLOSET_NAME)),
+                cursor.getString(cursor.getColumnIndex(COLUMN_CLOSET_DESCRIPTION)),
+                Entry.pocketClassType.CLOSET_TYPE,
+                cursor.getString(cursor.getColumnIndex(COLUMN_CLOSET_IMAGEPATH)));
+
+    }
 
     private void deleteCloset(String closetName) {
         SQLiteDatabase db = getWritableDatabase();
