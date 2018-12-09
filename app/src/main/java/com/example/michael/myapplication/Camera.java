@@ -156,6 +156,13 @@ public class Camera extends AppCompatActivity implements Serializable {
                         byte[] bytes = new byte[buffer.capacity()];
                         buffer.get(bytes);
                         save(bytes);
+                        if (displayImage(v, file)) {
+                            Toast.makeText(Camera.this, "Saved " + file, Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            createCameraPreview();
+                        }
 
                     }
                     catch (FileNotFoundException e)
@@ -190,13 +197,7 @@ public class Camera extends AppCompatActivity implements Serializable {
                 @Override
                 public void onCaptureCompleted(@NonNull CameraCaptureSession session, @NonNull CaptureRequest request, @NonNull TotalCaptureResult result) {
                     super.onCaptureCompleted(session, request, result);
-                    if (displayImage(v, file)) {
-                        Toast.makeText(Camera.this, "Saved " + file, Toast.LENGTH_SHORT).show();
-                    }
-                    else
-                    {
-                        createCameraPreview();
-                    }
+                    createCameraPreview();
 
                 }
             };
@@ -363,11 +364,12 @@ public class Camera extends AppCompatActivity implements Serializable {
 
     private boolean displayImage(View v, File image)
     {
-        Intent mIntent = new Intent(this,ImagePreview.class);
+        Intent mIntent = new Intent(v.getContext(),ImagePreview.class);
         Bundle mBundle = new Bundle();
         mBundle.putSerializable("image",image);
         mIntent.putExtras(mBundle);
         startActivityForResult(mIntent, 1);
+        return true;
     }
 
     @Override
@@ -377,8 +379,8 @@ public class Camera extends AppCompatActivity implements Serializable {
             if(resultCode == Activity.RESULT_OK){
                 boolean result = data.getBooleanExtra("result", true);
             }
-            if (resultCode == Activity.RESULT_CANCELED) {
-                //Write your code if there's no result
+            else if (resultCode == Activity.RESULT_CANCELED) {
+                //No result I guess
             }
         }
     }//onActivityResult
