@@ -1,5 +1,7 @@
 package com.example.michael.myapplication;
 
+import android.content.res.AssetManager;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
@@ -67,13 +69,13 @@ public abstract class Entry {
 
     public Bitmap retrieveImageFromFolder() {
 
-        try {
-            File f = new File(this.path, getEntryName() + ".png");
-            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
-            return b;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            File f = new File(this.path, getEntryName() + ".png");
+//            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
+//            return b;
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
 
         return null;
     }

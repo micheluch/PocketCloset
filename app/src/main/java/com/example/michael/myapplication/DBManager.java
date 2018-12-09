@@ -94,8 +94,6 @@ public class DBManager extends SQLiteOpenHelper {
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_CLOSET_NAME + " TEXT, " +
                 COLUMN_CLOSET_DESCRIPTION + " TEXT, " +
-                COLUMN_CLOSET_LOCATION + " TEXT, " +
-                COLUMN_CLOSET_ITEM_COUNT + " INTEGER, " +
                 COLUMN_CLOSET_IMAGEPATH + " TEXT " +
                 ");";
         db.execSQL(query);
@@ -258,10 +256,11 @@ public class DBManager extends SQLiteOpenHelper {
         db.close();
     }
 
-    private void addCloset(Closet newCloset) {
+    public void addCloset(Closet newCloset) {
         ContentValues values = new ContentValues();
         values.put(COLUMN_CLOSET_NAME, newCloset.getEntryName());
         values.put(COLUMN_CLOSET_DESCRIPTION, newCloset.getDescription());
+        values.put(COLUMN_CLOSET_IMAGEPATH, newCloset.getPath());
 
         SQLiteDatabase db = getWritableDatabase();
         db.insert(TABLE_CLOSET, null, values);
@@ -292,17 +291,20 @@ public class DBManager extends SQLiteOpenHelper {
         String selectQuery = "SELECT  * FROM " +
                 TABLE_CLOSET +
                 " WHERE " +
-                COLUMN_ID +
+                COLUMN_CLOSET_NAME +
                 " LIKE '%" + closetName + "%'";
         //should consider adding a Log
         //    Log.e(LOG, selectQuery);
         Cursor cursor = db.rawQuery(selectQuery, null);
-        if (cursor != null)
+        if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
-        return new Closet(cursor.getString(cursor.getColumnIndex(COLUMN_CLOSET_NAME)),
-                cursor.getString(cursor.getColumnIndex(COLUMN_CLOSET_DESCRIPTION)),
-                Entry.pocketClassType.CLOSET_TYPE,
-                cursor.getString(cursor.getColumnIndex(COLUMN_CLOSET_IMAGEPATH)));
+            return new Closet(cursor.getString(cursor.getColumnIndex(COLUMN_CLOSET_NAME)),
+                    cursor.getString(cursor.getColumnIndex(COLUMN_CLOSET_DESCRIPTION)),
+                    Entry.pocketClassType.CLOSET_TYPE,
+                    cursor.getString(cursor.getColumnIndex(COLUMN_CLOSET_IMAGEPATH)));
+        }
+        else return null;
+
 
     }
 

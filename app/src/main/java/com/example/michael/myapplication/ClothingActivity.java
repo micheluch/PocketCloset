@@ -119,7 +119,7 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
         CardView camera;
         dialog.setContentView(R.layout.add_clothing_popup);
 
-        btnAdd = (Button) dialog.findViewById(R.id.addButton);
+        btnAdd = (Button)dialog.findViewById(R.id.addButton);
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -142,7 +142,7 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
             }
         });
 
-        txtclose = (TextView) dialog.findViewById(R.id.txtclose);
+        txtclose = (TextView)dialog.findViewById(R.id.txtclose);
 
         txtclose.setOnClickListener(new View.OnClickListener() {
             @Override

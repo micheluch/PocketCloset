@@ -136,6 +136,9 @@ public class AllClosetsActivity extends AppCompatActivity implements NavigationV
             @Override
             public void onClick(View v) {
                 EditText entryBox = (EditText) dialog.findViewById(R.id.closet_name_entry_box);
+                Closet newCloset = new Closet(entryBox.getText().toString(), "Test", Entry.pocketClassType.CLOSET_TYPE, "");
+                manager.addCloset(newCloset);
+                dialog.dismiss();
             }
         });
         //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
