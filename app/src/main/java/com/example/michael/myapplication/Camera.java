@@ -109,6 +109,9 @@ public class Camera extends AppCompatActivity implements Serializable {
             @Override
             public void onClick(View view) {
                 takePicture(view);
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("result",file);
+                setResult(Activity.RESULT_OK,returnIntent);
             }
         });
     }

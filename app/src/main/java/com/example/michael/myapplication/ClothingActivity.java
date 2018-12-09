@@ -1,5 +1,6 @@
 package com.example.michael.myapplication;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
@@ -21,11 +22,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class ClothingActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class ClothingActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Serializable {
 
     List<Clothing> clothingList; //switch to wearable later for clothing and outfits
     private final static int ROWS_WIDE = 3;
@@ -35,6 +38,7 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
     private ActionBarDrawerToggle toggle;
     private Dialog dialog;
     private DBManager manager;
+    private File imageFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,6 +120,7 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
         TextView txtclose;
         Button btnAdd;
         CardView camera;
+        Clothing entry;
         dialog.setContentView(R.layout.add_clothing_popup);
 
         btnAdd = (Button) dialog.findViewById(R.id.addButton);
@@ -137,7 +142,8 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(v.getContext(),Camera.class);
-                startActivity(i);
+                startActivityForResult(i, 1);
+
             }
         });
 
@@ -151,5 +157,18 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
         });
         //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 1) {
+            if(resultCode == Activity.RESULT_OK){
+                imageFile = (File)data.getSerializableExtra("result");
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //No picture was taken
+            }
+        }
     }
 }
