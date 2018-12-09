@@ -108,13 +108,15 @@ public class CreateOutfitSticker extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(StickerViewHolder holder, int position) {
-            Bitmap original = getItem(position);
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            original.compress(Bitmap.CompressFormat.PNG, 0, out);
-            Bitmap decoded = BitmapFactory.decodeStream(new ByteArrayInputStream(out.toByteArray()));
+            //Bitmap original = getItem(position);
+            //ByteArrayOutputStream out = new ByteArrayOutputStream();
+            //original.compress(Bitmap.CompressFormat.PNG, 0, out);
+            //Bitmap decoded = BitmapFactory.decodeStream(new ByteArrayInputStream(out.toByteArray()));
 
 
-            holder.image.setImageBitmap(decoded);
+            //holder.image.setImageBitmap(decoded);
+            holder.image.setImageBitmap(getItem(position));
+
         }
 
         @Override

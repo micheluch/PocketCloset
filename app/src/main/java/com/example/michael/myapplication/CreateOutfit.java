@@ -134,7 +134,8 @@ public class CreateOutfit extends AppCompatActivity {
 
                     return;
                 }
-                
+
+                outfit.setEntryName(textInputOutfitName.getEditText().getText().toString().trim());
 
 
                 //save image
@@ -143,11 +144,11 @@ public class CreateOutfit extends AppCompatActivity {
                 if(!directory.exists()){
                     directory.mkdir();
                 }
-                File mypath = new File(directory, outfit.getEntryName() + ".jpg");
+                File mypath = new File(directory, outfit.getEntryName() + ".png");
                 FileOutputStream fos = null;
                 try{
                     fos = new FileOutputStream(mypath);
-                    outfitImage.compress(Bitmap.CompressFormat.JPEG, 1, fos);
+                    outfitImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
                     fos.close();
 
                 }catch(Exception e){
@@ -158,7 +159,6 @@ public class CreateOutfit extends AppCompatActivity {
                 outfit.setPath(directory.getAbsolutePath());
                 SQLiteDatabase db = dbManager.getWritableDatabase();
                 //set image
-                outfit.setEntryName(textInputOutfitName.getEditText().getText().toString().trim());
                 outfit.setDescription(textInputDescription.getEditText().getText().toString().trim());
                 outfit.setImage();
                 dbManager.addOutfit(outfit);
