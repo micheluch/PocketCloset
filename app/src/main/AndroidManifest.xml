@@ -41,9 +41,9 @@
         <activity android:name=".ThreePieceOutfit" />
         <activity android:name=".AddNewOutfit" />
         <activity android:name=".EditOutfit" />
-        <activity android:name=".CreateOutfit"></activity>
+        <activity android:name=".CreateOutfit" />
         <activity android:name=".CreateOutfitSticker" />
-
+        <activity android:name=".ClothingList"></activity>
     </application>
 
 </manifest>

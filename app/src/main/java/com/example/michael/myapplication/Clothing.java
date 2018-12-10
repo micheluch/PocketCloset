@@ -11,16 +11,16 @@ public class Clothing extends Entry {
     //Clothing-only data members
 
     public enum clothingType {shirt, pants, shoes, other} //can get integer value by doing getOrdinal();
-    private clothingType type;
+    private EnumType type;
     public enum clothingColor {white, black, grey, red, orange, yellow, green, blue, purple, pink, brown}
-    private clothingColor color;
+    private EnumColor color;
     public enum clothingCondition {dirty, borrowed, ready}
-    private clothingCondition condition;
+    private EnumCondition condition;
     private int Xcoordinate;
     private int Ycoordinate;
 
-    public Clothing(String entryName, String path, int id, clothingType type, clothingColor color,
-                    clothingCondition condition, int xcoordinate, int ycoordinate) {
+    public Clothing(String entryName, String path, int id, EnumType type, EnumColor color,
+                    EnumCondition condition, int xcoordinate, int ycoordinate) {
         super(entryName, path, id);
         setEntryType(pocketClassType.CLOTHING_TYPE);
         this.type = type;
@@ -30,7 +30,7 @@ public class Clothing extends Entry {
         Ycoordinate = ycoordinate;
     }
 
-    public Clothing(String entryName, String path, int id, clothingType type, clothingColor color, clothingCondition condition) {
+    public Clothing(String entryName, String path, int id, EnumType type, EnumColor color, EnumCondition condition) {
         this(entryName, path, id, type, color, condition, 0, 0);
     }
 
@@ -49,19 +49,19 @@ public class Clothing extends Entry {
     //Clothing-only methods
 
 
-    public clothingColor getColor() {
+    public EnumColor getColor() {
         return color;
     }
 
-    public void setColor(clothingColor color) {
+    public void setColor(EnumColor color) {
         this.color = color;
     }
 
-    public clothingCondition getCondition() {
+    public EnumCondition getCondition() {
         return condition;
     }
 
-    public void setCondition(clothingCondition condition) {
+    public void setCondition(EnumCondition condition) {
         this.condition = condition;
     }
 
@@ -69,7 +69,7 @@ public class Clothing extends Entry {
         return type.ordinal();
     }
 
-    public void setType(clothingType type) {
+    public void setType(EnumType type) {
         this.type = type;
     }
 

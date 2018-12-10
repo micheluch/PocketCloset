@@ -204,7 +204,7 @@ public class DBManager extends SQLiteOpenHelper {
         db.close();
     }
 
-    private void addCloset(Closet newCloset) {
+    public void addCloset(Closet newCloset) {
         ContentValues values = new ContentValues();
         values.put(COLUMN_CLOSET_NAME, newCloset.getClosetName());
 
@@ -258,7 +258,7 @@ public class DBManager extends SQLiteOpenHelper {
         } else {
             db.insert(TABLE_CLOTHING, null, values);
         }
-        db.close();
+        //db.close();
     }
 
     public Clothing getClothing(String clothingName) {
@@ -275,9 +275,9 @@ public class DBManager extends SQLiteOpenHelper {
             searchedClothing = new Clothing(cursor.getString(cursor.getColumnIndex(COLUMN_CLOTHING_NAME)),
                     cursor.getString(cursor.getColumnIndex(COLUMN_CLOTHING_PICTURE_PATH)),
                     cursor.getInt(cursor.getColumnIndex(COLUMN_ID)),
-                    Clothing.clothingType.values()[cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_TYPE))],
-                    Clothing.clothingColor.values()[cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_COLOR))],
-                    Clothing.clothingCondition.values()[cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_CONDITION))],
+                    EnumType.values()[cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_TYPE))],
+                    EnumColor.values()[cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_COLOR))],
+                    EnumCondition.values()[cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_CONDITION))],
                     cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_XCOORD)),
                     cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_YCOORD))
             );
@@ -303,15 +303,15 @@ public class DBManager extends SQLiteOpenHelper {
             searchedClothing = new Clothing(cursor.getString(cursor.getColumnIndex(COLUMN_CLOTHING_NAME)),
                     cursor.getString(cursor.getColumnIndex(COLUMN_CLOTHING_PICTURE_PATH)),
                     cursor.getInt(cursor.getColumnIndex(COLUMN_ID)),
-                    Clothing.clothingType.values()[cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_TYPE))],
-                    Clothing.clothingColor.values()[cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_COLOR))],
-                    Clothing.clothingCondition.values()[cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_CONDITION))],
+                    EnumType.values()[cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_TYPE))],
+                    EnumColor.values()[cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_COLOR))],
+                    EnumCondition.values()[cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_CONDITION))],
                     cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_XCOORD)),
                     cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_YCOORD))
             );
             cursor.close();
         }
-        db.close();
+       // db.close();
         return searchedClothing;
     }
 
