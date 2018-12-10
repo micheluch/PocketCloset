@@ -2,6 +2,7 @@ package com.example.michael.myapplication;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +18,7 @@ public class ClothingRecyclerViewAdapter extends RecyclerView.Adapter<ClothingRe
 
     private Context mContext;
     private List<Clothing> mData;
+    private Bitmap currentBitmap;
 
     public ClothingRecyclerViewAdapter(Context mContext, List<Clothing> mData) {
         this.mContext = mContext;
@@ -35,8 +37,8 @@ public class ClothingRecyclerViewAdapter extends RecyclerView.Adapter<ClothingRe
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder viewHolder, final int i) {
-
         viewHolder.tv_clothing_title.setText(mData.get(i).getEntryName());
+
         viewHolder.img_clothing_thumbnail.setImageBitmap(mData.get(i).retrieveImageFromFolder());
 
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {

@@ -1,5 +1,6 @@
 package com.example.michael.myapplication;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
@@ -25,11 +26,13 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class ClothingActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class ClothingActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Serializable {
 
     List<Clothing> clothingList; //switch to wearable later for clothing and outfits
     private final static int ROWS_WIDE = 3;
@@ -39,6 +42,7 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
     private ActionBarDrawerToggle toggle;
     private Dialog dialog;
     private DBManager manager;
+    private File imageFile;
     private Spinner spinnerType, spinnerColor, spinnerCondition;
     private EnumType type;
     private EnumColor color;
@@ -124,6 +128,8 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
 
         TextView txtclose;
         Button btnAdd;
+        CardView camera;
+        Clothing entry;
         dialog.setContentView(R.layout.add_clothing_popup);
         spinnerType = dialog.findViewById(R.id.type);
         spinnerColor = dialog.findViewById(R.id.color);
@@ -186,7 +192,7 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
                 }
 
 
-                Clothing clothing = new Clothing(textInputName.getEditText().getText().toString().trim(), "", 0, type, color, condition, 0, 0);
+                Clothing clothing = new Clothing(textInputName.getEditText().getText().toString().trim(), imageFile.getPath(), 0, type, color, condition, 0, 0);
                 clothingList.add(clothing);
 
                 SQLiteDatabase db = manager.getWritableDatabase();
@@ -203,6 +209,16 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
             }
         });
 
+        camera = (CardView) dialog.findViewById(R.id.cameraViewClothing);
+        camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(v.getContext(),Camera.class);
+                startActivityForResult(i, 1);
+
+            }
+        });
+
         txtclose = (TextView) dialog.findViewById(R.id.txtclose);
 
         txtclose.setOnClickListener(new View.OnClickListener() {
@@ -213,6 +229,19 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
         });
         //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 1) {
+            if(resultCode == Activity.RESULT_OK){
+                imageFile = (File)data.getSerializableExtra("result");
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //No picture was taken
+            }
+        }
     }
 
 

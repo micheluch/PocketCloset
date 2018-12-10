@@ -70,6 +70,7 @@ public abstract class Entry {
     public Bitmap retrieveImageFromFolder() {
 
         try {
+            //File f = new File(this.path, getEntryName() + ".png");
             File f = new File(this.path, getEntryName() + ".png");
             Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
             this.image = b;
