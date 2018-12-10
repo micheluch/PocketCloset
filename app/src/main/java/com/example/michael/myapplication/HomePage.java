@@ -1,6 +1,7 @@
 package com.example.michael.myapplication;
 
 import android.content.Intent;
+import android.os.Environment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -27,7 +28,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
 
         DBManager dbManager = new DBManager(this, null, null, 1);
         dbManager.onUpgrade(dbManager.getWritableDatabase(),1,1);
-        Clothing testClothing = new Clothing("asdsa", "/data/user/0/com.example.michael.myapplication/app_outfits",-999,Clothing.clothingType.pants,
+        Clothing testClothing = new Clothing("aaa", Environment.getExternalStorageDirectory().getPath(),-999,Clothing.clothingType.pants,
                                 Clothing.clothingColor.black,Clothing.clothingCondition.dirty);
 //        //Outfit testOutfit = new Outfit("TestOutfit",-999);
          dbManager.addClothing(testClothing);
