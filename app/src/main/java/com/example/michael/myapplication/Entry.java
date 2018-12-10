@@ -4,10 +4,13 @@ import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.Serializable;
 
 public abstract class Entry {
     //Data members shared by Clothing and Outfit
@@ -69,14 +72,17 @@ public abstract class Entry {
 
     public Bitmap retrieveImageFromFolder() {
 
-//        try {
-//            File f = new File(this.path, getEntryName() + ".png");
-//            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
-//            return b;
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            File f = new File(this.path, getEntryName() + ".png");
+            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
+            this.image = b;
+            return b;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
         return null;
     }
+
+
 }

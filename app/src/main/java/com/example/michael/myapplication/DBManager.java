@@ -428,6 +428,7 @@ public class DBManager extends SQLiteOpenHelper {
                     cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_XCOORD)),
                     cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_YCOORD))
             );
+            searchedClothing.setImage();
             cursor.close();
         }
 
