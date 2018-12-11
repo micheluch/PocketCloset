@@ -145,19 +145,19 @@ public class CreateOutfit extends AppCompatActivity {
                 if(!directory.exists()){
                     directory.mkdir();
                 }
-                File mypath = new File(directory, outfit.getEntryName() + ".png");
-                FileOutputStream fos = null;
-                try{
-                    fos = new FileOutputStream(mypath);
-                    outfitImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
-                    fos.close();
+                File mypath = new File(directory.getAbsolutePath() + outfit.getEntryName() + ".png");
+//                FileOutputStream fos = null;
+//                try{
+//                    fos = new FileOutputStream(mypath);
+//                    outfitImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+//                    fos.close();
+//
+//                }catch(Exception e){
+//
+//                    e.printStackTrace();
+//                }
 
-                }catch(Exception e){
-
-                    e.printStackTrace();
-                }
-
-                outfit.setPath(directory.getAbsolutePath());
+                outfit.setPath(mypath.getAbsolutePath());
                 SQLiteDatabase db = dbManager.getWritableDatabase();
                 //set image
                 outfit.setDescription(textInputDescription.getEditText().getText().toString().trim());
@@ -181,12 +181,11 @@ public class CreateOutfit extends AppCompatActivity {
                 ImageView img = (ImageView) dialog.findViewById(R.id.viewImage);
                 img.setImageBitmap(outfit.getImage());
 
-                //dialog.cancel();
-                Intent i = new Intent(CreateOutfit.this,OutfitActivity.class);
-                CreateOutfit.this.startActivity(i);
+                dialog.dismiss();
+//                Intent i = new Intent(CreateOutfit.this,OutfitActivity.class);
+//                CreateOutfit.this.startActivity(i);
             }
         });
-        //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dbManager.close();
         dialog.show();
     }
