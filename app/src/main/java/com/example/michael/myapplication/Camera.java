@@ -67,6 +67,7 @@ public class Camera extends AppCompatActivity implements Serializable {
     private Size imageDimension;
     private ImageReader imageReader;
     private String latestImagePath;
+    private boolean resultRetake;
 
     //Save to FILE
     private File file;
@@ -165,10 +166,6 @@ public class Camera extends AppCompatActivity implements Serializable {
                         buffer.get(bytes);
                         save(bytes);
                         startActivityForResult(i, 1, mBundle);
-                        finish();
-
-
-
                     }
                     catch (FileNotFoundException e)
                     {
@@ -388,11 +385,15 @@ public class Camera extends AppCompatActivity implements Serializable {
 
         if (requestCode == 1) {
             if(resultCode == Activity.RESULT_OK){
-                boolean result = data.getBooleanExtra("result", true);
+                this.resultRetake = data.getBooleanExtra("result", true);
+                if (this.resultRetake)
+                {
+                    finish();
+                }
             }
             else if (resultCode == Activity.RESULT_CANCELED) {
                 //No result I guess
             }
         }
-    }//onActivityResult
+    }
 }
