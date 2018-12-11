@@ -40,6 +40,8 @@ public class AllClosetsRecyclerViewAdapter extends RecyclerView.Adapter<AllClose
 
         viewHolder.tv_closet_title.setText(mData.get(i).getEntryName());
 
+        viewHolder.img_closet_thumbnail.setImageBitmap(mData.get(i).retrieveImageFromFolder());
+
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
