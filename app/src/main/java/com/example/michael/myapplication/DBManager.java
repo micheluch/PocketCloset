@@ -111,12 +111,12 @@ public class DBManager extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CLOSET);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_OUTFIT);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CLOTHING);
-        db.execSQL("DROP TABLE IF EXISTS " + REFERENCE_TABLE_OUTFIT);
-        db.execSQL("DROP TABLE IF EXISTS " + REFERENCE_TABLE_CLOSET);
-        onCreate(db);
+//        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CLOSET);
+//        db.execSQL("DROP TABLE IF EXISTS " + TABLE_OUTFIT);
+//        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CLOTHING);
+//        db.execSQL("DROP TABLE IF EXISTS " + REFERENCE_TABLE_OUTFIT);
+//        db.execSQL("DROP TABLE IF EXISTS " + REFERENCE_TABLE_CLOSET);
+//        onCreate(db);
     }
 
 
@@ -285,11 +285,12 @@ public class DBManager extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(selectQuery, null);
         if (cursor != null)
             cursor.moveToFirst();
-        return new Closet(cursor.getString(cursor.getColumnIndex(COLUMN_CLOSET_NAME)),
+        Closet result = new Closet(cursor.getString(cursor.getColumnIndex(COLUMN_CLOSET_NAME)),
                 cursor.getString(cursor.getColumnIndex(COLUMN_CLOSET_DESCRIPTION)),
                 Entry.pocketClassType.CLOSET_TYPE,
                 cursor.getString(cursor.getColumnIndex(COLUMN_CLOSET_IMAGEPATH)));
-
+        result.contentList = getEntriesFromCloset(result.getEntryId());
+        return result;
     }
 
     public Closet getCloset(String closetName) {
@@ -444,11 +445,12 @@ public class DBManager extends SQLiteOpenHelper {
         values.put(COLUMN_CLOTHING_XCOORD, newClothing.getXcoordinate());
         values.put(COLUMN_CLOTHING_YCOORD, newClothing.getYcoordinate());
 
-        if (entryExists(newClothing.name, TABLE_CLOTHING)) {
-            db.update(TABLE_CLOTHING, values, null, null);
-        } else {
-            db.insert(TABLE_CLOTHING, null, values);
-        }
+//        if (entryExists(newClothing.name, TABLE_CLOTHING)) {
+//            db.update(TABLE_CLOTHING, values, COLUMN_CLOTHING_NAME + " = " + newClothing.name, null);
+//        } else {
+//            db.insert(TABLE_CLOTHING, null, values);
+//        }
+        db.insert(TABLE_CLOTHING, null, values);
         //db.close();
     }
 
