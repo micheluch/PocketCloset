@@ -144,7 +144,7 @@ public class AllClosetsActivity extends AppCompatActivity implements NavigationV
                 Cursor cursor = db.rawQuery(query, null);
                 int numberOfTableElements = cursor.getCount();
                 cursor.close();
-                dialog.cancel();
+                dialog.dismiss();
             }
 
         });

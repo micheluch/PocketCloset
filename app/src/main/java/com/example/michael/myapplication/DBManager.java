@@ -263,6 +263,20 @@ public class DBManager extends SQLiteOpenHelper {
         db.close();
     }
 
+    private void deleteOutfit(int outfitID) {
+        // TODO: rework this method to take a Closet argument and remove the outfit from its closet
+        SQLiteDatabase db = getWritableDatabase();
+        String query = "DELETE FROM " +
+                TABLE_OUTFIT +
+                " WHERE " +
+                COLUMN_ID +
+                " = " +
+                outfitID +
+                ";";
+        db.execSQL(query);
+        db.close();
+    }
+
     public void addCloset(Closet newCloset) {
         ContentValues values = new ContentValues();
         values.put(COLUMN_CLOSET_NAME, newCloset.getEntryName());
@@ -312,11 +326,7 @@ public class DBManager extends SQLiteOpenHelper {
                 cursor.getString(cursor.getColumnIndex(COLUMN_CLOSET_IMAGEPATH)));
         int closetReferenceID = cursor.getInt(cursor.getColumnIndex(COLUMN_ID));
         databaseCloset.setEntryId(closetReferenceID);
-        List<Entry> closetItems = getEntriesForCloset(closetReferenceID);
-        if (closetItems != null) {
-            for (Entry closetItem : closetItems)
-                databaseCloset.addEntryToCloset(closetItem);
-        }
+        databaseCloset.contentList = getEntriesForCloset(closetReferenceID);
         return databaseCloset;
     }
 
@@ -347,6 +357,19 @@ public class DBManager extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
             return clothingInCloset;
         }
+    }
+
+    private void deleteCloset(int closetID) {
+        SQLiteDatabase db = getWritableDatabase();
+        String query = "DELETE FROM " +
+                TABLE_CLOSET +
+                " WHERE " +
+                COLUMN_ID +
+                " = " +
+                closetID +
+                ";";
+        db.execSQL(query);
+        //db.close();
     }
 
     private void deleteCloset(String closetName) {
@@ -515,7 +538,18 @@ public class DBManager extends SQLiteOpenHelper {
                 TABLE_CLOTHING +
                 " WHERE " +
                 COLUMN_CLOTHING_NAME +
-                " LIKE '%" + clothingName + "%'";
+                " LIKE '%" + clothingName + "%';";
+        db.execSQL(query);
+    }
+
+    private void deleteClothing(int clothingID) {
+        // TODO: rework this method to take a Closet argument and remove the clothing from its closet
+        SQLiteDatabase db = getWritableDatabase();
+        String query = "DELETE FROM " +
+                TABLE_CLOTHING +
+                " WHERE " +
+                COLUMN_ID +
+                " = " + clothingID + ";";
         db.execSQL(query);
     }
 
@@ -536,6 +570,21 @@ public class DBManager extends SQLiteOpenHelper {
 
         }
         return potentialExistingEntry != null;
+    }
+
+    public void deleteEntry(Entry entry) {
+        switch (entry.type) {
+            case CLOSET_TYPE:
+                this.deleteCloset(entry.id);
+                break;
+            case CLOTHING_TYPE:
+                this.deleteClothing(entry.id);
+                break;
+            case OUTFIT_TYPE:
+                this.deleteOutfit(entry.id);
+                break;
+            default:
+        }
     }
 
     //can remove this final int by restructuring the database to have all second columns be the name
