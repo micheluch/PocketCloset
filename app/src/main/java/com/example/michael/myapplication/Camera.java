@@ -166,11 +166,7 @@ public class Camera extends AppCompatActivity implements Serializable {
                         save(bytes);
                         startActivityForResult(i, 1, mBundle);
                         finish();
-//                        boolean result = (boolean)getIntent().getSerializableExtra("result");
-//                        if (result)
-//                        {
-//
-//                        }
+
 
 
                     }
