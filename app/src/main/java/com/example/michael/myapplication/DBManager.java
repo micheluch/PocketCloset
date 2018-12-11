@@ -446,7 +446,7 @@ public class DBManager extends SQLiteOpenHelper {
         values.put(COLUMN_CLOTHING_YCOORD, newClothing.getYcoordinate());
 
         if (entryExists(newClothing.name, TABLE_CLOTHING)) {
-            db.update(TABLE_CLOTHING, values, null, null);
+            db.update(TABLE_CLOTHING, values, COLUMN_CLOTHING_NAME + " = " + newClothing.name, null);
         } else {
             db.insert(TABLE_CLOTHING, null, values);
         }
