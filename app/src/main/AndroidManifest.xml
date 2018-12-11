@@ -45,7 +45,6 @@
             android:name=".ClothingActivity"
             android:exported="true" />
         <activity android:name=".ThreePieceOutfit" />
-        <activity android:name=".AddNewOutfit" />
         <activity android:name=".EditOutfit" />
         <activity android:name=".CreateOutfit" />
         <activity android:name=".CreateOutfitSticker" />

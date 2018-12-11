@@ -111,12 +111,12 @@ public class DBManager extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CLOSET);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_OUTFIT);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CLOTHING);
-        db.execSQL("DROP TABLE IF EXISTS " + REFERENCE_TABLE_OUTFIT);
-        db.execSQL("DROP TABLE IF EXISTS " + REFERENCE_TABLE_CLOSET);
-        onCreate(db);
+//        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CLOSET);
+//        db.execSQL("DROP TABLE IF EXISTS " + TABLE_OUTFIT);
+//        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CLOTHING);
+//        db.execSQL("DROP TABLE IF EXISTS " + REFERENCE_TABLE_OUTFIT);
+//        db.execSQL("DROP TABLE IF EXISTS " + REFERENCE_TABLE_CLOSET);
+//        onCreate(db);
     }
 
 
@@ -289,8 +289,7 @@ public class DBManager extends SQLiteOpenHelper {
                 cursor.getString(cursor.getColumnIndex(COLUMN_CLOSET_DESCRIPTION)),
                 Entry.pocketClassType.CLOSET_TYPE,
                 cursor.getString(cursor.getColumnIndex(COLUMN_CLOSET_IMAGEPATH)));
-        result.contentList = getEntriesFromCloset(result.getEntryId(), Entry.pocketClassType.CLOTHING_TYPE);
-        result.contentList.addAll(getEntriesFromCloset(result.getEntryId(), Entry.pocketClassType.OUTFIT_TYPE));
+        result.contentList = getEntriesFromCloset(result.getEntryId());
         return result;
     }
 

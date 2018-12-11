@@ -193,12 +193,6 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
                 SQLiteDatabase db = manager.getWritableDatabase();
                 manager.addClothing(clothing);
 
-                String query = "SELECT * FROM " + DBManager.TABLE_CLOTHING;
-
-                Cursor cursor = db.rawQuery(query, null);
-                int numberOfTableElements = cursor.getCount();
-                cursor.close();
-
 
                 dialog.dismiss();
             }
