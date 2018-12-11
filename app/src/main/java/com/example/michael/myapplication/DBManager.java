@@ -276,6 +276,13 @@ public class DBManager extends SQLiteOpenHelper {
                 outfitID +
                 ";";
         db.execSQL(query);
+        query = "DELETE FROM " +
+                REFERENCE_TABLE_OUTFIT +
+                " WHERE " +
+                COLUMN_ID +
+                " = " +
+                outfitID +
+                ";";
         db.close();
     }
 
@@ -559,7 +566,9 @@ public class DBManager extends SQLiteOpenHelper {
                 TABLE_CLOTHING +
                 " WHERE " +
                 COLUMN_ID +
-                " = " + clothingID + ";";
+                " = " +
+                clothingID +
+                ";";
         db.execSQL(query);
     }
 
