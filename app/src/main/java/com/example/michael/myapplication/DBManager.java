@@ -242,7 +242,7 @@ public class DBManager extends SQLiteOpenHelper {
             List<Clothing> clothingInOutfit = new ArrayList<>(cursor.getCount());
             cursor.moveToFirst();
             do {
-                Clothing outfitItem = getClothing(cursor.getString(columnInd));
+                Clothing outfitItem = getClothing(cursor.getInt(columnInd));
                 clothingInOutfit.add(outfitItem);
             } while (cursor.moveToNext());
             return clothingInOutfit;
