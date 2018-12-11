@@ -57,19 +57,6 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
         clothingList = new ArrayList<>();
         manager = new DBManager(this, null, null, 1);
         clothingList.addAll(manager.getAllClothes());
-        SQLiteDatabase db = manager.getWritableDatabase();
-        String query = "SELECT * FROM " + DBManager.TABLE_CLOTHING;
-        Cursor cursor = db.rawQuery(query, null);
-        int numberOfTableElements = cursor.getCount();
-        if(numberOfTableElements > 0){
-            cursor.moveToFirst();
-            do{
-                int dummyInt = cursor.getColumnIndex(DBManager.COLUMN_CLOTHING_NAME);
-                String clothingName = cursor.getString(dummyInt);
-                clothingList.add(manager.getClothing(clothingName));
-            } while (cursor.moveToNext());
-            cursor.close();
-        }
 
         RecyclerView my_recycler_view = (RecyclerView) findViewById(R.id.clothing_recyclerview_id);
         ClothingRecyclerViewAdapter myAdapter = new ClothingRecyclerViewAdapter(this, clothingList);
@@ -194,7 +181,7 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
 //                        0);
                 //manager.addClothing(entry);
 
-                if(!validateName(textInputName) | !validateLocation(textInputLocation)){
+                if(!validateName(textInputName)){
 
                     return;
                 }
