@@ -46,8 +46,9 @@ public class AllClosetsActivity extends AppCompatActivity implements NavigationV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.closet_recyclerview_layout);
 
-        closetList = new ArrayList<>();
+
         manager = new DBManager(this, null, null, 1);
+        closetList = manager.getAllClosets();
 
 
         RecyclerView my_recycler_view = (RecyclerView) findViewById(R.id.closet_recyclerview_id);
@@ -134,7 +135,7 @@ public class AllClosetsActivity extends AppCompatActivity implements NavigationV
 
                 Closet closet = new Closet(textInputClosetName.getEditText().getText().toString().trim(), "",
                         Entry.pocketClassType.CLOSET_TYPE, "");
-
+                closet.setEntryId(manager.getOutfitID());
                 SQLiteDatabase db = manager.getWritableDatabase();
                 manager.addCloset(closet);
 
@@ -144,7 +145,7 @@ public class AllClosetsActivity extends AppCompatActivity implements NavigationV
                 Cursor cursor = db.rawQuery(query, null);
                 int numberOfTableElements = cursor.getCount();
                 cursor.close();
-                dialog.cancel();
+                dialog.dismiss();
             }
 
         });
