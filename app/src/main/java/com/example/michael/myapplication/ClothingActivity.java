@@ -127,7 +127,7 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
         spinnerCondition.setAdapter(new ArrayAdapter<Clothing.clothingCondition>(this, R.layout.support_simple_spinner_dropdown_item, Clothing.clothingCondition.values()));
         spinnerColor.setAdapter(new ArrayAdapter<Clothing.clothingColor>(this, R.layout.support_simple_spinner_dropdown_item, Clothing.clothingColor.values()));
 
-        final TextInputLayout textInputName  = dialog.findViewById(R.id.text_input_ClothingName);
+        final TextInputLayout textInputName = dialog.findViewById(R.id.text_input_ClothingName);
         final TextInputLayout textInputLocation = dialog.findViewById(R.id.text_input_location);
         btnAdd = (Button) dialog.findViewById(R.id.addButton);
         spinnerType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -145,7 +145,7 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
         spinnerColor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                color = (Clothing.clothingColor)spinnerColor.getSelectedItem();
+                color = (Clothing.clothingColor) spinnerColor.getSelectedItem();
             }
 
             @Override
@@ -157,7 +157,7 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
         spinnerCondition.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                condition = (Clothing.clothingCondition)spinnerCondition.getSelectedItem();
+                condition = (Clothing.clothingCondition) spinnerCondition.getSelectedItem();
             }
 
             @Override
@@ -169,19 +169,7 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //EditText entryBox = (EditText) dialog.findViewById(R.id.nameEntryBox);
-                //String name = entryBox.getText().toString();
-                //Clothing entry = new Clothing(name,
-//                        "",
-//                        0,
-//                        Clothing.clothingType.other,
-//                        Clothing.clothingColor.black,
-//                        Clothing.clothingCondition.borrowed,
-//                        0,
-//                        0);
-                //manager.addClothing(entry);
-
-                if(!validateName(textInputName)){
+                if (!validateName(textInputName)) {
 
                     return;
                 }
@@ -189,8 +177,6 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
 
                 Clothing clothing = new Clothing(textInputName.getEditText().getText().toString().trim(), imageFile.getPath(), 0, type, color, condition, 0, 0);
                 clothingList.add(clothing);
-
-                SQLiteDatabase db = manager.getWritableDatabase();
                 manager.addClothing(clothing);
 
 
@@ -202,13 +188,13 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
         camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(v.getContext(),Camera.class);
+                Intent i = new Intent(v.getContext(), Camera.class);
                 startActivityForResult(i, 1);
 
             }
         });
 
-        txtclose = (TextView)dialog.findViewById(R.id.txtclose);
+        txtclose = (TextView) dialog.findViewById(R.id.txtclose);
 
         txtclose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -216,7 +202,6 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
                 dialog.dismiss();
             }
         });
-        //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
     }
 
@@ -224,8 +209,8 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (requestCode == 1) {
-            if(resultCode == Activity.RESULT_OK){
-                imageFile = (File)data.getSerializableExtra("result");
+            if (resultCode == Activity.RESULT_OK) {
+                imageFile = (File) data.getSerializableExtra("result");
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //No picture was taken
@@ -234,29 +219,28 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
     }
 
 
-
-    private boolean validateName(TextInputLayout inputname){
+    private boolean validateName(TextInputLayout inputname) {
 
         String name = inputname.getEditText().getText().toString().trim();
 
-        if(name.isEmpty()){
+        if (name.isEmpty()) {
             inputname.setError("Enter a name.");
             return false;
-        }else{
+        } else {
 
             inputname.setError(null);
             return true;
         }
     }
 
-    private boolean validateLocation(TextInputLayout inputLocation){
+    private boolean validateLocation(TextInputLayout inputLocation) {
 
         String description = inputLocation.getEditText().getText().toString().trim();
 
-        if(description.isEmpty()){
+        if (description.isEmpty()) {
             inputLocation.setError("Enter a location.");
             return false;
-        }else{
+        } else {
 
             inputLocation.setError(null);
             return true;
