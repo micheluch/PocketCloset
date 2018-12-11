@@ -279,11 +279,13 @@ public class DBManager extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(selectQuery, null);
         if (cursor != null)
             cursor.moveToFirst();
-        return new Closet(cursor.getString(cursor.getColumnIndex(COLUMN_CLOSET_NAME)),
+        Closet result = new Closet(cursor.getString(cursor.getColumnIndex(COLUMN_CLOSET_NAME)),
                 cursor.getString(cursor.getColumnIndex(COLUMN_CLOSET_DESCRIPTION)),
                 Entry.pocketClassType.CLOSET_TYPE,
                 cursor.getString(cursor.getColumnIndex(COLUMN_CLOSET_IMAGEPATH)));
-
+        result.contentList = getEntriesFromCloset(result.getEntryId(), Entry.pocketClassType.CLOTHING_TYPE);
+        result.contentList.addAll(getEntriesFromCloset(result.getEntryId(), Entry.pocketClassType.OUTFIT_TYPE));
+        return result;
     }
 
     public Closet getCloset(String closetName) {
@@ -298,10 +300,13 @@ public class DBManager extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(selectQuery, null);
         if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
-            return new Closet(cursor.getString(cursor.getColumnIndex(COLUMN_CLOSET_NAME)),
+            Closet result = new Closet(cursor.getString(cursor.getColumnIndex(COLUMN_CLOSET_NAME)),
                     cursor.getString(cursor.getColumnIndex(COLUMN_CLOSET_DESCRIPTION)),
                     Entry.pocketClassType.CLOSET_TYPE,
                     cursor.getString(cursor.getColumnIndex(COLUMN_CLOSET_IMAGEPATH)));
+            result.contentList = getEntriesFromCloset(result.getEntryId(), Entry.pocketClassType.CLOTHING_TYPE);
+            result.contentList.addAll(getEntriesFromCloset(result.getEntryId(), Entry.pocketClassType.OUTFIT_TYPE));
+            return result;
         }
         else return null;
 

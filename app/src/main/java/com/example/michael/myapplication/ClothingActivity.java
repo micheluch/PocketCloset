@@ -129,7 +129,7 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText entryBox = (EditText) dialog.findViewById(R.id.nameEntryBox);
+                EditText entryBox = (EditText) dialog.findViewById(R.id.text_input_CLothingName);
                 String name = entryBox.getText().toString();
                 Clothing entry = new Clothing(name,
                         "",
