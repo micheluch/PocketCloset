@@ -34,7 +34,7 @@ public class ImagePreview extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        bit = ExifUtil.rotateBitmap(file.getPath(), bit);
+        bit = ExifUtil.rotateBitmap(file.getAbsolutePath(), bit);
         ImageView view = (ImageView)findViewById(R.id.imageView);
         view.setImageBitmap(bit);
 
