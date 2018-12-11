@@ -45,11 +45,6 @@ public class OutfitRecyclerViewAdapter extends RecyclerView.Adapter<OutfitRecycl
             public void onClick(View v){
                 Intent intent = new Intent(mContext,DisplayOutfit.class);
                 intent.putExtra("Name", mData.get(i).getEntryName());
-                //Serializable serializedOutfit = mData.get(i);
-                //Bundle mBundle = new Bundle();
-                //mBundle.putSerializable("outift", mData.get(i));
-                //intent.putExtras(mBundle);
-                //intent.putExtra("outfit", mData.get(i));
                 mContext.startActivity(intent);
             }
         });
