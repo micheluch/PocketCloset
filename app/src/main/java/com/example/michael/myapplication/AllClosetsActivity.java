@@ -28,15 +28,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 public class AllClosetsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Serializable {
 
     List<Closet> closetList;
     private final static int ROWS_WIDE = 3;
 
-    private Button returnHomeButton;
-    private Button addClothingButton;
-    private Button deleteClothingButton;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
@@ -50,30 +46,25 @@ public class AllClosetsActivity extends AppCompatActivity implements NavigationV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.closet_recyclerview_layout);
 
-        manager = new DBManager(this, null, null, 1);
-
-
         closetList = new ArrayList<>();
-        closetList.add(new Closet("Grandma's Upstairs Closet","The closet at Grandma's House",
-                R.drawable.double_closet_doors, 'W'));
-        closetList.add(new Closet("Grandma's Ski Resort","Michael's ski resort",
-                R.drawable.wooden_closet_doors_1, 'W'));
-        closetList.add(new Closet("Grandma's Downstairs Closet","The guest bedroom closet at Grandma's House",
-                R.drawable.white_bypass_doors, 'W'));
-        closetList.add(new Closet("Grandpa's Forbidden Closet","The guest bedroom closet at Grandma's House",
-                R.drawable.dark_wood_doors, 'W'));
-        closetList.add(new Closet("Grandpa's Stylin' Closet ","The guest bedroom closet at Grandma's House",
-                R.drawable.mirrored_wooden_doors, 'W'));
-        closetList.add(new Closet("Toy Closet","The guest bedroom closet at Grandma's House",
-                R.drawable.red_stainless_doors, 'W'));
-        closetList.add(new Closet("Great Aunt Susie's Guest Bedroom","The guest bedroom closet at Grandma's House",
-                R.drawable.modern_bar_door, 'W'));
-        closetList.add(new Closet("Grandma's Dark Past","Grandma's Skeletons",
-                R.drawable.skeletons, 'J'));
+        manager = new DBManager(this, null, null, 1);
+        String query = "SELECT * FROM " + DBManager.TABLE_CLOSET;
+        SQLiteDatabase db = manager.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        int numberOfTableElements = cursor.getCount();
+        if (numberOfTableElements > 0) {
+            cursor.moveToFirst();
+            do {
+                int dummyInt = cursor.getColumnIndex(DBManager.COLUMN_CLOSET_NAME);
+                String closetName = cursor.getString(dummyInt);
+                closetList.add(manager.getCloset(closetName));
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
 
         RecyclerView my_recycler_view = (RecyclerView) findViewById(R.id.closet_recyclerview_id);
-        AllClosetsRecyclerViewAdapter myAdapter = new AllClosetsRecyclerViewAdapter(this,closetList);
-        my_recycler_view.setLayoutManager(new GridLayoutManager(this,ROWS_WIDE));
+        AllClosetsRecyclerViewAdapter myAdapter = new AllClosetsRecyclerViewAdapter(this, closetList);
+        my_recycler_view.setLayoutManager(new GridLayoutManager(this, ROWS_WIDE));
         my_recycler_view.setAdapter(myAdapter);
 
         android.support.v7.widget.Toolbar toolbar = findViewById(R.id.allClosetsToobar_id);
@@ -81,7 +72,7 @@ public class AllClosetsActivity extends AppCompatActivity implements NavigationV
         //getSupportActionBar().setTitle(name);
 
         drawerLayout = (DrawerLayout) findViewById(R.id.allClosetsDrawerLayoutId);
-        toggle = new ActionBarDrawerToggle(this,drawerLayout, R.string.Open, R.string.Close);
+        toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.Open, R.string.Close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -96,8 +87,7 @@ public class AllClosetsActivity extends AppCompatActivity implements NavigationV
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(toggle.onOptionsItemSelected(item))
-        {
+        if (toggle.onOptionsItemSelected(item)) {
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -108,10 +98,9 @@ public class AllClosetsActivity extends AppCompatActivity implements NavigationV
 
         int id = menuItem.getItemId();
         Intent intent;
-        switch(id)
-        {
+        switch (id) {
             case R.id.home:
-                intent = new Intent(AllClosetsActivity.this,HomePage.class);
+                intent = new Intent(AllClosetsActivity.this, HomePage.class);
                 startActivity(intent);
                 break;
             case R.id.add:
@@ -119,7 +108,7 @@ public class AllClosetsActivity extends AppCompatActivity implements NavigationV
                 showAddClosetPopup(view);
                 break;
             case R.id.delete:
-                intent = new Intent(AllClosetsActivity.this,OutfitActivity.class);
+                intent = new Intent(AllClosetsActivity.this, OutfitActivity.class);
                 startActivity(intent);
                 break;
         }
@@ -129,7 +118,7 @@ public class AllClosetsActivity extends AppCompatActivity implements NavigationV
         return true;
     }
 
-    public void showAddClosetPopup (View v) {
+    public void showAddClosetPopup(View v) {
 
         TextView txtclose;
         CardView camera;
@@ -155,7 +144,8 @@ public class AllClosetsActivity extends AppCompatActivity implements NavigationV
                     return;
                 }
 
-                Closet closet = new Closet(textInputClosetName.getEditText().getText().toString().trim(), textInputDescription.getEditText().getText().toString().trim(), 0, 'W');
+                Closet closet = new Closet(textInputClosetName.getEditText().getText().toString().trim(), textInputDescription.getEditText().getText().toString().trim(),
+                        Entry.pocketClassType.CLOSET_TYPE, "");
 
                 SQLiteDatabase db = manager.getWritableDatabase();
                 manager.addCloset(closet);
@@ -182,7 +172,7 @@ public class AllClosetsActivity extends AppCompatActivity implements NavigationV
         camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(v.getContext(),Camera.class);
+                Intent i = new Intent(v.getContext(), Camera.class);
                 startActivityForResult(i, 1);
             }
         });
@@ -194,8 +184,8 @@ public class AllClosetsActivity extends AppCompatActivity implements NavigationV
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (requestCode == 1) {
-            if(resultCode == Activity.RESULT_OK){
-                imageFile = (File)data.getSerializableExtra("result");
+            if (resultCode == Activity.RESULT_OK) {
+                imageFile = (File) data.getSerializableExtra("result");
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //No picture was taken
@@ -204,28 +194,28 @@ public class AllClosetsActivity extends AppCompatActivity implements NavigationV
     }
 
 
-    private boolean validateName(TextInputLayout inputname){
+    private boolean validateName(TextInputLayout inputname) {
 
         String name = inputname.getEditText().getText().toString().trim();
 
-        if(name.isEmpty()){
+        if (name.isEmpty()) {
             inputname.setError("Enter a name.");
             return false;
-        }else{
+        } else {
 
             inputname.setError(null);
             return true;
         }
     }
 
-    private boolean validateDescription(TextInputLayout inputdescription){
+    private boolean validateDescription(TextInputLayout inputdescription) {
 
         String description = inputdescription.getEditText().getText().toString().trim();
 
-        if(description.isEmpty()){
+        if (description.isEmpty()) {
             inputdescription.setError("Enter a name.");
             return false;
-        }else{
+        } else {
 
             inputdescription.setError(null);
             return true;

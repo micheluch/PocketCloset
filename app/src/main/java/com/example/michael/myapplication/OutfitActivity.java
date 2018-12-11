@@ -47,6 +47,7 @@ public class OutfitActivity extends AppCompatActivity implements NavigationView.
 
         outfitList = new ArrayList<>();
         manager = new DBManager(this, null, null, 1);
+        outfitList.addAll(manager.getAllOutfits());
         String query = "SELECT * FROM " + DBManager.TABLE_OUTFIT;
         SQLiteDatabase db = manager.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);

@@ -36,9 +36,9 @@ public class ViewClothing extends AppCompatActivity implements NavigationView.On
     private DBManager manager;
     private Clothing clothing;
     private Spinner spinnerType, spinnerColor, spinnerCondition;
-    private EnumType type;
-    private EnumColor color;
-    private EnumCondition condition;
+    private Clothing.clothingType type;
+    private Clothing.clothingColor color;
+    private Clothing.clothingCondition condition;
 
 
     @Override
@@ -136,9 +136,9 @@ public class ViewClothing extends AppCompatActivity implements NavigationView.On
         spinnerColor = dialog.findViewById(R.id.color);
         spinnerCondition = dialog.findViewById(R.id.condition);
 
-        spinnerType.setAdapter(new ArrayAdapter<EnumType>(this, R.layout.support_simple_spinner_dropdown_item, EnumType.values()));
-        spinnerCondition.setAdapter(new ArrayAdapter<EnumCondition>(this, R.layout.support_simple_spinner_dropdown_item, EnumCondition.values()));
-        spinnerColor.setAdapter(new ArrayAdapter<EnumColor>(this, R.layout.support_simple_spinner_dropdown_item, EnumColor.values()));
+        spinnerType.setAdapter(new ArrayAdapter<Clothing.clothingType>(this, R.layout.support_simple_spinner_dropdown_item, Clothing.clothingType.values()));
+        spinnerCondition.setAdapter(new ArrayAdapter<Clothing.clothingCondition>(this, R.layout.support_simple_spinner_dropdown_item, Clothing.clothingCondition.values()));
+        spinnerColor.setAdapter(new ArrayAdapter<Clothing.clothingColor>(this, R.layout.support_simple_spinner_dropdown_item, Clothing.clothingColor.values()));
 
         final TextInputLayout textInputName  = dialog.findViewById(R.id.text_input_ClothingName);
         final TextInputLayout textInputLocation = dialog.findViewById(R.id.text_input_location);
@@ -155,7 +155,7 @@ public class ViewClothing extends AppCompatActivity implements NavigationView.On
         spinnerType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                type = (EnumType)spinnerType.getSelectedItem();
+                type = (Clothing.clothingType)spinnerType.getSelectedItem();
             }
 
             @Override
@@ -167,7 +167,7 @@ public class ViewClothing extends AppCompatActivity implements NavigationView.On
         spinnerColor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                color = (EnumColor)spinnerColor.getSelectedItem();
+                color = (Clothing.clothingColor)spinnerColor.getSelectedItem();
             }
 
             @Override
@@ -179,7 +179,7 @@ public class ViewClothing extends AppCompatActivity implements NavigationView.On
         spinnerCondition.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                condition = (EnumCondition)spinnerCondition.getSelectedItem();
+                condition = (Clothing.clothingCondition)spinnerCondition.getSelectedItem();
             }
 
             @Override

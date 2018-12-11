@@ -44,9 +44,9 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
     private DBManager manager;
     private File imageFile;
     private Spinner spinnerType, spinnerColor, spinnerCondition;
-    private EnumType type;
-    private EnumColor color;
-    private EnumCondition condition;
+    private Clothing.clothingType type;
+    private Clothing.clothingColor color;
+    private Clothing.clothingCondition condition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +56,7 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
 
         clothingList = new ArrayList<>();
         manager = new DBManager(this, null, null, 1);
+        clothingList.addAll(manager.getAllClothes());
         SQLiteDatabase db = manager.getWritableDatabase();
         String query = "SELECT * FROM " + DBManager.TABLE_CLOTHING;
         Cursor cursor = db.rawQuery(query, null);
@@ -135,9 +136,9 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
         spinnerColor = dialog.findViewById(R.id.color);
         spinnerCondition = dialog.findViewById(R.id.condition);
 
-        spinnerType.setAdapter(new ArrayAdapter<EnumType>(this, R.layout.support_simple_spinner_dropdown_item, EnumType.values()));
-        spinnerCondition.setAdapter(new ArrayAdapter<EnumCondition>(this, R.layout.support_simple_spinner_dropdown_item, EnumCondition.values()));
-        spinnerColor.setAdapter(new ArrayAdapter<EnumColor>(this, R.layout.support_simple_spinner_dropdown_item, EnumColor.values()));
+        spinnerType.setAdapter(new ArrayAdapter<Clothing.clothingType>(this, R.layout.support_simple_spinner_dropdown_item, Clothing.clothingType.values()));
+        spinnerCondition.setAdapter(new ArrayAdapter<Clothing.clothingCondition>(this, R.layout.support_simple_spinner_dropdown_item, Clothing.clothingCondition.values()));
+        spinnerColor.setAdapter(new ArrayAdapter<Clothing.clothingColor>(this, R.layout.support_simple_spinner_dropdown_item, Clothing.clothingColor.values()));
 
         final TextInputLayout textInputName  = dialog.findViewById(R.id.text_input_ClothingName);
         final TextInputLayout textInputLocation = dialog.findViewById(R.id.text_input_location);
@@ -145,7 +146,7 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
         spinnerType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                type = (EnumType)spinnerType.getSelectedItem();
+                type = (Clothing.clothingType) spinnerType.getSelectedItem();
             }
 
             @Override
@@ -157,7 +158,7 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
         spinnerColor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                color = (EnumColor)spinnerColor.getSelectedItem();
+                color = (Clothing.clothingColor)spinnerColor.getSelectedItem();
             }
 
             @Override
@@ -169,7 +170,7 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
         spinnerCondition.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                condition = (EnumCondition)spinnerCondition.getSelectedItem();
+                condition = (Clothing.clothingCondition)spinnerCondition.getSelectedItem();
             }
 
             @Override
@@ -183,7 +184,14 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
             public void onClick(View v) {
                 //EditText entryBox = (EditText) dialog.findViewById(R.id.nameEntryBox);
                 //String name = entryBox.getText().toString();
-                //Clothing entry = new Clothing(name, R.drawable.taco_socks);
+                //Clothing entry = new Clothing(name,
+//                        "",
+//                        0,
+//                        Clothing.clothingType.other,
+//                        Clothing.clothingColor.black,
+//                        Clothing.clothingCondition.borrowed,
+//                        0,
+//                        0);
                 //manager.addClothing(entry);
 
                 if(!validateName(textInputName) | !validateLocation(textInputLocation)){
@@ -219,7 +227,7 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
             }
         });
 
-        txtclose = (TextView) dialog.findViewById(R.id.txtclose);
+        txtclose = (TextView)dialog.findViewById(R.id.txtclose);
 
         txtclose.setOnClickListener(new View.OnClickListener() {
             @Override

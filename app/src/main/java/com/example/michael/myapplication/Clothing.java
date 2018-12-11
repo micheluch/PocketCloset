@@ -11,17 +11,17 @@ public class Clothing extends Entry {
     //Clothing-only data members
 
     public enum clothingType {shirt, pants, shoes, other} //can get integer value by doing getOrdinal();
-    private EnumType type;
+    private clothingType type;
     public enum clothingColor {white, black, grey, red, orange, yellow, green, blue, purple, pink, brown}
-    private EnumColor color;
+    private clothingColor color;
     public enum clothingCondition {dirty, borrowed, ready}
-    private EnumCondition condition;
+    private clothingCondition condition;
     private int Xcoordinate;
     private int Ycoordinate;
 
-    public Clothing(String entryName, String path, int id, EnumType type, EnumColor color,
-                    EnumCondition condition, int xcoordinate, int ycoordinate) {
-        super(entryName, path, id);
+    public Clothing(String entryName, String path, int id, clothingType type, clothingColor color,
+                    clothingCondition condition, int xcoordinate, int ycoordinate) {
+        super(entryName, path, id, pocketClassType.CLOTHING_TYPE);
         setEntryType(pocketClassType.CLOTHING_TYPE);
         this.type = type;
         this.color = color;
@@ -30,38 +30,30 @@ public class Clothing extends Entry {
         Ycoordinate = ycoordinate;
     }
 
-    public Clothing(String entryName, String path, int id, EnumType type, EnumColor color, EnumCondition condition) {
+    public Clothing(String entryName, String path, int id, clothingType type, clothingColor color, clothingCondition condition) {
         this(entryName, path, id, type, color, condition, 0, 0);
     }
 
     //"Extended" methods from Entry
-    public int getClothingId() {
-        return getEntryId();
-    }
-    public void setClothingId(int clothingId) {
-        setEntryId(clothingId);
-    }
     public String getClothingName() {
         return getEntryName();
     }
-    public void setClothingName(String clothingName) { setEntryName(clothingName); }
-
     //Clothing-only methods
 
 
-    public EnumColor getColor() {
+    public clothingColor getColor() {
         return color;
     }
 
-    public void setColor(EnumColor color) {
+    public void setColor(clothingColor color) {
         this.color = color;
     }
 
-    public EnumCondition getCondition() {
+    public clothingCondition getCondition() {
         return condition;
     }
 
-    public void setCondition(EnumCondition condition) {
+    public void setCondition(clothingCondition condition) {
         this.condition = condition;
     }
 
@@ -69,7 +61,7 @@ public class Clothing extends Entry {
         return type.ordinal();
     }
 
-    public void setType(EnumType type) {
+    public void setType(clothingType type) {
         this.type = type;
     }
 

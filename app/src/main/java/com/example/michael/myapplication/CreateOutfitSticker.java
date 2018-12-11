@@ -48,6 +48,7 @@ public class CreateOutfitSticker extends AppCompatActivity {
                 int dummyInt = cursor.getColumnIndex(DBManager.COLUMN_CLOTHING_NAME);
                 String clothingName = cursor.getString(dummyInt);
                 Clothing currentClothing = manager.getClothing(clothingName);
+                currentClothing.setImage();
                 entryList.add(currentClothing);
                 entryBitmapList.add(currentClothing.getImage());
             } while (cursor.moveToNext());
