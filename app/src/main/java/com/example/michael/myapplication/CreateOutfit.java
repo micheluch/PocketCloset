@@ -145,17 +145,17 @@ public class CreateOutfit extends AppCompatActivity {
                 if(!directory.exists()){
                     directory.mkdir();
                 }
-                File mypath = new File(directory.getAbsolutePath() + outfit.getEntryName() + ".png");
-//                FileOutputStream fos = null;
-//                try{
-//                    fos = new FileOutputStream(mypath);
-//                    outfitImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
-//                    fos.close();
-//
-//                }catch(Exception e){
-//
-//                    e.printStackTrace();
-//                }
+                File mypath = new File(directory + "/" + outfit.getEntryName() + ".png");
+                FileOutputStream fos = null;
+                try{
+                    fos = new FileOutputStream(mypath);
+                    outfitImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                    fos.close();
+
+                }catch(Exception e){
+
+                    e.printStackTrace();
+                }
 
                 outfit.setPath(mypath.getAbsolutePath());
                 SQLiteDatabase db = dbManager.getWritableDatabase();
@@ -182,8 +182,8 @@ public class CreateOutfit extends AppCompatActivity {
                 img.setImageBitmap(outfit.getImage());
 
                 dialog.dismiss();
-//                Intent i = new Intent(CreateOutfit.this,OutfitActivity.class);
-//                CreateOutfit.this.startActivity(i);
+                Intent i = new Intent(CreateOutfit.this,OutfitActivity.class);
+                CreateOutfit.this.startActivity(i);
             }
         });
         dbManager.close();
