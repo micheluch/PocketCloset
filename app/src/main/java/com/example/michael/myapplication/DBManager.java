@@ -373,6 +373,12 @@ public class DBManager extends SQLiteOpenHelper {
                 closetID +
                 ";";
         db.execSQL(query);
+        query = "DELETE FROM " +
+                REFERENCE_TABLE_CLOSET +
+                " WHERE " +
+                COLUMN_REFERENCE_CLOSET_ID +
+                " = " + closetID + ";";
+        db.execSQL(query);
         //db.close();
     }
 
