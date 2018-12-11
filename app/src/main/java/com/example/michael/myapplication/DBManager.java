@@ -242,7 +242,7 @@ public class DBManager extends SQLiteOpenHelper {
             List<Clothing> clothingInOutfit = new ArrayList<>(cursor.getCount());
             cursor.moveToFirst();
             do {
-                Clothing outfitItem = getClothing(cursor.getString(columnInd));
+                Clothing outfitItem = getClothing(cursor.getInt(columnInd));
                 clothingInOutfit.add(outfitItem);
             } while (cursor.moveToNext());
             return clothingInOutfit;
@@ -642,9 +642,9 @@ public class DBManager extends SQLiteOpenHelper {
         if(numberOfTableElements > 0){
             cursor.moveToFirst();
             do{
-                int dummyInt = cursor.getColumnIndex(COLUMN_CLOTHING_NAME);
-                String clothingName = cursor.getString(dummyInt);
-                outfitList.add(getOutfit(clothingName));
+                int dummyInt = cursor.getColumnIndex(COLUMN_OUTFIT_NAME);
+                String outfitName = cursor.getString(dummyInt);
+                outfitList.add(getOutfit(outfitName));
             } while (cursor.moveToNext());
             cursor.close();
         }
