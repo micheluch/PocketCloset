@@ -1,5 +1,6 @@
 package com.example.michael.myapplication;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
@@ -7,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -17,16 +19,20 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class ClothingActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class ClothingActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Serializable {
 
     List<Clothing> clothingList; //switch to wearable later for clothing and outfits
     private final static int ROWS_WIDE = 3;
@@ -36,7 +42,11 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
     private ActionBarDrawerToggle toggle;
     private Dialog dialog;
     private DBManager manager;
-    private Spinner spinnerType;
+    private File imageFile;
+    private Spinner spinnerType, spinnerColor, spinnerCondition;
+    private Clothing.clothingType type;
+    private Clothing.clothingColor color;
+    private Clothing.clothingCondition condition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +56,7 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
 
         clothingList = new ArrayList<>();
         manager = new DBManager(this, null, null, 1);
+        clothingList.addAll(manager.getAllClothes());
         SQLiteDatabase db = manager.getWritableDatabase();
         String query = "SELECT * FROM " + DBManager.TABLE_CLOTHING;
         Cursor cursor = db.rawQuery(query, null);
@@ -119,38 +130,100 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
         TextView txtclose;
         Button btnAdd;
         CardView camera;
+        Clothing entry;
         dialog.setContentView(R.layout.add_clothing_popup);
-        spinnerType = findViewById(R.id.type);
-        List<String> typeCategories = new ArrayList<>();
-        typeCategories.add(0, "Choose a Type");
+        spinnerType = dialog.findViewById(R.id.type);
+        spinnerColor = dialog.findViewById(R.id.color);
+        spinnerCondition = dialog.findViewById(R.id.condition);
 
+        spinnerType.setAdapter(new ArrayAdapter<Clothing.clothingType>(this, R.layout.support_simple_spinner_dropdown_item, Clothing.clothingType.values()));
+        spinnerCondition.setAdapter(new ArrayAdapter<Clothing.clothingCondition>(this, R.layout.support_simple_spinner_dropdown_item, Clothing.clothingCondition.values()));
+        spinnerColor.setAdapter(new ArrayAdapter<Clothing.clothingColor>(this, R.layout.support_simple_spinner_dropdown_item, Clothing.clothingColor.values()));
 
-        btnAdd = (Button)dialog.findViewById(R.id.addButton);
+        final TextInputLayout textInputName  = dialog.findViewById(R.id.text_input_ClothingName);
+        final TextInputLayout textInputLocation = dialog.findViewById(R.id.text_input_location);
+        btnAdd = (Button) dialog.findViewById(R.id.addButton);
+        spinnerType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                type = (Clothing.clothingType) spinnerType.getSelectedItem();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        spinnerColor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                color = (Clothing.clothingColor)spinnerColor.getSelectedItem();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        spinnerCondition.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                condition = (Clothing.clothingCondition)spinnerCondition.getSelectedItem();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText entryBox = (EditText) dialog.findViewById(R.id.text_input_CLothingName);
-                String name = entryBox.getText().toString();
-                Clothing entry = new Clothing(name,
-                        "",
-                        0,
-                        Clothing.clothingType.other,
-                        Clothing.clothingColor.black,
-                        Clothing.clothingCondition.borrowed,
-                        0,
-                        0);
-		manager.addClothing(entry);
+                //EditText entryBox = (EditText) dialog.findViewById(R.id.nameEntryBox);
+                //String name = entryBox.getText().toString();
+                //Clothing entry = new Clothing(name,
+//                        "",
+//                        0,
+//                        Clothing.clothingType.other,
+//                        Clothing.clothingColor.black,
+//                        Clothing.clothingCondition.borrowed,
+//                        0,
+//                        0);
+                //manager.addClothing(entry);
+
+                if(!validateName(textInputName) | !validateLocation(textInputLocation)){
+
+                    return;
+                }
+
+
+                Clothing clothing = new Clothing(textInputName.getEditText().getText().toString().trim(), imageFile.getPath(), 0, type, color, condition, 0, 0);
+                clothingList.add(clothing);
+
+                SQLiteDatabase db = manager.getWritableDatabase();
+                manager.addClothing(clothing);
+
+                String query = "SELECT * FROM " + DBManager.TABLE_CLOTHING;
+
+                Cursor cursor = db.rawQuery(query, null);
+                int numberOfTableElements = cursor.getCount();
+                cursor.close();
+
 
                 dialog.dismiss();
             }
         });
 
-        camera = (CardView) dialog.findViewById(R.id.cameraView);
+        camera = (CardView) dialog.findViewById(R.id.cameraViewClothing);
         camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(v.getContext(),Camera.class);
-                startActivity(i);
+                startActivityForResult(i, 1);
+
             }
         });
 
@@ -165,4 +238,48 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
         //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 1) {
+            if(resultCode == Activity.RESULT_OK){
+                imageFile = (File)data.getSerializableExtra("result");
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //No picture was taken
+            }
+        }
+    }
+
+
+
+    private boolean validateName(TextInputLayout inputname){
+
+        String name = inputname.getEditText().getText().toString().trim();
+
+        if(name.isEmpty()){
+            inputname.setError("Enter a name.");
+            return false;
+        }else{
+
+            inputname.setError(null);
+            return true;
+        }
+    }
+
+    private boolean validateLocation(TextInputLayout inputLocation){
+
+        String description = inputLocation.getEditText().getText().toString().trim();
+
+        if(description.isEmpty()){
+            inputLocation.setError("Enter a location.");
+            return false;
+        }else{
+
+            inputLocation.setError(null);
+            return true;
+        }
+    }
+
 }

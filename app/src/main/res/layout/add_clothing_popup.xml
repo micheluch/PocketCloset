@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="350dp"
-    android:layout_height="490dp"
+    android:layout_height="510dp"
     android:padding="5dp"
     android:layout_gravity="center">
 
@@ -22,8 +22,9 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <android.support.v7.widget.CardView
-            android:id="@+id/cameraView"
+            android:id="@+id/cameraViewClothing"
             android:clickable="true"
+            android:focusable="true"
             android:layout_margin="10dp"
             android:layout_width="150dp"
             android:layout_height="150dp"
@@ -39,7 +40,7 @@
                     android:layout_width="90dp"
                     android:layout_height="90dp"
                     android:scaleType="fitCenter"
-                    android:background="@drawable/circlebackgroundgreen"
+                    android:background="@drawable/circlebackgroundred"
                     android:src="@drawable/ic_photo_camera_black_24dp"
                     android:padding="10dp"/>
                 <TextView
@@ -55,7 +56,7 @@
         </android.support.v7.widget.CardView>
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/text_input_CLothingName"
+            android:id="@+id/text_input_ClothingName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -76,10 +77,103 @@
                 android:hint="Location"/>
         </android.support.design.widget.TextInputLayout>
 
-        <Spinner
-            android:id="@+id/type"
-            android:layout_width="wrap_content"
-            android:layout_height="70dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center">
+            <android.support.v7.widget.CardView
+                android:clickable="true"
+                android:layout_margin="10dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:layout_marginTop="10dp"
+                        android:text="Type:"/>
+
+                    <Spinner
+                        android:id="@+id/type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:clickable="true"
+                android:layout_margin="10dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:layout_marginTop="10dp"
+                        android:text="Color:"/>
+
+                    <Spinner
+                        android:id="@+id/color"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:clickable="true"
+                android:layout_margin="10dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:layout_marginTop="10dp"
+                        android:text="Condition:"/>
+
+                    <Spinner
+                        android:id="@+id/condition"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
 
 
         <Button
@@ -87,7 +181,7 @@
             android:id="@+id/addButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add"
+            android:text="Save"
             android:layout_marginTop="15dp"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/buttonstyle"

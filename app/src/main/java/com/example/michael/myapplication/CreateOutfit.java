@@ -49,7 +49,7 @@ public class CreateOutfit extends AppCompatActivity {
     Bitmap outfitImage;
     Outfit outfit;
     DBManager dbManager;
-
+    List <Clothing> clothingList = new ArrayList<>();
     private final MotionView.MotionViewCallback motionViewCallback = new MotionView.MotionViewCallback() {
 
         @Override
@@ -60,6 +60,7 @@ public class CreateOutfit extends AppCompatActivity {
         public void onEntityDoubleTap(@NonNull MotionEntity entity) {
                 if(entity instanceof ImageEntity){
                     motionView.removeEntity(entity);
+                    clothingList.remove(entity);
                 }
         }
     };
@@ -144,23 +145,29 @@ public class CreateOutfit extends AppCompatActivity {
                 if(!directory.exists()){
                     directory.mkdir();
                 }
-                File mypath = new File(directory, outfit.getEntryName() + ".png");
-                FileOutputStream fos = null;
-                try{
-                    fos = new FileOutputStream(mypath);
-                    outfitImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
-                    fos.close();
+                File mypath = new File(directory.getAbsolutePath() + outfit.getEntryName() + ".png");
+//                FileOutputStream fos = null;
+//                try{
+//                    fos = new FileOutputStream(mypath);
+//                    outfitImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+//                    fos.close();
+//
+//                }catch(Exception e){
+//
+//                    e.printStackTrace();
+//                }
 
-                }catch(Exception e){
-
-                    e.printStackTrace();
-                }
-
-                outfit.setPath(directory.getAbsolutePath());
+                outfit.setPath(mypath.getAbsolutePath());
                 SQLiteDatabase db = dbManager.getWritableDatabase();
                 //set image
                 outfit.setDescription(textInputDescription.getEditText().getText().toString().trim());
                 outfit.setImage();
+
+                for(int i = 0; i < clothingList.size(); i++){
+
+                    outfit.addClothingToOutfit((Clothing) clothingList.get(i));
+
+                }
                 dbManager.addOutfit(outfit);
 
 
@@ -219,6 +226,7 @@ public class CreateOutfit extends AppCompatActivity {
                 Layer layer = new Layer();
                 //Bitmap item = BitmapFactory.decodeResource(getResources(), stickerResId);
                 Bitmap item = dbManager.getClothing(stickerResId).getImage();
+                clothingList.add(dbManager.getClothing(stickerResId));
 
                 ImageEntity entity = new ImageEntity(layer, item, motionView.getWidth(), motionView.getHeight());
 

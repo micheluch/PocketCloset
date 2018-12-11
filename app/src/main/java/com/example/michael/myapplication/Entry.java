@@ -29,7 +29,7 @@ public abstract class Entry {
         this.type = type;
     }
 
-    //Methods that are shared by Clothing and Outfitdescription
+    //Methods that are shared by Clothing and Outfit
     public int getEntryId() {
         return id;
     }
@@ -75,6 +75,7 @@ public abstract class Entry {
         try {
             File f = new File(this.path, getEntryName() + ".png");
             Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
+            b = ExifUtil.rotateBitmap(f.getAbsolutePath(), b);
             this.image = b;
             return b;
         } catch (FileNotFoundException e) {

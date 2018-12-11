@@ -35,17 +35,9 @@ public class Clothing extends Entry {
     }
 
     //"Extended" methods from Entry
-    public int getClothingId() {
-        return getEntryId();
-    }
-    public void setClothingId(int clothingId) {
-        setEntryId(clothingId);
-    }
     public String getClothingName() {
         return getEntryName();
     }
-    public void setClothingName(String clothingName) { setEntryName(clothingName); }
-
     //Clothing-only methods
 
 

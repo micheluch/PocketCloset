@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
@@ -65,7 +66,7 @@ public class Camera extends AppCompatActivity implements Serializable {
     private CaptureRequest.Builder captureRequestBuilder;
     private Size imageDimension;
     private ImageReader imageReader;
-    private Image latestImage;
+    private String latestImagePath;
 
     //Save to FILE
     private File file;
@@ -108,6 +109,9 @@ public class Camera extends AppCompatActivity implements Serializable {
             @Override
             public void onClick(View view) {
                 takePicture(view);
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("result",file);
+                setResult(Activity.RESULT_OK,returnIntent);
             }
         });
     }
@@ -145,24 +149,29 @@ public class Camera extends AppCompatActivity implements Serializable {
             captureBuilder.set(CaptureRequest.JPEG_ORIENTATION,ORIENTATIONS.get(rotation));
 
             file = new File(Environment.getExternalStorageDirectory()+"/"+UUID.randomUUID().toString()+".jpg");
+            setLatestImage(file.getPath());
             ImageReader.OnImageAvailableListener readerListener = new ImageReader.OnImageAvailableListener() {
                 @Override
                 public void onImageAvailable(ImageReader imageReader) {
                     Image image = null;
                     try{
                         image = reader.acquireLatestImage();
-                        setLatestImage(image);
+                        Intent i = new Intent(v.getContext(), ImagePreview.class);
+                        Bundle mBundle = new Bundle();
+                        mBundle.putSerializable("image",file);
+                        i.putExtras(mBundle);
                         ByteBuffer buffer = image.getPlanes()[0].getBuffer();
                         byte[] bytes = new byte[buffer.capacity()];
                         buffer.get(bytes);
                         save(bytes);
-                        if (displayImage(v, file)) {
-                            Toast.makeText(Camera.this, "Saved " + file, Toast.LENGTH_SHORT).show();
-                        }
-                        else
-                        {
-                            createCameraPreview();
-                        }
+                        startActivityForResult(i, 1, mBundle);
+                        finish();
+//                        boolean result = (boolean)getIntent().getSerializableExtra("result");
+//                        if (result)
+//                        {
+//
+//                        }
+
 
                     }
                     catch (FileNotFoundException e)
@@ -197,7 +206,14 @@ public class Camera extends AppCompatActivity implements Serializable {
                 @Override
                 public void onCaptureCompleted(@NonNull CameraCaptureSession session, @NonNull CaptureRequest request, @NonNull TotalCaptureResult result) {
                     super.onCaptureCompleted(session, request, result);
-                    createCameraPreview();
+//                    if (displayImage(v, result)) {
+//                        Toast.makeText(Camera.this, "Saved " + file, Toast.LENGTH_SHORT).show();
+//                    }
+//                    else
+//                    {
+//                        createCameraPreview();
+//                    }
+//                    createCameraPreview();
 
                 }
             };
@@ -354,19 +370,18 @@ public class Camera extends AppCompatActivity implements Serializable {
         mBackgroundHandler = new Handler(mBackgroundThread.getLooper());
     }
 
-    private void setLatestImage(Image i){
-        this.latestImage = i;
+    private void setLatestImage(String i){
+        this.latestImagePath = i;
     }
 
-    public Image getLatestImage(){
-        return this.latestImage;
+    public String getLatestImage(){
+        return this.latestImagePath;
     }
 
-    private boolean displayImage(View v, File image)
+    private boolean displayImage(View v)
     {
         Intent mIntent = new Intent(v.getContext(),ImagePreview.class);
         Bundle mBundle = new Bundle();
-        mBundle.putSerializable("image",image);
         mIntent.putExtras(mBundle);
         startActivityForResult(mIntent, 1);
         return true;
