@@ -25,9 +25,9 @@ import java.util.List;
 
 public class OneClosetActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
-    List<Clothing> wearableList; //switch to wearable later for clothing and outfits
     private final static int ROWS_WIDE = 3;
 
+    private Closet closet;
     private CardView outfitCard;
     private Button returnHomeButton;
     private Button addClothingButton;
@@ -35,24 +35,25 @@ public class OneClosetActivity extends AppCompatActivity implements NavigationVi
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
+    private DBManager manager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.closet_recyclerview_layout);
-
+        // Actually important stuff:
         Intent intent = getIntent();
-        String name = intent.getExtras().getString("Name");
-        char j = intent.getExtras().getChar("J");
+        String closetName = intent.getExtras().getString("Name");
+        manager = new DBManager(this, null, null, 0);
+        closet = manager.getCloset(closetName);
+
         android.support.v7.widget.Toolbar toolbar = findViewById(R.id.allClosetsToobar_id);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(name);
+        getSupportActionBar().setTitle(closetName);
 
-
-        wearableList = new ArrayList<>();
 
         RecyclerView my_recycler_view = (RecyclerView) findViewById(R.id.closet_recyclerview_id);
-        OneClosetRecyclerViewAdapter myAdapter = new OneClosetRecyclerViewAdapter(this,wearableList);
+        OneClosetRecyclerViewAdapter myAdapter = new OneClosetRecyclerViewAdapter(this,closet.contentList);
         my_recycler_view.setLayoutManager(new GridLayoutManager(this,ROWS_WIDE));
         my_recycler_view.setAdapter(myAdapter);
 
@@ -91,8 +92,7 @@ public class OneClosetActivity extends AppCompatActivity implements NavigationVi
                 startActivity(intent);
                 break;
             case R.id.delete:
-                intent = new Intent(OneClosetActivity.this,OutfitActivity.class);
-                startActivity(intent);
+                manager.deleteEntry(closet);
                 break;
         }
 
