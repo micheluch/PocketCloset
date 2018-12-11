@@ -128,8 +128,8 @@ public class Camera extends AppCompatActivity implements Serializable {
                         .getOutputSizes(ImageFormat.JPEG);
 
             //Capture image with custom size
-            int width = 480;
-            int height = 640;
+            int width = 640;
+            int height = 480;
             if(jpegSizes != null && jpegSizes.length > 0)
             {
                 width = jpegSizes[0].getWidth();
@@ -166,11 +166,7 @@ public class Camera extends AppCompatActivity implements Serializable {
                         save(bytes);
                         startActivityForResult(i, 1, mBundle);
                         finish();
-//                        boolean result = (boolean)getIntent().getSerializableExtra("result");
-//                        if (result)
-//                        {
-//
-//                        }
+
 
 
                     }

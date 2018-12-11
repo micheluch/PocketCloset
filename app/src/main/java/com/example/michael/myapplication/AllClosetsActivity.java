@@ -48,19 +48,7 @@ public class AllClosetsActivity extends AppCompatActivity implements NavigationV
 
         closetList = new ArrayList<>();
         manager = new DBManager(this, null, null, 1);
-        String query = "SELECT * FROM " + DBManager.TABLE_CLOSET;
-        SQLiteDatabase db = manager.getWritableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
-        int numberOfTableElements = cursor.getCount();
-        if (numberOfTableElements > 0) {
-            cursor.moveToFirst();
-            do {
-                int dummyInt = cursor.getColumnIndex(DBManager.COLUMN_CLOSET_NAME);
-                String closetName = cursor.getString(dummyInt);
-                closetList.add(manager.getCloset(closetName));
-            } while (cursor.moveToNext());
-            cursor.close();
-        }
+
 
         RecyclerView my_recycler_view = (RecyclerView) findViewById(R.id.closet_recyclerview_id);
         AllClosetsRecyclerViewAdapter myAdapter = new AllClosetsRecyclerViewAdapter(this, closetList);
@@ -210,17 +198,4 @@ public class AllClosetsActivity extends AppCompatActivity implements NavigationV
         }
     }
 
-    private boolean validateDescription(TextInputLayout inputdescription) {
-
-        String description = inputdescription.getEditText().getText().toString().trim();
-
-        if (description.isEmpty()) {
-            inputdescription.setError("Enter a name.");
-            return false;
-        } else {
-
-            inputdescription.setError(null);
-            return true;
-        }
-    }
 }

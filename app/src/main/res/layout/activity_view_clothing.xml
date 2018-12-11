@@ -69,7 +69,7 @@
                             android:layout_marginTop="10dp"
                             android:gravity="center"
                             android:text="Item Name"
-                            android:textSize="18sp"
+                            android:textSize="24sp"
                             android:textStyle="bold" />
 
                     </LinearLayout>
@@ -77,59 +77,15 @@
 
                 </android.support.v7.widget.CardView>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:orientation="vertical">
 
-                    <android.support.v7.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        app:cardCornerRadius="4dp">
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="35dp"
-                            android:text="Location"
-                            android:layout_gravity="center"
-                            android:textSize="18dp"
-                            android:textStyle="bold" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_margin="10dp"
-                            android:background="@color/lightgray" />
-
-                        <TextView
-                            android:id="@+id/location_id"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:padding="5dp"
-                            android:text=""
-                            android:textColor="@android:color/darker_gray"
-                            android:textSize="18dp" />
-                    </LinearLayout>
-                    </android.support.v7.widget.CardView>
-
-                </LinearLayout>
 
                 <LinearLayout
                     android:clipToPadding="false"
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:paddingTop="40dp">
                     <android.support.v7.widget.CardView
                         android:foreground="?android:attr/selectableItemBackground"
                         android:clickable="true"
@@ -147,6 +103,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textStyle="bold"
+                                android:textSize="20dp"
                                 android:layout_marginTop="10dp"
                                 android:text="Condition"/>
                             <View
@@ -183,6 +140,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textStyle="bold"
+                                android:textSize="20dp"
                                 android:layout_marginTop="10dp"
                                 android:text="Color"/>
                             <View

@@ -141,7 +141,6 @@ public class ViewClothing extends AppCompatActivity implements NavigationView.On
         spinnerColor.setAdapter(new ArrayAdapter<Clothing.clothingColor>(this, R.layout.support_simple_spinner_dropdown_item, Clothing.clothingColor.values()));
 
         final TextInputLayout textInputName  = dialog.findViewById(R.id.text_input_ClothingName);
-        final TextInputLayout textInputLocation = dialog.findViewById(R.id.text_input_location);
         btnAdd = (Button) dialog.findViewById(R.id.addButton);
 
         //TextView tvName = findViewById(R.id.);
@@ -196,7 +195,7 @@ public class ViewClothing extends AppCompatActivity implements NavigationView.On
                 //Clothing entry = new Clothing(name, R.drawable.taco_socks);
                 //manager.addClothing(entry);
 
-                if(!validateName(textInputName) | !validateLocation(textInputLocation)){
+                if(!validateName(textInputName)){
 
                     return;
                 }

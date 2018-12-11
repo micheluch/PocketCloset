@@ -128,7 +128,6 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
         spinnerColor.setAdapter(new ArrayAdapter<Clothing.clothingColor>(this, R.layout.support_simple_spinner_dropdown_item, Clothing.clothingColor.values()));
 
         final TextInputLayout textInputName = dialog.findViewById(R.id.text_input_ClothingName);
-        final TextInputLayout textInputLocation = dialog.findViewById(R.id.text_input_location);
         btnAdd = (Button) dialog.findViewById(R.id.addButton);
         spinnerType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
