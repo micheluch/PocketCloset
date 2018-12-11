@@ -521,13 +521,13 @@ public class DBManager extends SQLiteOpenHelper {
         Entry potentialExistingEntry = null;
         switch (tableName) {
             case TABLE_CLOSET:
-                //potentialExistingEntry = getCloset(tableName);
+                potentialExistingEntry = getCloset(tableName);
                 break;
             case TABLE_CLOTHING:
                 potentialExistingEntry = getClothing(entryName);
                 break;
             case TABLE_OUTFIT:
-                //potentialExistingEntry = getOutfit(tableName);
+                potentialExistingEntry = getOutfit(tableName);
                 break;
             default:
                 break;

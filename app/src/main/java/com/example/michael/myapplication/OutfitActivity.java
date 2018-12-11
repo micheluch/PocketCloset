@@ -48,19 +48,19 @@ public class OutfitActivity extends AppCompatActivity implements NavigationView.
         outfitList = new ArrayList<>();
         manager = new DBManager(this, null, null, 1);
         outfitList.addAll(manager.getAllOutfits());
-//        String query = "SELECT * FROM " + DBManager.TABLE_OUTFIT;
-//        SQLiteDatabase db = manager.getWritableDatabase();
-//        Cursor cursor = db.rawQuery(query, null);
-//        int numberOfTableElements = cursor.getCount();
-//        if(numberOfTableElements > 0){
-//            cursor.moveToFirst();
-//            do{
-//                int dummyInt = cursor.getColumnIndex(DBManager.COLUMN_OUTFIT_NAME);
-//                String outfitName = cursor.getString(dummyInt);
-//                outfitList.add(manager.getOutfit(outfitName));
-//            }while (cursor.moveToNext());
-//            cursor.close();
-//        }
+        String query = "SELECT * FROM " + DBManager.TABLE_OUTFIT;
+        SQLiteDatabase db = manager.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        int numberOfTableElements = cursor.getCount();
+        if(numberOfTableElements > 0){
+            cursor.moveToFirst();
+            do{
+                int dummyInt = cursor.getColumnIndex(DBManager.COLUMN_OUTFIT_NAME);
+                String outfitName = cursor.getString(dummyInt);
+                outfitList.add(manager.getOutfit(outfitName));
+            }while (cursor.moveToNext());
+            cursor.close();
+        }
 
         RecyclerView my_recycler_view = (RecyclerView) findViewById(R.id.outfit_recyclerview_id);
         OutfitRecyclerViewAdapter myAdapter = new OutfitRecyclerViewAdapter(this,outfitList);
