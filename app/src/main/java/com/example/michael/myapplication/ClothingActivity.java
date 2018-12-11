@@ -255,18 +255,5 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
         }
     }
 
-    private boolean validateLocation(TextInputLayout inputLocation){
-
-        String description = inputLocation.getEditText().getText().toString().trim();
-
-        if(description.isEmpty()){
-            inputLocation.setError("Enter a location.");
-            return false;
-        }else{
-
-            inputLocation.setError(null);
-            return true;
-        }
-    }
 
 }

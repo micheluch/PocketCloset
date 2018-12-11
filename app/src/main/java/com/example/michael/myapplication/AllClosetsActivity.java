@@ -198,17 +198,4 @@ public class AllClosetsActivity extends AppCompatActivity implements NavigationV
         }
     }
 
-    private boolean validateDescription(TextInputLayout inputdescription) {
-
-        String description = inputdescription.getEditText().getText().toString().trim();
-
-        if (description.isEmpty()) {
-            inputdescription.setError("Enter a name.");
-            return false;
-        } else {
-
-            inputdescription.setError(null);
-            return true;
-        }
-    }
 }
