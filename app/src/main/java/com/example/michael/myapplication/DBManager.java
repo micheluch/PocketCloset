@@ -449,7 +449,7 @@ public class DBManager extends SQLiteOpenHelper {
         } else {
             db.insert(TABLE_CLOTHING, null, values);
         }
-        db.close();
+        //db.close();
     }
 
     public Clothing getClothing(String clothingName) {
@@ -496,13 +496,13 @@ public class DBManager extends SQLiteOpenHelper {
                     cursor.getInt(cursor.getColumnIndex(COLUMN_ID)),
                     Clothing.clothingType.values()[cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_TYPE))],
                     Clothing.clothingColor.values()[cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_COLOR))],
-                    Clothing.clothingCondition.values()[cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_CONDITION))],
+                   Clothing.clothingCondition.values()[cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_CONDITION))],
                     cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_XCOORD)),
                     cursor.getInt(cursor.getColumnIndex(COLUMN_CLOTHING_YCOORD))
             );
             cursor.close();
         }
-        db.close();
+       // db.close();
         return searchedClothing;
     }
 
