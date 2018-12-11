@@ -181,7 +181,7 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
 //                        0);
                 //manager.addClothing(entry);
 
-                if(!validateName(textInputName) | !validateLocation(textInputLocation)){
+                if(!validateName(textInputName)){
 
                     return;
                 }

@@ -127,12 +127,12 @@ public class AllClosetsActivity extends AppCompatActivity implements NavigationV
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!validateName(textInputClosetName) | !validateDescription(textInputDescription)) {
+                if (!validateName(textInputClosetName)) {
 
                     return;
                 }
 
-                Closet closet = new Closet(textInputClosetName.getEditText().getText().toString().trim(), textInputDescription.getEditText().getText().toString().trim(),
+                Closet closet = new Closet(textInputClosetName.getEditText().getText().toString().trim(), "",
                         Entry.pocketClassType.CLOSET_TYPE, "");
 
                 SQLiteDatabase db = manager.getWritableDatabase();
@@ -144,6 +144,7 @@ public class AllClosetsActivity extends AppCompatActivity implements NavigationV
                 Cursor cursor = db.rawQuery(query, null);
                 int numberOfTableElements = cursor.getCount();
                 cursor.close();
+                dialog.cancel();
             }
 
         });
@@ -166,6 +167,7 @@ public class AllClosetsActivity extends AppCompatActivity implements NavigationV
         });
         //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
+
     }
 
     @Override
