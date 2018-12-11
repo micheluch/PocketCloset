@@ -73,7 +73,7 @@ public abstract class Entry {
     public Bitmap retrieveImageFromFolder() {
 
         try {
-            File f = new File(this.path, getEntryName() + ".png");
+            File f = new File(this.path);
             Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
             b = ExifUtil.rotateBitmap(f.getAbsolutePath(), b);
             this.image = b;
