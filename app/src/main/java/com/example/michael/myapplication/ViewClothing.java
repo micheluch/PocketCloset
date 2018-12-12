@@ -115,8 +115,9 @@ public class ViewClothing extends AppCompatActivity implements NavigationView.On
                 showEditClothingPopup(view);
                 break;
             case R.id.delete:
-                intent = new Intent(ViewClothing.this,ClothingActivity.class);
-                startActivity(intent);
+                //intent = new Intent(ViewClothing.this,ClothingActivity.class);
+                //startActivity(intent);
+                manager.deleteEntry(clothing);
                 break;
         }
 
