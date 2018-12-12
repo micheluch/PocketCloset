@@ -1,5 +1,7 @@
 package com.example.michael.myapplication;
 
+import android.database.sqlite.SQLiteDatabase;
+
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +15,7 @@ public class Closet extends Entry {
     public Closet(String closetName, String description, pocketClassType type, String path) {
         super(closetName, path, 0, type);
         this.description = description;
-        contentList = new ArrayList<>();
+        this.contentList = new ArrayList<>();
     }
 
     public String getDescription() {
@@ -27,8 +29,9 @@ public class Closet extends Entry {
     public void addEntryToCloset(Entry entry) throws IllegalArgumentException {
         if (entry.type == pocketClassType.CLOSET_TYPE)
             throw new IllegalArgumentException("Attempting to add Entry of type pocketClassType.CLOSET_TYPE to a Closet's contentList.");
-        else
+        else {
             contentList.add(entry);
+        }
     }
 
 }

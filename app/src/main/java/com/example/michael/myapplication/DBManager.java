@@ -340,7 +340,9 @@ public class DBManager extends SQLiteOpenHelper {
                 cursor.getString(cursor.getColumnIndex(COLUMN_CLOSET_IMAGEPATH)));
         int closetReferenceID = cursor.getInt(cursor.getColumnIndex(COLUMN_ID));
         databaseCloset.setEntryId(closetReferenceID);
-        databaseCloset.contentList = getEntriesForCloset(closetReferenceID);
+        List<Entry> temp = getEntriesForCloset(closetReferenceID);
+        if (temp != null)
+            databaseCloset.contentList.addAll(temp);
         return databaseCloset;
     }
 

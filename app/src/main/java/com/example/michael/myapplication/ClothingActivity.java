@@ -145,7 +145,7 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
         spinnerLocation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                location = spinnerType.getSelectedItem().toString();
+                location = spinnerLocation.getSelectedItem().toString();
             }
 
             @Override
@@ -203,7 +203,9 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
                 Clothing clothing = new Clothing(textInputName.getEditText().getText().toString().trim(), imageFile.getPath(), 0, type, color, condition, 0, 0);
                 clothingList.add(clothing);
                 manager.addClothing(clothing);
-                manager.getCloset(location).addEntryToCloset(clothing);
+                Closet closet = manager.getCloset(location);
+                closet.addEntryToCloset(clothing);
+                manager.addEntryToCloset(clothing, closet.getEntryId());
 
 
                 dialog.dismiss();
