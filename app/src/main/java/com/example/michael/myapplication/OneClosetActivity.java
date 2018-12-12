@@ -28,6 +28,7 @@ public class OneClosetActivity extends AppCompatActivity implements NavigationVi
     private final static int ROWS_WIDE = 3;
 
     private Closet closet;
+    private List<Entry> closetContentsList;
     private CardView outfitCard;
     private Button returnHomeButton;
     private Button addClothingButton;
@@ -46,6 +47,8 @@ public class OneClosetActivity extends AppCompatActivity implements NavigationVi
         String closetName = intent.getExtras().getString("Name");
         manager = new DBManager(this, null, null, 0);
         closet = manager.getCloset(closetName);
+        closetContentsList = new ArrayList<>();
+        closetContentsList = manager.getEntriesFromCloset(closet.getEntryId());
 
         android.support.v7.widget.Toolbar toolbar = findViewById(R.id.allClosetsToobar_id);
         setSupportActionBar(toolbar);
@@ -53,7 +56,7 @@ public class OneClosetActivity extends AppCompatActivity implements NavigationVi
 
 
         RecyclerView my_recycler_view = (RecyclerView) findViewById(R.id.closet_recyclerview_id);
-        OneClosetRecyclerViewAdapter myAdapter = new OneClosetRecyclerViewAdapter(this,closet.contentList);
+        OneClosetRecyclerViewAdapter myAdapter = new OneClosetRecyclerViewAdapter(this,closetContentsList);
         my_recycler_view.setLayoutManager(new GridLayoutManager(this,ROWS_WIDE));
         my_recycler_view.setAdapter(myAdapter);
 
