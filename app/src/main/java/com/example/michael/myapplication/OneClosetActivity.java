@@ -41,7 +41,7 @@ public class OneClosetActivity extends AppCompatActivity implements NavigationVi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.closet_recyclerview_layout);
+        setContentView(R.layout.one_closet_recycler_view);
         // Actually important stuff:
         Intent intent = getIntent();
         String closetName = intent.getExtras().getString("Name");
@@ -55,18 +55,18 @@ public class OneClosetActivity extends AppCompatActivity implements NavigationVi
         getSupportActionBar().setTitle(closetName);
 
 
-        RecyclerView my_recycler_view = (RecyclerView) findViewById(R.id.closet_recyclerview_id);
+        RecyclerView my_recycler_view = (RecyclerView) findViewById(R.id.one_closet_recyclerview_id);
         OneClosetRecyclerViewAdapter myAdapter = new OneClosetRecyclerViewAdapter(this,closetContentsList);
         my_recycler_view.setLayoutManager(new GridLayoutManager(this,ROWS_WIDE));
         my_recycler_view.setAdapter(myAdapter);
 
-        drawerLayout = (DrawerLayout) findViewById(R.id.allClosetsDrawerLayoutId);
+        drawerLayout = (DrawerLayout) findViewById(R.id.oneClosetDrawerLayoutId);
         toggle = new ActionBarDrawerToggle(this,drawerLayout, R.string.Open, R.string.Close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        navigationView = (NavigationView) findViewById(R.id.allClosetsNavViewId);
+        navigationView = (NavigationView) findViewById(R.id.oneClosetNavViewId);
         navigationView.setNavigationItemSelectedListener(this);
 
     }
@@ -99,7 +99,7 @@ public class OneClosetActivity extends AppCompatActivity implements NavigationVi
                 break;
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.allClosetsDrawerLayoutId);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.oneClosetDrawerLayoutId);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
