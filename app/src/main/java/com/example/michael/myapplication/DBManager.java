@@ -485,12 +485,14 @@ public class DBManager extends SQLiteOpenHelper {
         values.put(COLUMN_CLOTHING_XCOORD, newClothing.getXcoordinate());
         values.put(COLUMN_CLOTHING_YCOORD, newClothing.getYcoordinate());
 
-//        if (entryExists(newClothing.name, TABLE_CLOTHING)) {
-//            db.update(TABLE_CLOTHING, values, COLUMN_CLOTHING_NAME + " = " + newClothing.name, null);
-//        } else {
-//            db.insert(TABLE_CLOTHING, null, values);
-//        }
-        db.insert(TABLE_CLOTHING, null, values);
+        if (entryExists(newClothing.name, TABLE_CLOTHING)) {
+            String[] args = new String[1];
+            args[0] = newClothing.name;
+            db.update(TABLE_CLOTHING, values, String.format("%s = ?", COLUMN_CLOTHING_NAME), args);
+        } else {
+            db.insert(TABLE_CLOTHING, null, values);
+        }
+//        db.insert(TABLE_CLOTHING, null, values);
         //db.close();
     }
 
