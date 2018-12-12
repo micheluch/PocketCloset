@@ -96,6 +96,8 @@ public class OneClosetActivity extends AppCompatActivity implements NavigationVi
                 break;
             case R.id.delete:
                 manager.deleteEntry(closet);
+                intent = new Intent(OneClosetActivity.this,AllClosetsActivity.class);
+                startActivity(intent);
                 break;
         }
 

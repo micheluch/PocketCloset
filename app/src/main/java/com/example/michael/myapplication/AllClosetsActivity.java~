@@ -95,8 +95,6 @@ public class AllClosetsActivity extends AppCompatActivity implements NavigationV
             case R.id.add:
                 View view = menuItem.getActionView();
                 showAddClosetPopup(view);
-//                intent = new Intent(AllClosetsActivity.this, AllClosetsActivity.class);
-//                startActivity(intent);
                 break;
             case R.id.delete:
                 intent = new Intent(AllClosetsActivity.this, OutfitActivity.class);
@@ -146,15 +144,22 @@ public class AllClosetsActivity extends AppCompatActivity implements NavigationV
                 }
 
                 Closet closet = new Closet(textInputClosetName.getEditText().getText().toString().trim(), "",
+<<<<<<< HEAD
+                        Entry.pocketClassType.CLOSET_TYPE, "");
+=======
                         Entry.pocketClassType.CLOSET_TYPE, imageFile.getAbsolutePath());
+                closet.setEntryId(manager.getOutfitID());
+>>>>>>> b3c87e96b93e1bdbda5bc807d87cbae6b0f83240
                 SQLiteDatabase db = manager.getWritableDatabase();
                 manager.addCloset(closet);
 
-//                dialog.dismiss();
 
-                Intent intent = new Intent(AllClosetsActivity.this, AllClosetsActivity.class);
-                startActivity(intent);
+                String query = "SELECT * FROM " + DBManager.TABLE_CLOSET;
 
+                Cursor cursor = db.rawQuery(query, null);
+                int numberOfTableElements = cursor.getCount();
+                cursor.close();
+                dialog.dismiss();
             }
 
         });
