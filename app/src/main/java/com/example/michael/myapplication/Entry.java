@@ -21,13 +21,13 @@ public abstract class Entry {
     protected String path;
     protected enum pocketClassType{INVALID_TYPE, CLOTHING_TYPE, OUTFIT_TYPE, CLOSET_TYPE}
     protected pocketClassType type;
-    private UUID uuid;
+    //private UUID uuid;
 
 
     public Entry(String entryName, String path, int id, pocketClassType type) {
         this.name = entryName;
         this.id = id;
-        this.uuid = UUID.fromString("closet" + this.name);
+        //this.uuid = UUID.fromString("closet" + this.name);
         this.path = path;
         this.type = type;
     }
