@@ -51,7 +51,7 @@
         <activity android:name=".Camera" />
         <activity android:name=".ImagePreview" />
         <activity android:name=".ClothingList" />
-        <activity android:name=".AddEntriesToCloset"></activity>
+        <activity android:name=".SearchClothesForOutfit"></activity>
     </application>
 
 </manifest>
