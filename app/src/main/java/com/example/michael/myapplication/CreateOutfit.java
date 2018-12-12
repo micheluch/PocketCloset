@@ -157,7 +157,7 @@ public class CreateOutfit extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                outfit.setPath(directory.getAbsolutePath());
+                outfit.setPath(directory.getAbsolutePath() + "/" + outfit.getEntryName() + ".png");
                 //SQLiteDatabase db = dbManager.getWritableDatabase();
                 //set image
                 outfit.setDescription(textInputDescription.getEditText().getText().toString().trim());

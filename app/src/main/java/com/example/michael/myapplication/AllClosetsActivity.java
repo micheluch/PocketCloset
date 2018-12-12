@@ -125,6 +125,16 @@ public class AllClosetsActivity extends AppCompatActivity implements NavigationV
                 dialog.dismiss();
             }
         });
+
+        camera = (CardView) dialog.findViewById(R.id.cameraViewCloset);
+        camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(v.getContext(), Camera.class);
+                startActivityForResult(i, 2);
+            }
+        });
+
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -134,7 +144,8 @@ public class AllClosetsActivity extends AppCompatActivity implements NavigationV
                 }
 
                 Closet closet = new Closet(textInputClosetName.getEditText().getText().toString().trim(), "",
-                        Entry.pocketClassType.CLOSET_TYPE, "");
+                        Entry.pocketClassType.CLOSET_TYPE, imageFile.getAbsolutePath());
+                closet.setEntryId(manager.getOutfitID());
                 SQLiteDatabase db = manager.getWritableDatabase();
                 manager.addCloset(closet);
 
@@ -157,14 +168,6 @@ public class AllClosetsActivity extends AppCompatActivity implements NavigationV
                 dialog.dismiss();
             }
         });
-        camera = (CardView) dialog.findViewById(R.id.cameraViewCloset);
-        camera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(v.getContext(), Camera.class);
-                startActivityForResult(i, 1);
-            }
-        });
         //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
 
@@ -173,7 +176,7 @@ public class AllClosetsActivity extends AppCompatActivity implements NavigationV
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (requestCode == 1) {
+        if (requestCode == 2) {
             if (resultCode == Activity.RESULT_OK) {
                 imageFile = (File) data.getSerializableExtra("result");
             }

@@ -33,11 +33,11 @@ public class ClothingList extends AppCompatActivity implements AdapterView.OnIte
 
         clothingList = outfit.getClothingList();
 
-//        rowItems = new ArrayList<RowItem>();
-//        for(int i = 0; i < clothingList.size(); i++){
-//            RowItem item = new RowItem(clothingList.get(i).getClothingName(), clothingList.get(i).getPath());
-//            rowItems.add(item);
-//        }
+        rowItems = new ArrayList<RowItem>();
+        for(int i = 0; i < clothingList.size(); i++){
+            RowItem item = new RowItem(clothingList.get(i).getClothingName(), clothingList.get(i).getPath());
+            rowItems.add(item);
+        }
 
         listView = (ListView)findViewById(R.id.list);
         List<String> names = new ArrayList<>();
@@ -45,9 +45,9 @@ public class ClothingList extends AppCompatActivity implements AdapterView.OnIte
        for(int i = 0; i < clothingList.size(); i++){
             names.add(clothingList.get(i).getEntryName());
        }
-        //ClothingListViewAdapter clva = new ClothingListViewAdapter(this, R.layout.clothing_item_list, rowItems);
-        //listView.setAdapter(clva);
-        listView.setAdapter(new ArrayAdapter<String>(this, R.layout.clothing_item_list, R.id.clothing_name, names));
+        ClothingListViewAdapter clva = new ClothingListViewAdapter(this, R.layout.clothing_item_list, rowItems);
+        listView.setAdapter(clva);
+//        listView.setAdapter(new ArrayAdapter<String>(this, R.layout.clothing_item_list, R.id.clothing_name, names));
         listView.setOnItemClickListener(this);
     }
 
