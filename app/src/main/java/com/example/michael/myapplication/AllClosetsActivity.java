@@ -95,8 +95,6 @@ public class AllClosetsActivity extends AppCompatActivity implements NavigationV
             case R.id.add:
                 View view = menuItem.getActionView();
                 showAddClosetPopup(view);
-//                intent = new Intent(AllClosetsActivity.this, AllClosetsActivity.class);
-//                startActivity(intent);
                 break;
             case R.id.delete:
                 intent = new Intent(AllClosetsActivity.this, OutfitActivity.class);
