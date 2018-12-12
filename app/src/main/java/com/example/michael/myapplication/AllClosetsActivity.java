@@ -134,17 +134,9 @@ public class AllClosetsActivity extends AppCompatActivity implements NavigationV
                 }
 
                 Closet closet = new Closet(textInputClosetName.getEditText().getText().toString().trim(), "",
-                        Entry.pocketClassType.CLOSET_TYPE, "");
+                        Entry.pocketClassType.CLOSET_TYPE, imageFile.getPath());
                 closet.setEntryId(manager.getOutfitID());
-                SQLiteDatabase db = manager.getWritableDatabase();
                 manager.addCloset(closet);
-
-
-                String query = "SELECT * FROM " + DBManager.TABLE_CLOSET;
-
-                Cursor cursor = db.rawQuery(query, null);
-                int numberOfTableElements = cursor.getCount();
-                cursor.close();
                 dialog.dismiss();
             }
 

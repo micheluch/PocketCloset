@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecyclerViewAdapter.MyViewHolder> {
@@ -98,13 +99,12 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
         }
     }
 
-//    public void updateList(List<Closet> newList){
-//
-//        myCloset = new ArrayList<>();
-//        myCloset.addAll(newList);
-//        notifyDataSetChanged();
-//
-//    }
+    public void updateList(List<Entry> newList){
+
+        searchItems = new ArrayList<>();
+        searchItems.addAll(newList);
+        notifyDataSetChanged();
+    }
 
 
 }
