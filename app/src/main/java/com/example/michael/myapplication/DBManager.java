@@ -16,6 +16,7 @@ import java.util.TreeSet;
 public class DBManager extends SQLiteOpenHelper {
 
     private static int outfitID;
+    private static int closetID;
     private static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "pocketcloset.db";
     public static final String TABLE_OUTFIT = "outfits";
@@ -106,6 +107,7 @@ public class DBManager extends SQLiteOpenHelper {
                 ");";
         db.execSQL(query);
         outfitID = 1;
+        closetID = 1;
 
     }
 
@@ -263,11 +265,34 @@ public class DBManager extends SQLiteOpenHelper {
         db.close();
     }
 
+    private void deleteOutfit(int outfitID) {
+        // TODO: rework this method to take a Closet argument and remove the outfit from its closet
+        SQLiteDatabase db = getWritableDatabase();
+        String query = "DELETE FROM " +
+                TABLE_OUTFIT +
+                " WHERE " +
+                COLUMN_ID +
+                " = " +
+                outfitID +
+                ";";
+        db.execSQL(query);
+        query = "DELETE FROM " +
+                REFERENCE_TABLE_OUTFIT +
+                " WHERE " +
+                COLUMN_ID +
+                " = " +
+                outfitID +
+                ";";
+        db.close();
+    }
+
     public void addCloset(Closet newCloset) {
         ContentValues values = new ContentValues();
+        //values.put(COLUMN_ID, getClosetID());
         values.put(COLUMN_CLOSET_NAME, newCloset.getEntryName());
         values.put(COLUMN_CLOSET_DESCRIPTION, newCloset.getDescription());
         values.put(COLUMN_CLOSET_IMAGEPATH, newCloset.getPath());
+        closetID++;
 
         SQLiteDatabase db = getWritableDatabase();
         db.insert(TABLE_CLOSET, null, values);
@@ -312,11 +337,7 @@ public class DBManager extends SQLiteOpenHelper {
                 cursor.getString(cursor.getColumnIndex(COLUMN_CLOSET_IMAGEPATH)));
         int closetReferenceID = cursor.getInt(cursor.getColumnIndex(COLUMN_ID));
         databaseCloset.setEntryId(closetReferenceID);
-        List<Entry> closetItems = getEntriesForCloset(closetReferenceID);
-        if (closetItems != null) {
-            for (Entry closetItem : closetItems)
-                databaseCloset.addEntryToCloset(closetItem);
-        }
+        databaseCloset.contentList = getEntriesForCloset(closetReferenceID);
         return databaseCloset;
     }
 
@@ -347,6 +368,25 @@ public class DBManager extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
             return clothingInCloset;
         }
+    }
+
+    private void deleteCloset(int closetID) {
+        SQLiteDatabase db = getWritableDatabase();
+        String query = "DELETE FROM " +
+                TABLE_CLOSET +
+                " WHERE " +
+                COLUMN_ID +
+                " = " +
+                closetID +
+                ";";
+        db.execSQL(query);
+        query = "DELETE FROM " +
+                REFERENCE_TABLE_CLOSET +
+                " WHERE " +
+                COLUMN_REFERENCE_CLOSET_ID +
+                " = " + closetID + ";";
+        db.execSQL(query);
+        //db.close();
     }
 
     private void deleteCloset(String closetName) {
@@ -515,7 +555,20 @@ public class DBManager extends SQLiteOpenHelper {
                 TABLE_CLOTHING +
                 " WHERE " +
                 COLUMN_CLOTHING_NAME +
-                " LIKE '%" + clothingName + "%'";
+                " LIKE '%" + clothingName + "%';";
+        db.execSQL(query);
+    }
+
+    private void deleteClothing(int clothingID) {
+        // TODO: rework this method to take a Closet argument and remove the clothing from its closet
+        SQLiteDatabase db = getWritableDatabase();
+        String query = "DELETE FROM " +
+                TABLE_CLOTHING +
+                " WHERE " +
+                COLUMN_ID +
+                " = " +
+                clothingID +
+                ";";
         db.execSQL(query);
     }
 
@@ -536,6 +589,21 @@ public class DBManager extends SQLiteOpenHelper {
 
         }
         return potentialExistingEntry != null;
+    }
+
+    public void deleteEntry(Entry entry) {
+        switch (entry.type) {
+            case CLOSET_TYPE:
+                this.deleteCloset(entry.id);
+                break;
+            case CLOTHING_TYPE:
+                this.deleteClothing(entry.id);
+                break;
+            case OUTFIT_TYPE:
+                this.deleteOutfit(entry.id);
+                break;
+            default:
+        }
     }
 
     //can remove this final int by restructuring the database to have all second columns be the name
@@ -651,5 +719,27 @@ public class DBManager extends SQLiteOpenHelper {
             cursor.close();
         }
         return outfitList;
+    }
+
+    public List<Closet> getAllClosets(){
+        SQLiteDatabase db = getWritableDatabase();
+        List<Closet> closetList = new ArrayList<>();
+        String query = "SELECT * FROM " + TABLE_CLOSET;
+        Cursor cursor = db.rawQuery(query, null);
+        int numberOfTableElements = cursor.getCount();
+        if(numberOfTableElements > 0){
+            cursor.moveToFirst();
+            do{
+                int dummyInt = cursor.getColumnIndex(COLUMN_CLOSET_NAME);
+                String closetName = cursor.getString(dummyInt);
+                closetList.add(getCloset(closetName));
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
+        return closetList;
+    }
+
+    public static int getClosetID() {
+        return closetID;
     }
 }

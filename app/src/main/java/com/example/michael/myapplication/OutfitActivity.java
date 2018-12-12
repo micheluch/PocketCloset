@@ -30,9 +30,6 @@ public class OutfitActivity extends AppCompatActivity implements NavigationView.
 
     private final static int ROWS_WIDE = 3;
 
-    private Button returnHomeButton;
-    private Button addClothingButton;
-    private Button deleteClothingButton;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;

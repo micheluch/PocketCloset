@@ -142,10 +142,10 @@ public class CreateOutfit extends AppCompatActivity {
                 //save image
                 ContextWrapper cw = new ContextWrapper(getApplicationContext());
                 File directory = cw.getDir("outfits", Context.MODE_PRIVATE);
-                if(!directory.exists()){
-                    directory.mkdir();
-                }
-                File mypath = new File(directory.getAbsolutePath() + outfit.getEntryName() + ".png");
+//                if(!directory.exists()){
+//                    directory.mkdir();
+//                }
+//                File mypath = new File(directory,"");
 //                FileOutputStream fos = null;
 //                try{
 //                    fos = new FileOutputStream(mypath);
@@ -157,7 +157,7 @@ public class CreateOutfit extends AppCompatActivity {
 //                    e.printStackTrace();
 //                }
 
-                outfit.setPath(mypath.getAbsolutePath());
+ //               outfit.setPath(mypath.getAbsolutePath());
                 SQLiteDatabase db = dbManager.getWritableDatabase();
                 //set image
                 outfit.setDescription(textInputDescription.getEditText().getText().toString().trim());
@@ -169,21 +169,14 @@ public class CreateOutfit extends AppCompatActivity {
 
                 }
                 dbManager.addOutfit(outfit);
-
-
-                String query = "SELECT * FROM " + DBManager.TABLE_OUTFIT;
-
-                Cursor cursor = db.rawQuery(query, null);
-                int numberOfTableElements = cursor.getCount();
-                cursor.close();
                 //get image
 
                 ImageView img = (ImageView) dialog.findViewById(R.id.viewImage);
                 img.setImageBitmap(outfit.getImage());
 
                 dialog.dismiss();
-//                Intent i = new Intent(CreateOutfit.this,OutfitActivity.class);
-//                CreateOutfit.this.startActivity(i);
+                Intent i = new Intent(CreateOutfit.this,OutfitActivity.class);
+                CreateOutfit.this.startActivity(i);
             }
         });
         dbManager.close();

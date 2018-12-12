@@ -46,8 +46,9 @@ public class AllClosetsActivity extends AppCompatActivity implements NavigationV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.closet_recyclerview_layout);
 
-        closetList = new ArrayList<>();
+
         manager = new DBManager(this, null, null, 1);
+        closetList = manager.getAllClosets();
 
 
         RecyclerView my_recycler_view = (RecyclerView) findViewById(R.id.closet_recyclerview_id);
@@ -133,18 +134,10 @@ public class AllClosetsActivity extends AppCompatActivity implements NavigationV
                 }
 
                 Closet closet = new Closet(textInputClosetName.getEditText().getText().toString().trim(), "",
-                        Entry.pocketClassType.CLOSET_TYPE, "");
-
-                SQLiteDatabase db = manager.getWritableDatabase();
+                        Entry.pocketClassType.CLOSET_TYPE, imageFile.getPath());
+                closet.setEntryId(manager.getOutfitID());
                 manager.addCloset(closet);
-
-
-                String query = "SELECT * FROM " + DBManager.TABLE_CLOSET;
-
-                Cursor cursor = db.rawQuery(query, null);
-                int numberOfTableElements = cursor.getCount();
-                cursor.close();
-                dialog.cancel();
+                dialog.dismiss();
             }
 
         });
