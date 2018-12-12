@@ -15,8 +15,8 @@ import java.util.TreeSet;
 
 public class DBManager extends SQLiteOpenHelper {
 
-    private static int outfitID;
-    private static int closetID;
+    private static int outfitID = 10;
+    private static int closetID = 1;
     private static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "pocketcloset.db";
     public static final String TABLE_OUTFIT = "outfits";
@@ -106,8 +106,8 @@ public class DBManager extends SQLiteOpenHelper {
                 COLUMN_REFERENCE_ENTRY_ID + " INTEGER " +
                 ");";
         db.execSQL(query);
-        outfitID = 1;
-        closetID = 1;
+//        outfitID = 1;
+//        closetID = 1;
 
     }
 
@@ -128,19 +128,22 @@ public class DBManager extends SQLiteOpenHelper {
         // TODO: rework this method to take a Closet argument and add the outfit to a closet
         ContentValues valuesToAdd = new ContentValues();
         valuesToAdd.put(COLUMN_OUTFIT_NAME, newOutfit.getEntryName());
-        valuesToAdd.put(COLUMN_ID, newOutfit.getEntryId());
+
         valuesToAdd.put(COLUMN_OUTFIT_IMAGEPATH, newOutfit.getPath());
         valuesToAdd.put(COLUMN_OUTFIT_DESCRIPTION, newOutfit.getDescription());
         SQLiteDatabase db = getWritableDatabase();
 
-        addClothesToReference(newOutfit.getClothingList(), newOutfit.getEntryId());
 
         if (entryExists(newOutfit.getEntryName(), TABLE_OUTFIT)) {
+            valuesToAdd.put(COLUMN_ID, newOutfit.getEntryId());
             db.update(TABLE_OUTFIT, valuesToAdd, null, null);
         } else {
             db.insert(TABLE_OUTFIT, null, valuesToAdd);
             outfitID++;
+            newOutfit.id = this.getOutfit(newOutfit.getEntryName()).getEntryId();
         }
+        addClothesToReference(newOutfit.getClothingList(), newOutfit.getEntryId());
+
         //db.close(); //MUST ALWAYS Closet
     }
 
