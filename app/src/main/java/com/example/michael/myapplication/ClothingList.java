@@ -40,14 +40,11 @@ public class ClothingList extends AppCompatActivity implements AdapterView.OnIte
 //        }
 
         listView = (ListView)findViewById(R.id.list);
-        //String[] names = new String[clothingList.size()];
-        String[] names = new String[1];
+        List<String> names = new ArrayList<>();
 
- //       for(int i = 0; i < clothingList.size(); i++){
- //           names[i] = clothingList.get(i).getEntryName();
- //       }
-
-        names[0] = "asdsa";
+       for(int i = 0; i < clothingList.size(); i++){
+            names.add(clothingList.get(i).getEntryName());
+       }
         //ClothingListViewAdapter clva = new ClothingListViewAdapter(this, R.layout.clothing_item_list, rowItems);
         //listView.setAdapter(clva);
         listView.setAdapter(new ArrayAdapter<String>(this, R.layout.clothing_item_list, R.id.clothing_name, names));

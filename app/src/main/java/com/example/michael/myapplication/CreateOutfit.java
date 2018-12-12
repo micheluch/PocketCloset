@@ -145,7 +145,7 @@ public class CreateOutfit extends AppCompatActivity {
                 if(!directory.exists()){
                     directory.mkdir();
                 }
-                File mypath = new File(directory + "/" + outfit.getEntryName() + ".png");
+                File mypath = new File(directory, outfit.getEntryName() + ".png");
                 FileOutputStream fos = null;
                 try{
                     fos = new FileOutputStream(mypath);
@@ -157,7 +157,7 @@ public class CreateOutfit extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                outfit.setPath(mypath.getAbsolutePath());
+                outfit.setPath(directory.getAbsolutePath() );
                 SQLiteDatabase db = dbManager.getWritableDatabase();
                 //set image
                 outfit.setDescription(textInputDescription.getEditText().getText().toString().trim());
