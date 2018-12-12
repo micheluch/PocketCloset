@@ -48,7 +48,8 @@ public class OneClosetActivity extends AppCompatActivity implements NavigationVi
         manager = new DBManager(this, null, null, 0);
         closet = manager.getCloset(closetName);
         closetContentsList = new ArrayList<>();
-        closetContentsList = manager.getEntriesFromCloset(closet.getEntryId());
+        closetContentsList.addAll(closet.contentList);
+        //closetContentsList = manager.getEntriesFromCloset(closet.getEntryId());
 
         android.support.v7.widget.Toolbar toolbar = findViewById(R.id.allClosetsToobar_id);
         setSupportActionBar(toolbar);

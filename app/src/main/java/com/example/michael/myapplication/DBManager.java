@@ -85,7 +85,7 @@ public class DBManager extends SQLiteOpenHelper {
         db.execSQL(query);
 
         query = "CREATE TABLE " + REFERENCE_TABLE_OUTFIT + " (" +
-                COLUMN_ID + " INTEGER PRIMARY KEY, " +
+                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_REFERENCE_OUTFIT_ID + " INTEGER, " +
                 COLUMN_REFERENCE_CLOTHING_ID + " INTEGER " +
                 ");";
@@ -100,7 +100,7 @@ public class DBManager extends SQLiteOpenHelper {
         db.execSQL(query);
 
         query = "CREATE TABLE " + REFERENCE_TABLE_CLOSET + " (" +
-                COLUMN_ID + " INTEGER PRIMARY KEY, " +
+                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_REFERENCE_CLOSET_ID + " INTEGER, " +
                 COLUMN_REFERENCE_ENTRY_TYPE + " INTEGER, " +
                 COLUMN_REFERENCE_ENTRY_ID + " INTEGER " +
@@ -416,7 +416,7 @@ public class DBManager extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(COLUMN_REFERENCE_CLOSET_ID, closetID);
         values.put(COLUMN_REFERENCE_ENTRY_TYPE, entry.type.ordinal());
-        values.put(COLUMN_REFERENCE_CLOTHING_ID, entry.getEntryId());
+        values.put(COLUMN_REFERENCE_ENTRY_ID, entry.getEntryId());
 
         db.insert(REFERENCE_TABLE_CLOSET, null, values);
 
@@ -433,7 +433,7 @@ public class DBManager extends SQLiteOpenHelper {
 
         for (Entry entry : entryReferenceList) {
             values.put(COLUMN_REFERENCE_ENTRY_TYPE, entry.getEntryType().ordinal());
-            values.put(COLUMN_REFERENCE_CLOTHING_ID, entry.getEntryId());
+            values.put(COLUMN_REFERENCE_ENTRY_ID, entry.getEntryId());
 
             db.insert(REFERENCE_TABLE_CLOSET, null, values);
         }
@@ -454,6 +454,7 @@ public class DBManager extends SQLiteOpenHelper {
                 COLUMN_REFERENCE_CLOSET_ID +
                 " = " + closetID;
         Cursor cursor = db.rawQuery(selectQuery, null);
+        cursor.moveToFirst();
         List<Entry> results = new ArrayList<>();
         Outfit dummyEntry = new Outfit("", 1, ""); //= new Entry("","",0,Entry.pocketClassType.OUTFIT_TYPE);
         int type;

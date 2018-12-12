@@ -40,7 +40,7 @@ public class OneClosetRecyclerViewAdapter extends RecyclerView.Adapter<OneCloset
     public void onBindViewHolder(@NonNull MyViewHolder viewHolder, final int i) {
 
         viewHolder.tv_wearable_title.setText(mData.get(i).getEntryName());
-        viewHolder.img_wearable_thumbnail.setImageBitmap(mData.get(i).getImage());
+        viewHolder.img_wearable_thumbnail.setImageBitmap(mData.get(i).retrieveImageFromFolder());
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){

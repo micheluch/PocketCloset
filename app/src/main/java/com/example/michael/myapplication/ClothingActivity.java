@@ -201,13 +201,15 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
 
 
                 Clothing clothing = new Clothing(textInputName.getEditText().getText().toString().trim(), imageFile.getPath(), 0, type, color, condition, 0, 0);
-                clothingList.add(clothing);
+
                 manager.addClothing(clothing);
+                clothing = manager.getClothing(clothing.getEntryName());
+                clothingList.add(clothing);
                 Closet closet = manager.getCloset(location);
                 closet.addEntryToCloset(clothing);
                 manager.addEntryToCloset(clothing, closet.getEntryId());
-
-
+                Intent i = new Intent(v.getContext(), ClothingActivity.class);
+                startActivity(i);
                 dialog.dismiss();
             }
         });
