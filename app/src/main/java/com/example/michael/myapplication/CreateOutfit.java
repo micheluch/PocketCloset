@@ -77,7 +77,7 @@ public class CreateOutfit extends AppCompatActivity {
         motionView.setMotionViewCallback(motionViewCallback);
 
         dbManager = new DBManager(this, null, null, 1);
-        this.outfit = new Outfit("",dbManager.getOutfitID() +1,"");
+        this.outfit = new Outfit("",0,"");
         //addButton = (Button)findViewById(R.id.addClothesButton);
 
         android.support.v7.widget.Toolbar toolbar = findViewById(R.id.create_outfit_toolbar_id);

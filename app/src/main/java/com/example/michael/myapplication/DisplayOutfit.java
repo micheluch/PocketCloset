@@ -124,9 +124,9 @@ public class DisplayOutfit extends AppCompatActivity implements View.OnClickList
                 startActivity(intent);
                 break;
             case R.id.delete:
-                //intent = new Intent(DisplayOutfit.this,OutfitActivity.class);
-                //startActivity(intent);
                 manager.deleteEntry(outfit);
+                intent = new Intent(DisplayOutfit.this,OutfitActivity.class);
+                startActivity(intent);
                 break;
         }
 

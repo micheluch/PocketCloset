@@ -135,7 +135,6 @@ public class AllClosetsActivity extends AppCompatActivity implements NavigationV
 
                 Closet closet = new Closet(textInputClosetName.getEditText().getText().toString().trim(), "",
                         Entry.pocketClassType.CLOSET_TYPE, "");
-                closet.setEntryId(manager.getOutfitID());
                 SQLiteDatabase db = manager.getWritableDatabase();
                 manager.addCloset(closet);
 

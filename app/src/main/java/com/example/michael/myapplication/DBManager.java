@@ -15,8 +15,6 @@ import java.util.TreeSet;
 
 public class DBManager extends SQLiteOpenHelper {
 
-    private static int outfitID = 10;
-    private static int closetID = 1;
     private static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "pocketcloset.db";
     public static final String TABLE_OUTFIT = "outfits";
@@ -139,7 +137,6 @@ public class DBManager extends SQLiteOpenHelper {
             db.update(TABLE_OUTFIT, valuesToAdd, null, null);
         } else {
             db.insert(TABLE_OUTFIT, null, valuesToAdd);
-            outfitID++;
             newOutfit.id = this.getOutfit(newOutfit.getEntryName()).getEntryId();
         }
         addClothesToReference(newOutfit.getClothingList(), newOutfit.getEntryId());
@@ -158,10 +155,6 @@ public class DBManager extends SQLiteOpenHelper {
             db.insert(REFERENCE_TABLE_OUTFIT, null, values);
         }
         //db.close();
-    }
-
-    public int getOutfitID() {
-        return outfitID;
     }
 
     public Outfit getOutfit(String outfitName) {
@@ -295,7 +288,6 @@ public class DBManager extends SQLiteOpenHelper {
         values.put(COLUMN_CLOSET_NAME, newCloset.getEntryName());
         values.put(COLUMN_CLOSET_DESCRIPTION, newCloset.getDescription());
         values.put(COLUMN_CLOSET_IMAGEPATH, newCloset.getPath());
-        closetID++;
 
         SQLiteDatabase db = getWritableDatabase();
         db.insert(TABLE_CLOSET, null, values);
@@ -477,7 +469,6 @@ public class DBManager extends SQLiteOpenHelper {
     }
 
     public void addClothing(Clothing newClothing) {
-        // TODO: rework this method to take a Closet argument and add the clothing to a closet
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_CLOTHING_NAME, newClothing.getClothingName());
@@ -498,6 +489,21 @@ public class DBManager extends SQLiteOpenHelper {
 //        db.insert(TABLE_CLOTHING, null, values);
         //db.close();
     }
+
+    public void editClothing(Clothing newClothing) {
+
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_CLOTHING_CONDITION, newClothing.getCondition().ordinal());
+        values.put(COLUMN_CLOTHING_PICTURE_PATH, newClothing.getPath());
+        values.put(COLUMN_CLOTHING_TYPE, newClothing.getType());
+        values.put(COLUMN_CLOTHING_COLOR, newClothing.getColor().ordinal());
+        values.put(COLUMN_CLOTHING_XCOORD, newClothing.getXcoordinate());
+        values.put(COLUMN_CLOTHING_YCOORD, newClothing.getYcoordinate());
+
+
+    }
+
 
     public Clothing getClothing(String clothingName) {
         SQLiteDatabase db = getWritableDatabase(); //check formatting on selectquery. Potentially spacing issues
@@ -744,7 +750,4 @@ public class DBManager extends SQLiteOpenHelper {
         return closetList;
     }
 
-    public static int getClosetID() {
-        return closetID;
-    }
 }
