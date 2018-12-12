@@ -157,8 +157,8 @@ public class CreateOutfit extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                outfit.setPath(directory.getAbsolutePath() );
-                SQLiteDatabase db = dbManager.getWritableDatabase();
+                outfit.setPath(directory.getAbsolutePath());
+                //SQLiteDatabase db = dbManager.getWritableDatabase();
                 //set image
                 outfit.setDescription(textInputDescription.getEditText().getText().toString().trim());
                 outfit.setImage();
@@ -171,11 +171,11 @@ public class CreateOutfit extends AppCompatActivity {
                 dbManager.addOutfit(outfit);
 
 
-                String query = "SELECT * FROM " + DBManager.TABLE_OUTFIT;
+//                String query = "SELECT * FROM " + DBManager.TABLE_OUTFIT;
 
-                Cursor cursor = db.rawQuery(query, null);
-                int numberOfTableElements = cursor.getCount();
-                cursor.close();
+                //Cursor cursor = db.rawQuery(query, null);
+                //int numberOfTableElements = cursor.getCount();
+                //cursor.close();
                 //get image
 
                 ImageView img = (ImageView) dialog.findViewById(R.id.viewImage);
