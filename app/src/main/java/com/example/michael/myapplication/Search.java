@@ -79,7 +79,7 @@ public class Search extends AppCompatActivity{ //implements SearchView.OnQueryTe
         return super.onCreateOptionsMenu(menu);
         //return true;
     }
-
+//
 //    @Override
 //    public boolean onQueryTextSubmit(String query) {
 //        return false;

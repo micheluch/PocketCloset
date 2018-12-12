@@ -1,11 +1,17 @@
 package com.example.michael.myapplication;
 
+import android.content.res.AssetManager;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.Serializable;
+import java.util.UUID;
 
 public abstract class Entry {
     //Data members shared by Clothing and Outfit
@@ -15,12 +21,15 @@ public abstract class Entry {
     protected String path;
     protected enum pocketClassType{INVALID_TYPE, CLOTHING_TYPE, OUTFIT_TYPE, CLOSET_TYPE}
     protected pocketClassType type;
+    //private UUID uuid;
 
 
-    public Entry(String entryName, String path, int id) {
+    public Entry(String entryName, String path, int id, pocketClassType type) {
         this.name = entryName;
         this.id = id;
+        //this.uuid = UUID.fromString("closet" + this.name);
         this.path = path;
+        this.type = type;
     }
 
     //Methods that are shared by Clothing and Outfit
@@ -67,8 +76,10 @@ public abstract class Entry {
     public Bitmap retrieveImageFromFolder() {
 
         try {
-            File f = new File(this.path, getEntryName() + ".png");
+            File f = new File(this.path);
             Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
+            b = ExifUtil.rotateBitmap(f.getAbsolutePath(), b);
+            this.image = b;
             return b;
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -76,4 +87,6 @@ public abstract class Entry {
 
         return null;
     }
+
+
 }

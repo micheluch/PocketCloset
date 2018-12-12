@@ -1,32 +1,39 @@
 package com.example.michael.myapplication;
 
-public abstract class Entry
-{
+import android.content.res.AssetManager;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.Serializable;
+
+public abstract class Entry {
     //Data members shared by Clothing and Outfit
     protected int id;
     protected String name;
-    protected int thumbnail;
+    protected Bitmap image;
+    protected String path;
+    protected enum pocketClassType{INVALID_TYPE, CLOTHING_TYPE, OUTFIT_TYPE, CLOSET_TYPE}
+    protected pocketClassType type;
 
-<<<<<<< HEAD
-    public Entry(String entryName, int thumbnail) {
+
+    public Entry(String entryName, String path, int id, pocketClassType type) {
         this.name = entryName;
-        this.thumbnail = thumbnail;
-=======
-    protected static final int DEFAULT_TYPE = 0;
-    protected static final String DEFAULT_CONDITION = "Good";
-
-
-    public Entry(String entryName, int thumbnail, int id) {
-        this.name = entryName;
-        this.thumbnail = thumbnail;
         this.id = id;
->>>>>>> 61effe20b8be96ab5c2bc3848d0aa7ecb387b5ef
+        this.path = path;
+        this.type = type;
     }
 
-    //Methods that are shared by Clothing and Outfit
+    //Methods that are shared by Clothing and Outfitdescription
     public int getEntryId() {
         return id;
     }
+
     public void setEntryId(int id) {
         this.id = id;
     }
@@ -34,15 +41,58 @@ public abstract class Entry
     public String getEntryName() {
         return name;
     }
+
     public void setEntryName(String name) {
         this.name = name;
     }
 
-    public int getThumbnail() {
-        return thumbnail;
+    public Bitmap getImage() {
+        return image;
     }
-    public void setThumbnail(int thumbnail) {
-        this.thumbnail = thumbnail;
+
+    public void setImage() {
+        this.image = retrieveImageFromFolder();
     }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public pocketClassType getEntryType() {
+        return type;
+    }
+
+    public void setEntryType(pocketClassType type) {
+        this.type = type;
+    }
+
+    public Bitmap retrieveImageFromFolder() {
+
+<<<<<<< HEAD
+//        try {
+//            File f = new File(this.path, getEntryName() + ".png");
+//            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
+//            return b;
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
+=======
+        try {
+            File f = new File(this.path, getEntryName() + ".png");
+            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
+            this.image = b;
+            return b;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+>>>>>>> 093afe9bca02dfe59961ed4ed4cfef1719c3a868
+
+        return null;
+    }
+
 
 }

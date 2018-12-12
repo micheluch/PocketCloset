@@ -49,7 +49,7 @@ public class CreateOutfit extends AppCompatActivity {
     Bitmap outfitImage;
     Outfit outfit;
     DBManager dbManager;
-
+    List <Clothing> clothingList = new ArrayList<>();
     private final MotionView.MotionViewCallback motionViewCallback = new MotionView.MotionViewCallback() {
 
         @Override
@@ -60,6 +60,7 @@ public class CreateOutfit extends AppCompatActivity {
         public void onEntityDoubleTap(@NonNull MotionEntity entity) {
                 if(entity instanceof ImageEntity){
                     motionView.removeEntity(entity);
+                    clothingList.remove(entity);
                 }
         }
     };
@@ -134,7 +135,8 @@ public class CreateOutfit extends AppCompatActivity {
 
                     return;
                 }
-                
+
+                outfit.setEntryName(textInputOutfitName.getEditText().getText().toString().trim());
 
 
                 //save image
@@ -155,12 +157,17 @@ public class CreateOutfit extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                outfit.setPath(directory.getAbsolutePath());
+                outfit.setPath(directory.getAbsolutePath() );
                 SQLiteDatabase db = dbManager.getWritableDatabase();
                 //set image
-                outfit.setEntryName(textInputOutfitName.getEditText().getText().toString().trim());
                 outfit.setDescription(textInputDescription.getEditText().getText().toString().trim());
                 outfit.setImage();
+
+                for(int i = 0; i < clothingList.size(); i++){
+
+                    outfit.addClothingToOutfit((Clothing) clothingList.get(i));
+
+                }
                 dbManager.addOutfit(outfit);
 
 
@@ -172,20 +179,13 @@ public class CreateOutfit extends AppCompatActivity {
                 //get image
 
                 ImageView img = (ImageView) dialog.findViewById(R.id.viewImage);
-                img.setImageBitmap(outfit.retrieveImageFromFolder());
+                img.setImageBitmap(outfit.getImage());
 
-//                Intent i = new Intent(CreateOutfit.this,DisplayOutfit.class);
-//                i.putExtra("Name", outfit.getEntryName());
-//                i.putExtra("Description", textInputDescription.getEditText().getText().toString().trim());
-//                i.putExtra("Thumbnail", bitmap);
-//
-//                CreateOutfit.this.startActivity(i);
-                dialog.cancel();
+                dialog.dismiss();
                 Intent i = new Intent(CreateOutfit.this,OutfitActivity.class);
                 CreateOutfit.this.startActivity(i);
             }
         });
-        //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dbManager.close();
         dialog.show();
     }
@@ -218,12 +218,14 @@ public class CreateOutfit extends AppCompatActivity {
         }
     }
 
-    private void addSticker(final int stickerResId) {
+    private void addSticker(final String stickerResId) {
         motionView.post(new Runnable() {
             @Override
             public void run() {
                 Layer layer = new Layer();
-                Bitmap item = BitmapFactory.decodeResource(getResources(), stickerResId);
+                //Bitmap item = BitmapFactory.decodeResource(getResources(), stickerResId);
+                Bitmap item = dbManager.getClothing(stickerResId).getImage();
+                clothingList.add(dbManager.getClothing(stickerResId));
 
                 ImageEntity entity = new ImageEntity(layer, item, motionView.getWidth(), motionView.getHeight());
 
@@ -246,8 +248,8 @@ public class CreateOutfit extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             if (requestCode == SELECT_STICKER_REQUEST_CODE) {
                 if (data != null) {
-                    int stickerId = data.getIntExtra(CreateOutfitSticker.EXTRA_STICKER_ID, 0);
-                    if (stickerId != 0) {
+                    String stickerId = data.getStringExtra(CreateOutfitSticker.EXTRA_STICKER_ID);
+                    if (stickerId != null) {
                         addSticker(stickerId);
                     }
                 }

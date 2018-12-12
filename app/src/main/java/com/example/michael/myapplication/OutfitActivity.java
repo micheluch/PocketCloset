@@ -30,9 +30,6 @@ public class OutfitActivity extends AppCompatActivity implements NavigationView.
 
     private final static int ROWS_WIDE = 3;
 
-    private Button returnHomeButton;
-    private Button addClothingButton;
-    private Button deleteClothingButton;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
@@ -47,19 +44,7 @@ public class OutfitActivity extends AppCompatActivity implements NavigationView.
 
         outfitList = new ArrayList<>();
         manager = new DBManager(this, null, null, 1);
-        String query = "SELECT * FROM " + DBManager.TABLE_OUTFIT;
-        SQLiteDatabase db = manager.getWritableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
-        int numberOfTableElements = cursor.getCount();
-        if(numberOfTableElements > 0){
-            cursor.moveToFirst();
-            do{
-                int dummyInt = cursor.getColumnIndex(DBManager.COLUMN_OUTFIT_NAME);
-                String outfitName = cursor.getString(dummyInt);
-                outfitList.add(manager.getOutfit(outfitName));
-            }while (cursor.moveToNext());
-            cursor.close();
-        }
+        outfitList.addAll(manager.getAllOutfits());
 
         RecyclerView my_recycler_view = (RecyclerView) findViewById(R.id.outfit_recyclerview_id);
         OutfitRecyclerViewAdapter myAdapter = new OutfitRecyclerViewAdapter(this,outfitList);

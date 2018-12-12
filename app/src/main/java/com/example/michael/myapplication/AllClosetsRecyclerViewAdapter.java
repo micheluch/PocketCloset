@@ -38,15 +38,15 @@ public class AllClosetsRecyclerViewAdapter extends RecyclerView.Adapter<AllClose
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder viewHolder, final int i) {
 
-        viewHolder.tv_closet_title.setText(mData.get(i).getClosetName());
-        viewHolder.img_closet_thumbnail.setImageResource(mData.get(i).getThumbnail());
+        viewHolder.tv_closet_title.setText(mData.get(i).getEntryName());
+
+        viewHolder.img_closet_thumbnail.setImageBitmap(mData.get(i).retrieveImageFromFolder());
 
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
                 Intent intent = new Intent(mContext, OneClosetActivity.class);
-                intent.putExtra("Name", mData.get(i).getClosetName());
-                intent.putExtra("J", mData.get(i).getType());
+                intent.putExtra("Name", mData.get(i).getEntryName());
 
                 mContext.startActivity(intent);
             }

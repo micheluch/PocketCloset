@@ -25,17 +25,19 @@ public class ImagePreview extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.image_preview);
+        File file = (File)getIntent().getSerializableExtra("image");
 
         try {
-            File file = (File)getIntent().getSerializableExtra("image");
             bit = BitmapFactory.decodeStream(new FileInputStream(file));
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
 
+        bit = ExifUtil.rotateBitmap(file.getAbsolutePath(), bit);
         ImageView view = (ImageView)findViewById(R.id.imageView);
         view.setImageBitmap(bit);
+
         okButton = (Button)findViewById(R.id.confirmImage);
         okButton.setOnClickListener(new View.OnClickListener(){
             @Override

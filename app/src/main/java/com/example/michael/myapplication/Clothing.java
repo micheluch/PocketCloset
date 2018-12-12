@@ -21,7 +21,7 @@ public class Clothing extends Entry {
 
     public Clothing(String entryName, String path, int id, clothingType type, clothingColor color,
                     clothingCondition condition, int xcoordinate, int ycoordinate) {
-        super(entryName, path, id);
+        super(entryName, path, id, pocketClassType.CLOTHING_TYPE);
         setEntryType(pocketClassType.CLOTHING_TYPE);
         this.type = type;
         this.color = color;
@@ -35,17 +35,9 @@ public class Clothing extends Entry {
     }
 
     //"Extended" methods from Entry
-    public int getClothingId() {
-        return getEntryId();
-    }
-    public void setClothingId(int clothingId) {
-        setEntryId(clothingId);
-    }
     public String getClothingName() {
         return getEntryName();
     }
-    public void setClothingName(String clothingName) { setEntryName(clothingName); }
-
     //Clothing-only methods
 
 

@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,8 +22,7 @@ public class Outfit extends Entry {
     private String description;
 
     public Outfit(String outfitName, List<Clothing> clothingList, String description, int id, String path) {
-        super(outfitName, path, id);
-        setEntryType(pocketClassType.OUTFIT_TYPE);
+        super(outfitName, path, id, pocketClassType.OUTFIT_TYPE);
         this.clothingList = clothingList;
         this.description = description;
     }
