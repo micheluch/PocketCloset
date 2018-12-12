@@ -37,8 +37,9 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, final int i) {
-        myViewHolder.tv_closet_name.setText(searchItems.get(i).getEntryName());
-        myViewHolder.img_closet_thumbnail.setImageBitmap(searchItems.get(i).getImage());
+        Entry currentEntry = searchItems.get(i);
+        myViewHolder.tv_closet_name.setText(currentEntry.getEntryName());
+        myViewHolder.img_closet_thumbnail.setImageBitmap(currentEntry.getImage());
 
         myViewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,20 +59,16 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
                         break;
                     case CLOTHING_TYPE:
                         intent = new Intent(myContext,ViewClothing.class);
-//                        intent.putExtra("Name", searchItems.get(i).getEntryName());
-//                        intent.putExtra("Description", searchItems.get(i).;
-//                        intent.putExtra("Thumbnail", myCloset.get(i).getThumbnail());
+                        intent.putExtra("name", searchItems.get(i).getEntryName());
                         myContext.startActivity(intent);
                         break;
                     case OUTFIT_TYPE:
                         intent = new Intent(myContext,DisplayOutfit.class);
-//                        intent.putExtra("Name", searchItems.get(i).getEntryName());
-//                        intent.putExtra("Description", myCloset.get(i).getDescription());
-//                        intent.putExtra("Thumbnail", myCloset.get(i).getThumbnail());
+                        intent.putExtra("Name", searchItems.get(i).getEntryName());
                         myContext.startActivity(intent);
                         break;
-                        default:
-                            break;
+                    default:
+                        break;
                 }
 
             }
