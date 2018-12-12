@@ -109,12 +109,13 @@ public class ViewClothing extends AppCompatActivity implements NavigationView.On
                 startActivity(intent);
                 break;
             case R.id.edit:
-                //intent = new Intent(DisplayOutfit.this,DisplayOutfit.class);
-                //startActivity(intent);
                 View view = menuItem.getActionView();
-                showEditClothingPopup(view);
+                showEditClothingPopup(view, clothing);
+//                intent = new Intent(ViewClothing.this,ClothingActivity.class);
+//                startActivity(intent);
                 break;
             case R.id.delete:
+                manager.deleteEntry(clothing);
                 intent = new Intent(ViewClothing.this,ClothingActivity.class);
                 startActivity(intent);
                 break;
@@ -125,7 +126,11 @@ public class ViewClothing extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    public void showEditClothingPopup (View v) {
+    public Clothing getClothing() {
+        return clothing;
+    }
+
+    public void showEditClothingPopup (View v, Clothing clothing) {
 
         TextView txtclose;
         Button btnAdd;
@@ -145,9 +150,9 @@ public class ViewClothing extends AppCompatActivity implements NavigationView.On
 
         //TextView tvName = findViewById(R.id.);
 
-        //spinnerType.setSelection(clothing.getType());
-        //spinnerColor.setSelection(clothing.getColor());
-        //spinnerCondition.setSelection(clothing.getCondition());
+        spinnerType.setSelection(clothing.getType());
+        spinnerColor.setSelection(clothing.getColor().ordinal());
+        spinnerCondition.setSelection(clothing.getCondition().ordinal());
 
 
         //textInputName.;
@@ -201,17 +206,18 @@ public class ViewClothing extends AppCompatActivity implements NavigationView.On
                 }
 
 
-                Clothing clothing = new Clothing(textInputName.getEditText().getText().toString().trim(), "", 0, type, color, condition, 0, 0);
+                Clothing clothing = getClothing();//new Clothing(textInputName.getEditText().getText().toString().trim(), "", 0, type, color, condition, 0, 0);
                 //clothingList.add(clothing);
+                String newName = textInputName.getEditText().getText().toString();
+                if (newName != null && !newName.isEmpty())
+                    clothing.name = newName;
+                clothing.setType(type);
+                clothing.setColor(color);
+                clothing.setCondition(condition);
+
 
                 SQLiteDatabase db = manager.getWritableDatabase();
                 manager.addClothing(clothing);
-
-                String query = "SELECT * FROM " + DBManager.TABLE_CLOTHING;
-
-                Cursor cursor = db.rawQuery(query, null);
-                int numberOfTableElements = cursor.getCount();
-                cursor.close();
 
 
                 dialog.dismiss();

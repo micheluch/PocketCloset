@@ -395,5 +395,9 @@ public class Camera extends AppCompatActivity implements Serializable {
                 //No result I guess
             }
         }
+<<<<<<< HEAD
+    }//onActivityResult
+=======
     }
+>>>>>>> 7dfc1097b074d3bf156af27b1a91a182e4fbb8fc
 }

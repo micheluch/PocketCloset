@@ -15,8 +15,6 @@ import java.util.TreeSet;
 
 public class DBManager extends SQLiteOpenHelper {
 
-    private static int outfitID;
-    private static int closetID;
     private static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "pocketcloset.db";
     public static final String TABLE_OUTFIT = "outfits";
@@ -106,19 +104,19 @@ public class DBManager extends SQLiteOpenHelper {
                 COLUMN_REFERENCE_ENTRY_ID + " INTEGER " +
                 ");";
         db.execSQL(query);
-        outfitID = 1;
-        closetID = 1;
+//        outfitID = 1;
+//        closetID = 1;
 
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-//        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CLOSET);
-//        db.execSQL("DROP TABLE IF EXISTS " + TABLE_OUTFIT);
-//        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CLOTHING);
-//        db.execSQL("DROP TABLE IF EXISTS " + REFERENCE_TABLE_OUTFIT);
-//        db.execSQL("DROP TABLE IF EXISTS " + REFERENCE_TABLE_CLOSET);
-//        onCreate(db);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CLOSET);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_OUTFIT);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CLOTHING);
+        db.execSQL("DROP TABLE IF EXISTS " + REFERENCE_TABLE_OUTFIT);
+        db.execSQL("DROP TABLE IF EXISTS " + REFERENCE_TABLE_CLOSET);
+        onCreate(db);
     }
 
 
@@ -128,19 +126,21 @@ public class DBManager extends SQLiteOpenHelper {
         // TODO: rework this method to take a Closet argument and add the outfit to a closet
         ContentValues valuesToAdd = new ContentValues();
         valuesToAdd.put(COLUMN_OUTFIT_NAME, newOutfit.getEntryName());
-        valuesToAdd.put(COLUMN_ID, newOutfit.getEntryId());
+
         valuesToAdd.put(COLUMN_OUTFIT_IMAGEPATH, newOutfit.getPath());
         valuesToAdd.put(COLUMN_OUTFIT_DESCRIPTION, newOutfit.getDescription());
         SQLiteDatabase db = getWritableDatabase();
 
-        addClothesToReference(newOutfit.getClothingList(), newOutfit.getEntryId());
 
         if (entryExists(newOutfit.getEntryName(), TABLE_OUTFIT)) {
+            valuesToAdd.put(COLUMN_ID, newOutfit.getEntryId());
             db.update(TABLE_OUTFIT, valuesToAdd, null, null);
         } else {
             db.insert(TABLE_OUTFIT, null, valuesToAdd);
-            outfitID++;
+            newOutfit.id = this.getOutfit(newOutfit.getEntryName()).getEntryId();
         }
+        addClothesToReference(newOutfit.getClothingList(), newOutfit.getEntryId());
+
         //db.close(); //MUST ALWAYS Closet
     }
 
@@ -155,10 +155,6 @@ public class DBManager extends SQLiteOpenHelper {
             db.insert(REFERENCE_TABLE_OUTFIT, null, values);
         }
         //db.close();
-    }
-
-    public int getOutfitID() {
-        return outfitID;
     }
 
     public Outfit getOutfit(String outfitName) {
@@ -292,7 +288,6 @@ public class DBManager extends SQLiteOpenHelper {
         values.put(COLUMN_CLOSET_NAME, newCloset.getEntryName());
         values.put(COLUMN_CLOSET_DESCRIPTION, newCloset.getDescription());
         values.put(COLUMN_CLOSET_IMAGEPATH, newCloset.getPath());
-        closetID++;
 
         SQLiteDatabase db = getWritableDatabase();
         db.insert(TABLE_CLOSET, null, values);
@@ -474,7 +469,6 @@ public class DBManager extends SQLiteOpenHelper {
     }
 
     public void addClothing(Clothing newClothing) {
-        // TODO: rework this method to take a Closet argument and add the clothing to a closet
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_CLOTHING_NAME, newClothing.getClothingName());
@@ -485,14 +479,31 @@ public class DBManager extends SQLiteOpenHelper {
         values.put(COLUMN_CLOTHING_XCOORD, newClothing.getXcoordinate());
         values.put(COLUMN_CLOTHING_YCOORD, newClothing.getYcoordinate());
 
-//        if (entryExists(newClothing.name, TABLE_CLOTHING)) {
-//            db.update(TABLE_CLOTHING, values, COLUMN_CLOTHING_NAME + " = " + newClothing.name, null);
-//        } else {
-//            db.insert(TABLE_CLOTHING, null, values);
-//        }
-        db.insert(TABLE_CLOTHING, null, values);
+        if (entryExists(newClothing.name, TABLE_CLOTHING)) {
+            String[] args = new String[1];
+            args[0] = newClothing.name;
+            db.update(TABLE_CLOTHING, values, String.format("%s = ?", COLUMN_CLOTHING_NAME), args);
+        } else {
+            db.insert(TABLE_CLOTHING, null, values);
+        }
+//        db.insert(TABLE_CLOTHING, null, values);
         //db.close();
     }
+
+    public void editClothing(Clothing newClothing) {
+
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_CLOTHING_CONDITION, newClothing.getCondition().ordinal());
+        values.put(COLUMN_CLOTHING_PICTURE_PATH, newClothing.getPath());
+        values.put(COLUMN_CLOTHING_TYPE, newClothing.getType());
+        values.put(COLUMN_CLOTHING_COLOR, newClothing.getColor().ordinal());
+        values.put(COLUMN_CLOTHING_XCOORD, newClothing.getXcoordinate());
+        values.put(COLUMN_CLOTHING_YCOORD, newClothing.getYcoordinate());
+
+
+    }
+
 
     public Clothing getClothing(String clothingName) {
         SQLiteDatabase db = getWritableDatabase(); //check formatting on selectquery. Potentially spacing issues
@@ -739,7 +750,4 @@ public class DBManager extends SQLiteOpenHelper {
         return closetList;
     }
 
-    public static int getClosetID() {
-        return closetID;
-    }
 }

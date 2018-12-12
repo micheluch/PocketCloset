@@ -199,8 +199,9 @@ public class Camera extends AppCompatActivity implements Serializable {
                 @Override
                 public void onCaptureCompleted(@NonNull CameraCaptureSession session, @NonNull CaptureRequest request, @NonNull TotalCaptureResult result) {
                     super.onCaptureCompleted(session, request, result);
+                    Toast.makeText(Camera.this, "Saved " + file, Toast.LENGTH_SHORT).show();
 //                    if (displayImage(v, result)) {
-//                        Toast.makeText(Camera.this, "Saved " + file, Toast.LENGTH_SHORT).show();
+//
 //                    }
 //                    else
 //                    {

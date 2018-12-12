@@ -77,7 +77,7 @@ public class CreateOutfit extends AppCompatActivity {
         motionView.setMotionViewCallback(motionViewCallback);
 
         dbManager = new DBManager(this, null, null, 1);
-        this.outfit = new Outfit("",dbManager.getOutfitID() +1,"");
+        this.outfit = new Outfit("",0,"");
         //addButton = (Button)findViewById(R.id.addClothesButton);
 
         android.support.v7.widget.Toolbar toolbar = findViewById(R.id.create_outfit_toolbar_id);
@@ -142,23 +142,23 @@ public class CreateOutfit extends AppCompatActivity {
                 //save image
                 ContextWrapper cw = new ContextWrapper(getApplicationContext());
                 File directory = cw.getDir("outfits", Context.MODE_PRIVATE);
-//                if(!directory.exists()){
-//                    directory.mkdir();
-//                }
-//                File mypath = new File(directory,"");
-//                FileOutputStream fos = null;
-//                try{
-//                    fos = new FileOutputStream(mypath);
-//                    outfitImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
-//                    fos.close();
-//
-//                }catch(Exception e){
-//
-//                    e.printStackTrace();
-//                }
+                if(!directory.exists()){
+                    directory.mkdir();
+                }
+                File mypath = new File(directory, outfit.getEntryName() + ".png");
+                FileOutputStream fos = null;
+                try{
+                    fos = new FileOutputStream(mypath);
+                    outfitImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                    fos.close();
 
- //               outfit.setPath(mypath.getAbsolutePath());
-                SQLiteDatabase db = dbManager.getWritableDatabase();
+                }catch(Exception e){
+
+                    e.printStackTrace();
+                }
+
+                outfit.setPath(directory.getAbsolutePath() + "/" + outfit.getEntryName() + ".png");
+                //SQLiteDatabase db = dbManager.getWritableDatabase();
                 //set image
                 outfit.setDescription(textInputDescription.getEditText().getText().toString().trim());
                 outfit.setImage();
