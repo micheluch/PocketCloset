@@ -19,8 +19,9 @@ public class RowItem {
     public Bitmap getImageId() {
 
         try {
-            File f = new File(this.path, title + ".png");
+            File f = new File(this.path);
             Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
+            b = ExifUtil.rotateBitmap(this.path, b);
             this.imageId = b;
             return b;
         } catch (FileNotFoundException e) {
