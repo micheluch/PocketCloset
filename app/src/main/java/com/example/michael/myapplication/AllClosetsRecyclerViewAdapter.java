@@ -47,7 +47,6 @@ public class AllClosetsRecyclerViewAdapter extends RecyclerView.Adapter<AllClose
             public void onClick(View v){
                 Intent intent = new Intent(mContext, OneClosetActivity.class);
                 intent.putExtra("Name", mData.get(i).getEntryName());
-                intent.putExtra("J", mData.get(i).getEntryType());
 
                 mContext.startActivity(intent);
             }

@@ -18,10 +18,10 @@ import static android.support.v4.content.ContextCompat.startActivity;
 public class OneClosetRecyclerViewAdapter extends RecyclerView.Adapter<OneClosetRecyclerViewAdapter.MyViewHolder> {
 
     private Context mContext;
-    private List<Clothing> mData;
+    private List<Entry> mData;
     //TODO: Switch to wearable abstract class
 
-    public OneClosetRecyclerViewAdapter(Context mContext, List<Clothing> mData) {
+    public OneClosetRecyclerViewAdapter(Context mContext, List<Entry> mData) {
         this.mContext = mContext;
         this.mData = mData;
     }
@@ -39,13 +39,13 @@ public class OneClosetRecyclerViewAdapter extends RecyclerView.Adapter<OneCloset
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder viewHolder, final int i) {
 
-        viewHolder.tv_wearable_title.setText(mData.get(i).getClothingName());
+        viewHolder.tv_wearable_title.setText(mData.get(i).getEntryName());
         viewHolder.img_wearable_thumbnail.setImageBitmap(mData.get(i).getImage());
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
                 Intent intent = new Intent(mContext, ViewClothing.class);
-                intent.putExtra("Name", mData.get(i).getClothingName());
+                intent.putExtra("Name", mData.get(i).getEntryName());
                 intent.putExtra("Description", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do " +
                         "eiusmod tempor incididunt ut labore et dolore magna aliqua. Lut enim ad minim " +
                         "veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo " +

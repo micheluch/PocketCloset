@@ -3,6 +3,7 @@ package com.example.michael.myapplication;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class Closet extends Entry {
 
