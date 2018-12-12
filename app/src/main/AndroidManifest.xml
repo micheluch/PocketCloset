@@ -3,7 +3,9 @@
     package="com.example.michael.myapplication">
 
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-feature android:name="android.hardware.camera"
+
+    <uses-feature
+        android:name="android.hardware.camera"
         android:required="true" />
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -48,8 +50,8 @@
         <activity android:name=".CreateOutfitSticker" />
         <activity android:name=".Camera" />
         <activity android:name=".ImagePreview" />
-
-        <activity android:name=".ClothingList"></activity>
+        <activity android:name=".ClothingList" />
+        <activity android:name=".AddEntriesToCloset"></activity>
     </application>
 
 </manifest>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddEntriesToCloset">
+
+    <android.support.v7.widget.Toolbar
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:id="@+id/addtoClosettoolbar_id"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"
+        app:title="Add to Closet"
+        app:titleTextColor="#fff"
+        >
+
+
+    </android.support.v7.widget.Toolbar>
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/add_to_closet_recyclerview_id"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
+
+
+
+</LinearLayout>

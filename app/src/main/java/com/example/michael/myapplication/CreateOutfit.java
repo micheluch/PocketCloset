@@ -178,8 +178,6 @@ public class CreateOutfit extends AppCompatActivity {
                 //cursor.close();
                 //get image
 
-                ImageView img = (ImageView) dialog.findViewById(R.id.viewImage);
-                img.setImageBitmap(outfit.getImage());
 
                 dialog.dismiss();
                 Intent i = new Intent(CreateOutfit.this,OutfitActivity.class);

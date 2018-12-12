@@ -43,10 +43,12 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
     private Dialog dialog;
     private DBManager manager;
     private File imageFile;
-    private Spinner spinnerType, spinnerColor, spinnerCondition;
+    private Spinner spinnerType, spinnerColor, spinnerCondition, spinnerLocation;
     private Clothing.clothingType type;
     private Clothing.clothingColor color;
     private Clothing.clothingCondition condition;
+    private String location;
+    private List<Closet> closet = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,16 +121,40 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
         CardView camera;
         Clothing entry;
         dialog.setContentView(R.layout.add_clothing_popup);
+        spinnerLocation = dialog.findViewById(R.id.location);
         spinnerType = dialog.findViewById(R.id.type);
         spinnerColor = dialog.findViewById(R.id.color);
         spinnerCondition = dialog.findViewById(R.id.condition);
 
+        closet = manager.getAllClosets();
+        String closetNames[] = new String[closet.size()];
+        for(int i = 0; i < closet.size(); i++){
+            closetNames[i] = closet.get(i).getEntryName();
+        }
+
+        ArrayAdapter<String> closetArray = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, closetNames);
+        closetArray.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerLocation.setAdapter(closetArray);
         spinnerType.setAdapter(new ArrayAdapter<Clothing.clothingType>(this, R.layout.support_simple_spinner_dropdown_item, Clothing.clothingType.values()));
         spinnerCondition.setAdapter(new ArrayAdapter<Clothing.clothingCondition>(this, R.layout.support_simple_spinner_dropdown_item, Clothing.clothingCondition.values()));
         spinnerColor.setAdapter(new ArrayAdapter<Clothing.clothingColor>(this, R.layout.support_simple_spinner_dropdown_item, Clothing.clothingColor.values()));
 
         final TextInputLayout textInputName = dialog.findViewById(R.id.text_input_ClothingName);
         btnAdd = (Button) dialog.findViewById(R.id.addButton);
+
+        spinnerLocation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                location = spinnerType.getSelectedItem().toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
         spinnerType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -177,6 +203,7 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
                 Clothing clothing = new Clothing(textInputName.getEditText().getText().toString().trim(), imageFile.getPath(), 0, type, color, condition, 0, 0);
                 clothingList.add(clothing);
                 manager.addClothing(clothing);
+                manager.getCloset(location).addEntryToCloset(clothing);
 
 
                 dialog.dismiss();
@@ -232,18 +259,5 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
         }
     }
 
-    private boolean validateLocation(TextInputLayout inputLocation) {
-
-        String description = inputLocation.getEditText().getText().toString().trim();
-
-        if (description.isEmpty()) {
-            inputLocation.setError("Enter a location.");
-            return false;
-        } else {
-
-            inputLocation.setError(null);
-            return true;
-        }
-    }
 
 }

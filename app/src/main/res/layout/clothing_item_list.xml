@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/clothing_icon"
         android:gravity="center"
-        android:paddingTop="10dp"
+        android:paddingTop="27dp"
         android:textColor="@color/darkgray"
         android:textSize="25dp"
         android:paddingBottom="10dp"/>

@@ -19,7 +19,15 @@
         app:titleTextColor="#fff"
         >
 
-
+        <ImageButton
+            android:id="@+id/entryListButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="right"
+            android:paddingRight="10dp"
+            android:background="@drawable/ic_redshirt_icon"
+            android:onClick="showEntryList"
+            />
     </android.support.v7.widget.Toolbar>
     <android.support.v4.widget.DrawerLayout
         android:layout_width="match_parent"

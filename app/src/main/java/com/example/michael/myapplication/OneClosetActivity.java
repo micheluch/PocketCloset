@@ -103,4 +103,9 @@ public class OneClosetActivity extends AppCompatActivity implements NavigationVi
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    public void showEntryList(View view){
+
+
+    }
 }

@@ -49,7 +49,7 @@ public class ViewClothing extends AppCompatActivity implements NavigationView.On
         manager = new DBManager(this, null, null, 1);
 
         tvName = (TextView) findViewById(R.id.name_id);
-        //tvLocation = (TextView) findViewById(R.id.location_id);
+        tvLocation = (TextView) findViewById(R.id.location);
         tvColor = (TextView) findViewById(R.id.color);
         tvCondition = (TextView) findViewById(R.id.condition);
         //tvSearchTitle = (TextView) findViewById(R.id.toolbar_id);
@@ -62,6 +62,7 @@ public class ViewClothing extends AppCompatActivity implements NavigationView.On
 
         clothing = manager.getClothing(name);
         tvName.setText(name);
+        //tvLocation.setText();
         String jsef = clothing.getColor().toString();
         tvColor.setText(clothing.getColor().toString());
         tvCondition.setText(clothing.getCondition().toString());
