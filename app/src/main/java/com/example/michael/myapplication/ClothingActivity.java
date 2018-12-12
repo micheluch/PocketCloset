@@ -203,7 +203,7 @@ public class ClothingActivity extends AppCompatActivity implements NavigationVie
                 Clothing clothing = new Clothing(textInputName.getEditText().getText().toString().trim(), imageFile.getPath(), 0, type, color, condition, 0, 0);
                 clothingList.add(clothing);
                 manager.addClothing(clothing);
-                manager.getCloset(location).addEntryToCloset(clothing);
+               // manager.getCloset(location).addEntryToCloset(clothing);
 
 
                 dialog.dismiss();

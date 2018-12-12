@@ -13,28 +13,28 @@ import android.widget.TextView;
 
 import java.util.List;
 
-public class AddEntriesToClosetRecyclerView extends RecyclerView.Adapter<AddEntriesToClosetRecyclerView.MyViewHolder> {
+public class SearchClothesForOutfitRecyclerView extends RecyclerView.Adapter<SearchClothesForOutfitRecyclerView.MyViewHolder> {
 
     private Context mContext;
     private List<Entry> mData;
 
-    public AddEntriesToClosetRecyclerView(Context mContext, List<Entry> mData){
+    public SearchClothesForOutfitRecyclerView(Context mContext, List<Entry> mData){
         this.mContext = mContext;
         this.mData = mData;
     }
 
     @NonNull
     @Override
-    public AddEntriesToClosetRecyclerView.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
+    public SearchClothesForOutfitRecyclerView.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
         View view;
         LayoutInflater mInflater = LayoutInflater.from(mContext);
         view = mInflater.inflate(R.layout.entry_cardview, parent,false);
 
-        return new AddEntriesToClosetRecyclerView.MyViewHolder(view);
+        return new SearchClothesForOutfitRecyclerView.MyViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AddEntriesToClosetRecyclerView.MyViewHolder viewHolder, final int i) {
+    public void onBindViewHolder(@NonNull SearchClothesForOutfitRecyclerView.MyViewHolder viewHolder, final int i) {
 
         viewHolder.tv_entry_title.setText(mData.get(i).getEntryName());
 
@@ -43,7 +43,7 @@ public class AddEntriesToClosetRecyclerView extends RecyclerView.Adapter<AddEntr
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
-                Intent intent = new Intent(mContext, ViewClothing.class);
+                Intent intent = new Intent(mContext, CreateOutfit.class);
                 intent.putExtra("name", mData.get(i).getEntryName());
                 mContext.startActivity(intent);
             }
@@ -63,6 +63,10 @@ public class AddEntriesToClosetRecyclerView extends RecyclerView.Adapter<AddEntr
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
+            tv_entry_title = (TextView) itemView.findViewById(R.id.specific_clothing_id);
+            img_entry_thumbnail = (ImageView) itemView.findViewById(R.id.specific_clothing_image_id);
+            cardView = (CardView) itemView.findViewById(R.id.cardview_id);
+
         }
     }
 }
